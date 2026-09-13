@@ -14,7 +14,6 @@ import { userDataFromServer } from "../../services/userLinkServices";
 export const UserSearchProfile = ({
   searchResultData,
   setSearchResultData,
-  setUserData,
 }) => {
   const { userId } = useParams();
   const [follow, setFollow] = useState(false);
@@ -180,6 +179,10 @@ export const UserSearchProfile = ({
             </div>
 
             <div className="border border-slate-200 rounded-2xl p-6 shadow-sm bg-white mb-3">
+              <div className="flex justify-between items-center mb-2">
+                <h1 className="text-lg font-medium">Achievements</h1>
+              </div>
+
               <p className="text-[15px] font-medium text-gray-700 line-clamp-3">
                 {searchResultData?.achievements}
               </p>

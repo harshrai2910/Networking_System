@@ -22,7 +22,7 @@ https://github.com/harshrai2910/Student_Linkedin_platform
 
 - User registration and login
 - Secure password handling
-- JWT-based authentication
+- Session-based authentication
 - Protected routes
 - User session management
 
@@ -31,7 +31,7 @@ https://github.com/harshrai2910/Student_Linkedin_platform
 - Create and update user profiles
 - Upload profile pictures
 - Add personal and academic information
-- View other students' profiles
+- View other student's profiles
 - Display user posts and profile information
 
 ### Posts
@@ -68,7 +68,6 @@ https://github.com/harshrai2910/Student_Linkedin_platform
 - JavaScript
 - HTML5
 - CSS3
-- Axios
 - React Router
 
 ### Backend
@@ -77,15 +76,16 @@ https://github.com/harshrai2910/Student_Linkedin_platform
 - Express.js
 - MongoDB
 - Mongoose
-- JWT
 - Multer
 - Cloudinary
 
 ### Deployment
 
 - Render
+- Vercel
 - MongoDB Atlas
 - Cloudinary
+- multer
 
 ---
 
@@ -165,13 +165,10 @@ MongoDB
  |
  | Authentication
  v
-JWT Token
- |
- v
 Authenticated User
 ```
 
-Protected API routes verify the JWT token before allowing users to perform authenticated operations.
+Protected API routes verify the session before allowing users to perform authenticated operations.
 
 ---
 
@@ -216,7 +213,9 @@ PORT=5000
 
 MONGO_URI=your_mongodb_connection_string
 
-JWT_SECRET=your_jwt_secret
+SESSION_SECRET=secret_session_key
+
+FRONTEND_URL=https://connectsd.vercel.app
 
 CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
@@ -224,64 +223,6 @@ CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 ```
 
 Never commit your `.env` file to GitHub.
-
----
-
-## Installation
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/harshrai2910/Student_Linkedin_platform.git
-
-cd Student_Linkedin_platform
-```
-
-### 2. Install Backend Dependencies
-
-```bash
-cd server
-npm install
-```
-
-### 3. Configure Environment Variables
-
-Create:
-
-```text
-server/.env
-```
-
-and add your MongoDB, JWT, and Cloudinary credentials.
-
-### 4. Start the Backend
-
-```bash
-npm run dev
-```
-
-or:
-
-```bash
-npm start
-```
-
-### 5. Install Frontend Dependencies
-
-Open another terminal:
-
-```bash
-cd client
-npm install
-```
-
-### 6. Start the Frontend
-
-```bash
-npm run dev
-```
-
-The application should now be available through the local development URL provided by Vite.
 
 ---
 
@@ -326,7 +267,7 @@ Post endpoints handle creating, retrieving, and deleting posts.
 The project implements several security practices:
 
 - Password authentication
-- JWT-based authorization
+- Sesssion-based authorization
 - Protected API routes
 - Environment variables for sensitive credentials
 - Server-side validation

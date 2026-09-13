@@ -3,17 +3,12 @@ const User = require("../model/user");
 const bcrypt = require("bcrypt");
 
 exports.postSignup = [
-  check("firstName")
+  check("username")
     .trim()
-    .isLength({ min: 2 })
-    .withMessage("invalid name")
-    .matches(/^[a-zA-Z\s]+$/)
-    .withMessage("name should not contain numbers"),
-
-  check("lastName")
-    .trim()
-    .matches(/^[a-zA-Z\s]+$/)
-    .withMessage("name should not contain numbers"),
+    .notEmpty()
+    .withMessage("username is required")
+    .isLength({ min: 3, max: 30 })
+    .withMessage("username should be between 3 and 30 characters"),
 
   check("email").trim().isEmail().withMessage("enter a valid email"),
 
@@ -38,17 +33,7 @@ exports.postSignup = [
     }),
 
   async (req, res, next) => {
-    const {
-      firstName,
-      lastName,
-      clgName,
-      course,
-      gradYear,
-      username,
-      isProfileComplete,
-      email,
-      password,
-    } = req.body;
+    const { username, isProfileComplete, email, password } = req.body;
     const result = validationResult(req);
 
     if (!result.isEmpty()) {
@@ -59,12 +44,7 @@ exports.postSignup = [
     bcrypt.hash(password, saltRounds, async (err, hashedPassword) => {
       if (!err) {
         const user = new User({
-          firstName,
-          lastName,
           username,
-          clgName,
-          course,
-          gradYear,
           isProfileComplete,
           email,
           password: hashedPassword,

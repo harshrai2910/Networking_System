@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    clgName: { type: String, required: true, lowercase: true, trim: true },
-    course: { type: String, required: true },
-    gradYear: { type: Number, required: true },
+    firstName: { type: String },
+    lastName: { type: String },
+    clgName: { type: String, lowercase: true, trim: true },
+    course: { type: String },
+    gradYear: { type: Number },
     username: {
       type: String,
       required: true,
@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
-    email: { type: String, required: true, unique: true },
+    email: { type: String, unique: true },
     password: { type: String, required: true },
     isProfileComplete: { type: Boolean, default: false },
 

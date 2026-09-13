@@ -3,6 +3,8 @@ import { HiPencil } from "react-icons/hi2";
 import { IoAdd } from "react-icons/io5";
 import { FaSave } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
+import { IoIosAdd } from "react-icons/io";
+
 import { languageDataFromServer } from "../../../services/userLinkServices";
 import { useEffect } from "react";
 
@@ -50,6 +52,13 @@ export const Language = ({ userData }) => {
               <HiPencil className="font-bold text-xl" />
             </button>
           </div>
+
+          {!editLang && lang?.length == 0 && (
+            <p className="text-[13px] sm:text-[15px] font-medium text-gray-600 pt-2">
+              No Language Add yet
+            </p>
+          )}
+
           <div>
             {!editLang
               ? lang?.map((item, index) => (

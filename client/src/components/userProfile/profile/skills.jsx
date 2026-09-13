@@ -42,7 +42,6 @@ export const Skills = ({ skills }) => {
 
   return (
     <>
-      {/* Header Section */}
       <div className="flex justify-between items-center mb-2">
         <h1 className="text-xl font-semibold text-gray-900">Skills</h1>
         <button
@@ -53,7 +52,12 @@ export const Skills = ({ skills }) => {
         </button>
       </div>
 
-      {/* Skills List */}
+      {newSkill?.length == 0 && !editSkill && (
+        <p className="text-[13px] sm:text-[15px] font-medium text-gray-700 pt-2">
+          No skills Added yet!
+        </p>
+      )}
+
       <div className="space-y-0">
         {!editSkill &&
           newSkill?.map((skill, index) => (

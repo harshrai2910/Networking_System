@@ -114,7 +114,7 @@ export const Navbar = ({
                   className="flex flex-col items-center focus:outline-none"
                 >
                   <img
-                    src={userData.profile}
+                    src={userData.profile ? userData.profile : profileImg}
                     alt="Profile"
                     className="h-9 w-9 sm:h-6 sm:w-6 rounded-full object-cover border border-slate-200"
                   />

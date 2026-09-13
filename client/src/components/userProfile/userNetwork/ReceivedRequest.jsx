@@ -23,7 +23,7 @@ export const ReceivedRequest = ({
                     <img
                       src={
                         data.sender.profile
-                          ? `http://localhost:3006/uploads/profile/${data.sender.profile}`
+                          ? `${data.sender.profile}`
                           : ProfileImg
                       }
                       alt="Profile"

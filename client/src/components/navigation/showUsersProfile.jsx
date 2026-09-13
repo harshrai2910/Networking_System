@@ -80,7 +80,7 @@ export const UserSearchProfile = ({
                     <img
                       src={
                         searchResultData?.profile
-                          ? `http://localhost:3006/uploads/profile/${searchResultData?.profile}`
+                          ? `${searchResultData?.profile}`
                           : ProfileImg
                       }
                       alt="profile"

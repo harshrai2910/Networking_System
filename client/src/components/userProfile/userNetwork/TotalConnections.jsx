@@ -18,11 +18,7 @@ export const TotalConnection = ({ totalConnection }) => {
               <div className="flex items-start gap-3">
                 <div className="relative shrink-0">
                   <img
-                    src={
-                      data.profile
-                        ? `http://localhost:3006/uploads/profile/${data.profile}`
-                        : ProfileImg
-                    }
+                    src={data.profile ? `${data.profile}` : ProfileImg}
                     alt="Profile"
                     className="w-10 h-10 rounded-full object-cover ring-2 ring-gray-100"
                   />

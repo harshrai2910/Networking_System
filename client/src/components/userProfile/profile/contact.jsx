@@ -21,7 +21,13 @@ export const Contact = ({ userData }) => {
           <HiPencil className="font-bold text-xl" />
         </button>
       </div>
-      {/* <div className="flex items-start flex-col gap-2"> */}
+
+      {userData?.links?.length == 0 && (
+        <p className="text-[13px] sm:text-[15px] font-medium text-gray-600 pt-2">
+          Add public links
+        </p>
+      )}
+
       {Links.map((link, unique) => (
         <div
           key={unique}
@@ -38,7 +44,6 @@ export const Contact = ({ userData }) => {
           </a>
         </div>
       ))}
-      {/* </div> */}
     </>
   );
 };

@@ -6,6 +6,7 @@ import { FaRegCommentDots } from "react-icons/fa";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import { BiSolidLike } from "react-icons/bi";
+import profileImg from "../../../images/profileImg.png";
 
 import {
   deletePostFromServer,
@@ -50,7 +51,7 @@ export const ShowPost = ({ userData, posts, setPost }) => {
             <div className="flex gap-2 items-center p-4">
               <div className="flex justify-between">
                 <img
-                  src={`${userData.profile}`}
+                  src={`${userData.profile ? userData.profile : profileImg}`}
                   alt=""
                   className="h-15 w-15 rounded-full object-cover shadow-sm"
                 />

@@ -18,7 +18,7 @@ export const SentRequest = ({ sentRequest, handleWithdraw }) => {
                   <img
                     src={
                       data.receiver.profile
-                        ? `http://localhost:3006/uploads/profile/${data.receiver.profile}`
+                        ? `${data.receiver.profile}`
                         : ProfileImg
                     }
                     alt="Profile"

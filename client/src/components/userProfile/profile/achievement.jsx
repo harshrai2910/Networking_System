@@ -54,7 +54,7 @@ export const Achievement = ({ achievement }) => {
         </form>
       ) : (
         <p className="text-[13px] sm:text-[15px] font-medium text-gray-700 line-clamp-4">
-          {achievement}
+          {!achievement ? "No Achievement Added yet" : `${achievement}`}
         </p>
       )}
     </>

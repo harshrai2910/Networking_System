@@ -23,6 +23,7 @@ import {
   getPostFromServer,
 } from "./services/userPostLinkServices";
 import { UserSearchProfile } from "./components/navigation/showUsersProfile";
+import { Defaultpage } from "./components/defaultpage";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -147,10 +148,7 @@ function App() {
               </>
             ) : (
               <>
-                <Route
-                  path="/"
-                  element={<h1 className="pt-10">DASHBOARD</h1>}
-                />
+                <Route path="/" element={<Defaultpage />} />
                 <Route
                   path="/login"
                   element={

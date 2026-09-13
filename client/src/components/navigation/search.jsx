@@ -21,11 +21,7 @@ export const Search = ({ searchData, setSearchResultData, onSelect }) => {
               className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors border-b last:border-b-0 border-slate-100"
             >
               <img
-                src={
-                  searchRes.profile
-                    ? `http://localhost:3006/uploads/profile/${searchRes.profile}`
-                    : ProfileImg
-                }
+                src={searchRes.profile ? `${searchRes.profile}` : ProfileImg}
                 alt={searchRes.username || "User"}
                 className="h-10 w-10 rounded-full object-cover "
               />

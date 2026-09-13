@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { GoHomeFill } from "react-icons/go";
 import { CgSearch } from "react-icons/cg";
 import { FaImages } from "react-icons/fa";
-import { IoCreate, IoMenu, IoClose } from "react-icons/io5";
+import { IoCreate, IoClose } from "react-icons/io5";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { Search } from "./search";
 import { useEffect, useRef, useState } from "react";
@@ -114,11 +114,7 @@ export const Navbar = ({
                   className="flex flex-col items-center focus:outline-none"
                 >
                   <img
-                    src={
-                      userData?.profile
-                        ? `http://localhost:3006/uploads/profile/${userData.profile}`
-                        : profileImg
-                    }
+                    src={userData.profile}
                     alt="Profile"
                     className="h-9 w-9 sm:h-6 sm:w-6 rounded-full object-cover border border-slate-200"
                   />
@@ -167,11 +163,7 @@ export const Navbar = ({
         <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
           <div className="flex items-center gap-3">
             <img
-              src={
-                userData?.profile
-                  ? `http://localhost:3006/uploads/profile/${userData.profile}`
-                  : profileImg
-              }
+              src={userData.profile}
               alt="Profile"
               className="h-10 w-10 rounded-full object-cover border border-slate-300"
             />

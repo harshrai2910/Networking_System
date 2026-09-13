@@ -1,7 +1,7 @@
 const { check, validationResult } = require("express-validator");
 const User = require("../model/user");
 const UserConnection = require("../model/userConnections.js");
-const uploadToCloudinary = require("../utils/cloudinaryService.js");
+const { uploadToCloudinary } = require("../utils/cloudinaryService.js");
 
 exports.getUserData = async (req, res, next) => {
   if (req.session.isLoggedIn) {
@@ -23,6 +23,17 @@ exports.getUserData = async (req, res, next) => {
 };
 
 exports.postCompleteData = [
+  check("firstName").trim().notEmpty().withMessage("First name is required"),
+
+  check("lastName").trim(),
+
+  check("course").trim().notEmpty().withMessage("Course is required"),
+
+  check("gradYear")
+    .isInt()
+    .notEmpty()
+    .withMessage("Valid graduation year is required"),
+
   check("headline").trim(),
   check("about").trim(),
   check("links.github").optional().isURL().withMessage("only URL are allowed"),
@@ -47,7 +58,16 @@ exports.postCompleteData = [
 
       const userId = req.session.user.userId;
 
-      const { headline, about, achievements } = req.body;
+      const {
+        firstName,
+        lastName,
+        course,
+        gradYear,
+        headline,
+        about,
+        achievements,
+      } = req.body;
+
       const cloudinaryResult = await uploadToCloudinary(
         req.file.buffer,
         "user_profile_img",
@@ -55,14 +75,14 @@ exports.postCompleteData = [
       const skills = JSON.parse(req.body.skills);
       const links = JSON.parse(req.body.links);
 
-      if (!result.isEmpty()) {
-        return res.status(400).json(result.array());
-      }
-
       await User.findByIdAndUpdate(
         userId,
         {
           isProfileComplete: true,
+          firstName,
+          lastName,
+          course,
+          gradYear,
           headline,
           about,
           links,

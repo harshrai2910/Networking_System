@@ -53,22 +53,22 @@ export const CompleteProfile = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-    // setSubmiting(true);
+    setSubmiting(true);
 
-    // try {
-    //   const finalData = { ...data, skills: mySkills };
-    //   const result = await completeDatafromServer(finalData);
+    try {
+      const finalData = { ...data, skills: mySkills };
+      const result = await completeDatafromServer(finalData);
 
-    //   console.log(result);
+      console.log(result);
 
-    //   if (result.completed) {
-    //     navigate("/profile");
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    // } finally {
-    //   setSubmiting(false);
-    // }
+      if (result.completed) {
+        navigate("/profile");
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setSubmiting(false);
+    }
   };
 
   return (

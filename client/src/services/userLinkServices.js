@@ -11,6 +11,10 @@ export const userDataFromServer = async () => {
 export const completeDatafromServer = async (data) => {
   const formData = new FormData();
 
+  formData.append("firstName", data.firstName);
+  formData.append("lastName", data.lastName);
+  formData.append("course", data.course);
+  formData.append("gradYear", data.gradYear);
   formData.append("headline", data.headline);
   formData.append("about", data.about);
   formData.append("achievements", data.achievements);

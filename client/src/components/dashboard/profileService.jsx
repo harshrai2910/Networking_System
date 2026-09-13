@@ -8,11 +8,7 @@ export const ProfileServices = ({ userData }) => {
       <div className="flex items-start justify-between">
         <Link to="/profile" className="inline-block group">
           <img
-            src={
-              userData?.profile
-                ? `http://localhost:3006/uploads/profile/${userData.profile}`
-                : profileImg
-            }
+            src={userData.profile}
             alt={userData?.username || "User Profile"}
             className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover ring-2 ring-slate-100 group-hover:ring-blue-500 transition-all"
           />

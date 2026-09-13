@@ -18,7 +18,7 @@ export const UserProfile = ({ userData }) => {
             <div className="flex items-center gap-6">
               <div>
                 <img
-                  src={`http://localhost:3006/uploads/profile/${userData.profile}`}
+                  src={userData.profile}
                   alt="profile"
                   className="h-15 w-15 sm:h-24 sm:w-24 rounded-full object-cover shadow-lg"
                 />

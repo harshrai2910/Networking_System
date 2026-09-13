@@ -30,6 +30,7 @@ const userSchema = new mongoose.Schema(
 
     achievements: { type: String },
     profile: { type: String, default: "" },
+    profilePublicId: { type: String, default: "" },
     language: [{ type: String }],
   },
   {

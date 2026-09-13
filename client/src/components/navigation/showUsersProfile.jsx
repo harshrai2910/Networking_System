@@ -66,7 +66,7 @@ export const UserSearchProfile = ({
 
   return (
     <>
-      <div className="flex items-center justify-center mb-3 sm:mb-20 p-3">
+      <div className="flex items-center justify-center mb-3 sm:mb-20 p-3 mt-12">
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}

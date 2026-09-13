@@ -1,6 +1,7 @@
 const { check, validationResult } = require("express-validator");
 const User = require("../model/user");
-const UserConnection = require("../model/userConnections");
+const UserConnection = require("../model/userConnections.js");
+const uploadToCloudinary = require("../utils/cloudinaryService.js");
 
 exports.getUserData = async (req, res, next) => {
   if (req.session.isLoggedIn) {
@@ -23,48 +24,61 @@ exports.getUserData = async (req, res, next) => {
 
 exports.postCompleteData = [
   check("headline").trim(),
-
   check("about").trim(),
-
   check("links.github").optional().isURL().withMessage("only URL are allowed"),
-
   check("links.linkedin")
     .optional()
     .isURL()
     .withMessage("only URL are allowed"),
-
   check("links.twitter").optional().isURL().withMessage("only URL are allowed"),
 
   check("achievements").trim(),
 
   async (req, res, next) => {
-    const result = validationResult(req);
-    const userId = req.session.user.userId;
+    try {
+      const result = validationResult(req);
+      if (!result.isEmpty()) {
+        return res.status(400).json({ errors: result.array() });
+      }
 
-    const { headline, about, achievements } = req.body;
-    const profile = req.file.filename;
-    const skills = JSON.parse(req.body.skills);
-    const links = JSON.parse(req.body.links);
+      if (!req.file) {
+        return res.status(400).json({ message: "No profile image provided" });
+      }
 
-    if (!result.isEmpty()) {
-      return res.status(400).json(result.array());
+      const userId = req.session.user.userId;
+
+      const { headline, about, achievements } = req.body;
+      const cloudinaryResult = await uploadToCloudinary(
+        req.file.buffer,
+        "user_profile_img",
+      );
+      const skills = JSON.parse(req.body.skills);
+      const links = JSON.parse(req.body.links);
+
+      if (!result.isEmpty()) {
+        return res.status(400).json(result.array());
+      }
+
+      await User.findByIdAndUpdate(
+        userId,
+        {
+          isProfileComplete: true,
+          headline,
+          about,
+          links,
+          achievements,
+          skills,
+          profile: cloudinaryResult.secure_url,
+          profilePublicId: cloudinaryResult.public_id,
+        },
+        { returnDocument: "after" },
+      );
+
+      return res.status(200).json({ completed: true });
+    } catch (error) {
+      console.error("Profile Completion Error:", error);
+      return res.status(500).json({ error: error.message || "Server Error" });
     }
-
-    await User.findByIdAndUpdate(
-      userId,
-      {
-        isProfileComplete: true,
-        headline,
-        about,
-        links,
-        achievements,
-        skills,
-        profile,
-      },
-      { returnDocument: "after" },
-    );
-
-    return res.status(200).json({ completed: true });
   },
 ];
 

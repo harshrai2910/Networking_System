@@ -49,9 +49,7 @@ export const ShowAllPost = ({ AllPosts, userData }) => {
               <div className="relative shrink-0">
                 <img
                   src={
-                    post.UserId.profile
-                      ? `http://localhost:3006/uploads/profile/${post.UserId.profile}`
-                      : profileImg
+                    post.UserId.profile ? `${post.UserId.profile}` : profileImg
                   }
                   alt=""
                   className="h-10 w-10 sm:h-15 sm:w-15 rounded-full object-cover shadow-sm"
@@ -88,11 +86,7 @@ export const ShowAllPost = ({ AllPosts, userData }) => {
             <div className="sm:px-4 px-2">{post.content}</div>
 
             <div>
-              <img
-                src={`http://localhost:3006/uploads/post/${post.postImage}`}
-                alt=""
-                className="w-full "
-              />
+              <img src={`${post.postImage}`} alt="" className="w-full " />
             </div>
 
             <div>

@@ -50,7 +50,7 @@ export const ShowPost = ({ userData, posts, setPost }) => {
             <div className="flex gap-2 items-center p-4">
               <div className="flex justify-between">
                 <img
-                  src={`http://localhost:3006/uploads/profile/${userData.profile}`}
+                  src={`${userData.profile}`}
                   alt=""
                   className="h-15 w-15 rounded-full object-cover shadow-sm"
                 />
@@ -103,11 +103,7 @@ export const ShowPost = ({ userData, posts, setPost }) => {
             <div className="px-4">{post.content}</div>
 
             <div>
-              <img
-                src={`http://localhost:3006/uploads/post/${post.postImage}`}
-                alt=""
-                className="w-full "
-              />
+              <img src={`${post.postImage}`} alt="" className="w-full " />
             </div>
 
             <div className="flex items-center justify-around py-2">

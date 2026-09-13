@@ -12,7 +12,7 @@ const isProduction = process.env.NODE_ENV === "production";
 const DATA_PATH = process.env.MONGODB_PATH;
 
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: "https://connectsd.vercel.app", credentials: true }));
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 
 app.use(express.json());
 
@@ -63,5 +63,5 @@ mongoose
     });
   })
   .catch((err) => {
-    console.log("error while connecting to database,", err);
+    console.log("error while connecting to database, ", err);
   });

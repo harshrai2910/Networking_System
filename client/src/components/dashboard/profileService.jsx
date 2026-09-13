@@ -5,7 +5,6 @@ import profileImg from "../../images/ProfileImg.png";
 export const ProfileServices = ({ userData }) => {
   return (
     <div className="flex flex-col gap-4">
-      {/* Top Section: Avatar & Verification Badge */}
       <div className="flex items-start justify-between">
         <Link to="/profile" className="inline-block group">
           <img

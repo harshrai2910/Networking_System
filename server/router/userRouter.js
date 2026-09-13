@@ -2,19 +2,14 @@ const express = require("express");
 const userRouter = express.Router();
 const userController = require("../controller/userController");
 const isAuth = require("../middleware/isAuth");
-const upload = require("../middleware/multer");
+const { upload } = require("../middleware/multer");
 
 userRouter.get("/profile", isAuth, userController.getUserData);
 
 userRouter.post(
   "/profile/complete",
   isAuth,
-  (req, res, next) => {
-    req.uploadType = "profile";
-    next();
-  },
   upload.single("profile"),
-  isAuth,
   userController.postCompleteData,
 );
 

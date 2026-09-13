@@ -4,21 +4,37 @@ const UserPost = require("../model/userPost");
 const User = require("../model/user");
 const path = require("path");
 const fs = require("fs");
+const { uploadToCloudinary } = require("../utils/cloudinaryService.js");
 
 exports.createPost = async (req, res, next) => {
-  const id = req.session.user.userId;
-  const { content } = req.body;
-  const filename = req.file.filename;
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "Post Image not provided" });
+    }
 
-  const userPost = new UserPost({
-    UserId: id,
-    content,
-    postImage: filename,
-  });
+    const id = req.session.user.userId;
+    const { content } = req.body;
+    const cloudinaryResult = await uploadToCloudinary(
+      req.file.buffer,
+      "user_post_img",
+    );
 
-  await userPost.save();
+    console.log("postImage: ", cloudinaryResult.secure_url);
 
-  return await res.status(200).json({ post: userPost });
+    const userPost = new UserPost({
+      UserId: id,
+      content,
+      postImage: cloudinaryResult.secure_url,
+      postPublicId: cloudinaryResult.public_id,
+    });
+
+    await userPost.save();
+
+    return await res.status(200).json({ post: userPost });
+  } catch (error) {
+    console.error("Profile Completion Error:", error);
+    return res.status(500).json({ error: error.message || "Server Error" });
+  }
 };
 
 exports.getPosts = async (req, res, next) => {

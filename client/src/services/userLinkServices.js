@@ -56,6 +56,8 @@ export const deleteSkillFromServer = async (data) => {
     credentials: "include",
     body: JSON.stringify(data),
   });
+
+  return await response.json();
 };
 
 export const updateSkillFromServer = async (data) => {
@@ -67,6 +69,35 @@ export const updateSkillFromServer = async (data) => {
     credentials: "include",
     body: JSON.stringify(data),
   });
+
+  return await response.json();
+};
+
+export const updateLinksFromServer = async (data) => {
+  const response = await fetch(`${API_URL}/api/user/profile/links/update`, {
+    method: "put",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(data),
+  });
+
+  return await response.json();
+};
+
+export const updateAchievementsFromServer = async (data) => {
+  const response = await fetch(
+    `${API_URL}/api/user/profile/achievements/update`,
+    {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(data),
+    },
+  );
 
   return await response.json();
 };

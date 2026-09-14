@@ -16,6 +16,7 @@ export const Skills = ({ skills }) => {
 
   const handleDeleteSkill = async (skill) => {
     const result = await deleteSkillFromServer({ skill: skill });
+    if (result) setNewSkill(result.updatedSkills);
   };
 
   const handleEditSkills = () => {
@@ -31,9 +32,9 @@ export const Skills = ({ skills }) => {
   };
 
   const saveEditedSkill = async () => {
-    setEditSkill(false);
     const result = await updateSkillFromServer({ skills: newSkill });
-    console.log(result);
+    if (result) setNewSkill(result.updatedSkills);
+    setEditSkill(false);
   };
 
   useEffect(() => {
@@ -58,14 +59,14 @@ export const Skills = ({ skills }) => {
         </p>
       )}
 
-      <div className="space-y-0">
+      <div className="divide-y divide-gray-200">
         {!editSkill &&
           newSkill?.map((skill, index) => (
             <div
               key={index}
-              className={`flex items-center justify-between py-2 text-sm font-medium text-gray-800 ${
-                index !== newSkill.length - 1 ? "border-b border-gray-200" : ""
-              }`}
+              className={
+                "flex items-center justify-between py-2 text-sm font-medium text-gray-800"
+              }
             >
               {skill}
               <button

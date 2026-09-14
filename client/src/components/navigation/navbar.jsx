@@ -219,12 +219,13 @@ export const Navbar = ({
             </Link>
           </div>
 
-          <button
+          <Link
+            to={"/"}
             onClick={() => handleLogout(true)}
             className="w-full text-left px-6 py-3 text-sm text-red-600 hover:bg-red-50 font-medium transition-colors"
           >
             Sign Out
-          </button>
+          </Link>
         </div>
       </div>
     </>

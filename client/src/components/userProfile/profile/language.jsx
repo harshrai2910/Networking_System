@@ -33,7 +33,7 @@ export const Language = ({ userData }) => {
     const finalData = { language: lang };
     const result = await languageDataFromServer(finalData);
     if (result) {
-      setLang(result.language);
+      setLang(result.language.language);
       setEditLang(false);
     }
   };
@@ -53,18 +53,18 @@ export const Language = ({ userData }) => {
             </button>
           </div>
 
-          {!editLang && lang?.length == 0 && (
+          {editLang && lang?.length == 0 && (
             <p className="text-[13px] sm:text-[15px] font-medium text-gray-600 pt-2">
               No Language Add yet
             </p>
           )}
 
-          <div>
+          <div className="divide-y divide-gray-200">
             {!editLang
               ? lang?.map((item, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between py-2 text-sm font-medium text-gray-800 border-b border-gray-200"
+                    className="flex items-center justify-between py-2 text-sm font-medium text-gray-800 border-gray-200"
                   >
                     {item}
                   </div>

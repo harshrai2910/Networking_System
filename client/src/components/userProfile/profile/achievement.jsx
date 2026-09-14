@@ -1,18 +1,24 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { HiPencil } from "react-icons/hi2";
+import { updateAchievementsFromServer } from "../../../services/userLinkServices";
+import { useEffect } from "react";
 
 export const Achievement = ({ achievement }) => {
   const [achive, setAchive] = useState(false);
-  const achiveRef = useRef();
+  const { register, handleSubmit } = useForm();
+  const [userAchievements, setUserAchievements] = useState("");
 
-  const saveEditAchievement = () => {
-    // const new
+  useEffect(() => {
+    setUserAchievements(achievement);
+  }, [achievement]);
+
+  const OnSubmit = (data) => {
+    updateAchievementsFromServer(data).then((userAchievement) => {
+      setUserAchievements(userAchievement.updatedAchievements);
+      setAchive(false);
+    });
   };
-
-  const handleEditAchievement = () => {
-    console.log(achiveRef.current.value);
-  };
-
   return (
     <>
       <div className="flex items-center justify-between mb-2 sm:mb-3">
@@ -25,36 +31,30 @@ export const Achievement = ({ achievement }) => {
         </button>
       </div>
       {achive ? (
-        <form onSubmit={(e) => e.preventDefault()}>
-          <div className="flex items-end justify-between w-full mt-2 gap-3">
-            <input
-              type="text"
-              ref={achiveRef}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") handleEditAchievement();
-              }}
-              placeholder="e.g.English"
-              className="border border-slate-300 rounded-lg w-full px-3 py-1 focus:outline-none focus:ring-1 focus:ring-blue-400"
-            />
+        <form onSubmit={handleSubmit(OnSubmit)}>
+          <textarea
+            placeholder="Tell us about your achievements..."
+            rows={4}
+            {...register("achievements")}
+            className="border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full text-sm sm:text-base resize-none focus:outline-none focus:ring-2 focus:ring-blue-400"
+          ></textarea>
+          <div className="flex items-center justify-between w-full mt-2 gap-3">
             <button
-              type="button"
-              onClick={() => handleEditAchievement()}
-              className="border-none px-3 py-1 bg-blue-500 text-white rounded-lg"
+              onClick={() => setAchive(false)}
+              className="w-full border border-gray-500 text-gray-600 font-medium py-1 rounded-lg bg-gray-100"
             >
-              Add
+              Cancel
             </button>
-            <button
-              type="button"
-              onClick={() => saveEditAchievement()}
-              className="border-none px-3 py-1 bg-yellow-500 text-white rounded-lg"
-            >
+            <button className="w-full border border-amber-500 py-1 rounded-lg bg-amber-400 text-white font-medium">
               Save
             </button>
           </div>
         </form>
       ) : (
         <p className="text-[13px] sm:text-[15px] font-medium text-gray-700 line-clamp-4">
-          {!achievement ? "No Achievement Added yet" : `${achievement}`}
+          {!userAchievements
+            ? "No Achievement Added yet"
+            : `${userAchievements}`}
         </p>
       )}
     </>

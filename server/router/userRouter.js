@@ -14,6 +14,7 @@ userRouter.post(
 );
 
 userRouter.put("/profile/language", isAuth, userController.postEditLanguage);
+
 userRouter.put(
   "/profile/skills/delete",
   isAuth,
@@ -21,5 +22,13 @@ userRouter.put(
 );
 
 userRouter.put("/profile/skills/update", isAuth, userController.putUpdateSkill);
+
+userRouter.put("/profile/links/update", isAuth, userController.putUpdateLinks);
+
+userRouter.put(
+  "/profile/achievements/update",
+  isAuth,
+  userController.putUpdateAchievements,
+);
 
 module.exports = userRouter;

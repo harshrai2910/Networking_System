@@ -23,7 +23,6 @@ import {
   getPostFromServer,
 } from "./services/userPostLinkServices";
 import { UserSearchProfile } from "./components/navigation/showUsersProfile";
-import { Defaultpage } from "./components/defaultpage";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);

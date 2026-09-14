@@ -61,7 +61,7 @@ export const SentRequest = ({ sentRequest, handleWithdraw }) => {
 
             {/* Divider */}
             {index !== sentRequest.length - 1 && (
-              <div className="w-full h-[1px] bg-gray-200 my-4"></div>
+              <div className="w-full bg-gray-200 my-4"></div>
             )}
           </React.Fragment>
         ))

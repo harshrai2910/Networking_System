@@ -190,7 +190,7 @@ export const Navbar = ({
           {/* Mobile Only Links (Hidden on Desktop) */}
           <div className="lg:hidden flex flex-col border-b border-slate-200 pb-2 mb-2">
             <Link
-              to="/"
+              to="/feed"
               onClick={() => setIsSidebarOpen(false)}
               className="flex items-center gap-4 px-6 py-3 text-gray-700 hover:bg-slate-100 font-medium"
             >

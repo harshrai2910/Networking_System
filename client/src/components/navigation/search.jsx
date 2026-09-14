@@ -18,7 +18,7 @@ export const Search = ({ searchData, setSearchResultData, onSelect }) => {
               to={`/profile/search=true/${searchRes._id}`}
               onClick={() => handleSearchClick(searchRes._id)}
               key={searchRes._id || searchRes.username}
-              className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors border-b last:border-b-0 border-slate-100"
+              className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors border-b last:border-b-0 border-slate-300"
             >
               <img
                 src={searchRes.profile ? `${searchRes.profile}` : ProfileImg}

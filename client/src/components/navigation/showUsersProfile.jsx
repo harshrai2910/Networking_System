@@ -194,7 +194,7 @@ export const UserSearchProfile = ({
           <div className="md:col-span-5">
             <div className="w-full border rounded-2xl p-4 -z-50 border-slate-200 shadow-sm bg-white mb-3 relative">
               <h1 className="text-lg font-medium">Language Known</h1>
-              {searchResultData.language.length === 0 && (
+              {searchResultData.language?.length === 0 && (
                 <p className="text-[13px] sm:text-[15px] font-medium text-gray-600 pt-2">
                   No language provided
                 </p>

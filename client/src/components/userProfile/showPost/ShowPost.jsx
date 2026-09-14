@@ -1,12 +1,11 @@
 import { GoShieldCheck } from "react-icons/go";
 import { LuDot } from "react-icons/lu";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { AiOutlineLike } from "react-icons/ai";
 import { FaRegCommentDots } from "react-icons/fa";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import { BiSolidLike } from "react-icons/bi";
-import profileImg from "../../../images/profileImg.png";
+import profileImg from "../../../images/ProfileImg.png";
 
 import {
   deletePostFromServer,

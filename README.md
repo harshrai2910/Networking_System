@@ -4,11 +4,7 @@ A full-stack social networking platform designed specifically for students. The 
 
 ## Live Demo
 
-Frontend:
-https://student-linkedin-platform-1.onrender.com
-
-Backend:
-https://student-linkedin-platform-1.onrender.com
+https://connectsd.vercel.app/
 
 ## GitHub Repository
 

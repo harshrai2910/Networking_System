@@ -2,6 +2,10 @@ import React from "react";
 import ProfileImg from "../../../images/ProfileImg.png";
 
 export const TotalConnection = ({ totalConnection }) => {
+  totalConnection.map((data) => {
+    console.log(data.profile);
+  });
+
   return (
     <>
       <h1 className="text-2xl font-medium mb-5">

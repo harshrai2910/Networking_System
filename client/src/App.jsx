@@ -148,7 +148,7 @@ function App() {
               </>
             ) : (
               <>
-                <Route path="/" element={<Defaultpage />} />
+                <Route path="/" element={<h1> Dashboard </h1>} />
                 <Route
                   path="/login"
                   element={

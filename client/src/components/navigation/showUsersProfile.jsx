@@ -73,7 +73,7 @@ export const UserSearchProfile = ({
           className="w-6xl grid grid-cols-1 md:grid-cols-18 gap-6"
         >
           <div className="md:col-span-13 ">
-            <div className="border border-slate-200 rounded-2xl p-6 shadow-sm bg-white mb-3">
+            <div className="border border-slate-200 rounded-2xl p-5 shadow-sm bg-white mb-3">
               <div className="flex justify-between gap-3 md:gap-0 flex-col md:flex-row">
                 <div className="flex items-center gap-6">
                   <div>
@@ -84,15 +84,15 @@ export const UserSearchProfile = ({
                           : ProfileImg
                       }
                       alt="profile"
-                      className="h-24 w-24 rounded-full object-cover shadow-lg"
+                      className="h-16 w-16 sm:h-24 sm:w-24 rounded-full object-cover shadow-lg"
                     />
                   </div>
 
                   <div>
-                    <h2 className="text-2xl font-bold">
+                    <h2 className="text-xl sm:text-2xl font-bold">
                       {searchResultData?.firstName} {searchResultData?.lastName}
                     </h2>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 text-sm sm:text-base">
                       @{searchResultData?.username}
                     </p>
                   </div>
@@ -116,33 +116,35 @@ export const UserSearchProfile = ({
                 </div>
               </div>
               <div className="border-t border-slate-300 my-4 "></div>
-              <div>
-                <h1 className="text-[17px] font-bold ">
+              <div className="space-y-2">
+                <h1 className="text-[15px] sm:text-[17px] font-bold text-gray-900">
                   {searchResultData?.headline}
                 </h1>
-                <p className="text-[15px] font-medium text-gray-700 line-clamp-3">
+                <p className="text-[13px] sm:text-[15px] font-medium text-gray-700 line-clamp-3">
                   {searchResultData?.about}
                 </p>
-                <div className="flex gap-3 my-3">
-                  <button className="border-none px-3 py-1 bg-blue-600 text-white rounded-2xl">
+                <div className="flex flex-wrap gap-2 my-3 text-xs sm:text-sm font-semibold">
+                  <div className="px-3 py-1 bg-blue-600 text-white rounded-2xl">
                     {searchResultData?.course?.toUpperCase()}
-                  </button>
-                  <button className="border-none px-3 py-1 bg-blue-600 text-white rounded-2xl">
+                  </div>
+                  <div className="px-3 py-1 bg-blue-600 text-white rounded-2xl">
                     {searchResultData?.gradYear}
-                  </button>
+                  </div>
                 </div>
                 <div>
-                  <p className="text-sm font-bold">
+                  <p className="text-xs sm:text-sm font-bold text-gray-800">
                     College:{" "}
-                    <span className="text-sm font-normal">
+                    <span className="font-normal text-gray-600">
                       {searchResultData?.clgName}
                     </span>
                   </p>
-                  <p className="text-blue-600">{searchResultData?.email}</p>
+                  <p className="text-xs sm:text-sm text-blue-600 font-medium">
+                    {searchResultData?.email}
+                  </p>
                 </div>
               </div>
             </div>
-            <div className="border border-slate-200 rounded-2xl p-6 shadow-sm bg-white mb-3">
+            <div className="border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm bg-white mb-3">
               <div className="flex justify-between items-center mb-2">
                 <h1 className="text-xl font-semibold text-gray-900">Skills</h1>
               </div>
@@ -162,7 +164,7 @@ export const UserSearchProfile = ({
               </div>
             </div>
 
-            <div className="border border-slate-200 rounded-2xl px-6 pt-6 pb-2 shadow-sm bg-white mb-3">
+            <div className="border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm bg-white mb-3">
               <div className="flex flex-col gap-2">
                 <h1 className="text-lg font-medium">Activity</h1>
 
@@ -178,12 +180,12 @@ export const UserSearchProfile = ({
               </div>
             </div>
 
-            <div className="border border-slate-200 rounded-2xl p-6 shadow-sm bg-white mb-3">
+            <div className="border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm bg-white">
               <div className="flex justify-between items-center mb-2">
                 <h1 className="text-lg font-medium">Achievements</h1>
               </div>
 
-              <p className="text-[15px] font-medium text-gray-700 line-clamp-3">
+              <p className="text-[13px] sm:text-[15px] font-medium text-gray-700 line-clamp-4">
                 {searchResultData?.achievements}
               </p>
             </div>
@@ -192,6 +194,11 @@ export const UserSearchProfile = ({
           <div className="md:col-span-5">
             <div className="w-full border rounded-2xl p-4 -z-50 border-slate-200 shadow-sm bg-white mb-3 relative">
               <h1 className="text-lg font-medium">Language Known</h1>
+              {searchResultData.language.length === 0 && (
+                <p className="text-[13px] sm:text-[15px] font-medium text-gray-600 pt-2">
+                  No language provided
+                </p>
+              )}
               <div>
                 {searchResultData.language?.map((item, index) => (
                   <div

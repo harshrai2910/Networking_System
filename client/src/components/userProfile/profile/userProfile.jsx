@@ -82,7 +82,7 @@ export const UserProfile = ({ userData }) => {
         )}
 
         {userData.about && (
-          <p className="text-[12px] sm:text-[15px] font-medium text-gray-700 line-clamp-3">
+          <p className="text-[13px] sm:text-[15px] font-medium text-gray-700 line-clamp-3">
             {userData.about}
           </p>
         )}

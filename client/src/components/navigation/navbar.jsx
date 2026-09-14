@@ -79,7 +79,7 @@ export const Navbar = ({
                 {/* Desktop Navigation Links */}
                 <div className="hidden lg:flex items-center gap-6">
                   <Link
-                    to="/"
+                    to="/feed"
                     className="flex flex-col items-center text-gray-600 hover:text-black text-xs font-medium"
                   >
                     <GoHomeFill className="text-xl" />

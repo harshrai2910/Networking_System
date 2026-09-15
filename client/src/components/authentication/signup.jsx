@@ -15,12 +15,7 @@ export const Signup = ({ handleSignupData }) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch max-w-6xl mx-auto md:p-4 py-2 mt-15">
-      <motion.div
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-2xl bg-white md:p-8 p-5 md:rounded-2xl shadow-sm"
-      >
+      <div className="w-full max-w-2xl bg-white md:p-8 p-5 md:rounded-2xl shadow-sm">
         <h2 className="md:text-3xl text-2xl font-bold text-center text-gray-800 mb-8">
           Create Your Account
         </h2>
@@ -69,9 +64,9 @@ export const Signup = ({ handleSignupData }) => {
             </motion.button>
           </div>
         </form>
-      </motion.div>
+      </div>
 
-      <motion.div
+      <div
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
@@ -82,7 +77,7 @@ export const Signup = ({ handleSignupData }) => {
           alt="Quick Signup"
           className="max-h-full max-w-full object-contain"
         />
-      </motion.div>
+      </div>
     </div>
   );
 };

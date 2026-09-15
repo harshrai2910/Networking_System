@@ -38,7 +38,6 @@ export const Navbar = ({
       setSearchData(res.searchResult);
     }, 500);
 
-    // return or cleanup function
     return () => {
       clearTimeout(timer.current);
     };
@@ -76,7 +75,6 @@ export const Navbar = ({
           <div className="flex items-center justify-end gap-4 lg:gap-8 ml-auto">
             {isLogin ? (
               <>
-                {/* Desktop Navigation Links */}
                 <div className="hidden lg:flex items-center gap-6">
                   <Link
                     to="/feed"
@@ -146,7 +144,6 @@ export const Navbar = ({
         </div>
       </nav>
 
-      {/* PROFILE SIDEBAR DRAWER */}
       {isSidebarOpen && (
         <div
           onClick={() => setIsSidebarOpen(false)}
@@ -185,9 +182,7 @@ export const Navbar = ({
           </button>
         </div>
 
-        {/* Sidebar Navigation Links (Responsive + Profile Settings) */}
         <div className="flex flex-col py-2 overflow-y-auto h-[calc(100vh-80px)]">
-          {/* Mobile Only Links (Hidden on Desktop) */}
           <div className="lg:hidden flex flex-col border-b border-slate-200 pb-2 mb-2">
             <Link
               to="/feed"
@@ -222,7 +217,7 @@ export const Navbar = ({
           <Link
             to={"/"}
             onClick={() => handleLogout(true)}
-            className="w-full text-left px-6 py-3 text-sm text-red-600 hover:bg-red-50 font-medium transition-colors"
+            className="w-full text-left px-6 py-3 text-sm text-red-600 hover:bg-red-50 active:bg-red-50 font-medium transition-colors"
           >
             Sign Out
           </Link>

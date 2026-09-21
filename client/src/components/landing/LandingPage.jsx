@@ -3,11 +3,12 @@ import { TopLeft } from "./TopLeft";
 import { TopRight } from "./TopRight";
 import { MiddleInfo } from "./MiddleInfo";
 import { Steps } from "./Steps";
+import { JoinSection } from "./JoinSection";
 
 export const LandingPage = () => {
   return (
     <>
-      <div className="mb-3 sm:mb-20 bg-white">
+      <div className="bg-white">
         <div className="grid grid-cols-1 md:grid-cols-7 bg-blue-50 pt-15">
           <div className="md:col-span-1 pl-5 hidden md:block">
             <div className="h-15 w-15 bg-blue-100 rounded-2xl rotate-45 mt-20"></div>
@@ -28,6 +29,9 @@ export const LandingPage = () => {
         </div>
         <div className="flex items-center justify-center">
           <Steps />
+        </div>
+        <div className="flex items-center justify-center">
+          <JoinSection />
         </div>
       </div>
     </>

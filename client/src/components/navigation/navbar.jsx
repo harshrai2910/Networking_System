@@ -4,6 +4,7 @@ import { CgSearch } from "react-icons/cg";
 import { FaImages } from "react-icons/fa";
 import { IoCreate, IoClose } from "react-icons/io5";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { GrDocumentText } from "react-icons/gr";
 import { Search } from "./search";
 import { useEffect, useRef, useState } from "react";
 import { postSearchFromServer } from "../../services/searchLinkServices";
@@ -49,7 +50,7 @@ export const Navbar = ({
       <nav className="fixed top-0 left-0 w-full border-b border-slate-300 bg-white px-4 sm:px-6 lg:px-10 py-2 sm:py-1 z-50 shadow-xs">
         <div className="max-w-6xl mx-auto flex flex-row items-center justify-between gap-4">
           <Link to="/">
-            <div className="font-medium text-lg md-text-xl md-font-bold">
+            <div className="font-medium text-lg md-text-xl md-font-bold md:block hidden">
               Connect<span className="text-blue-500">SD</span>
             </div>
           </Link>
@@ -87,7 +88,7 @@ export const Navbar = ({
                     className="flex flex-col items-center text-gray-600 hover:text-black text-xs font-medium"
                   >
                     <GoHomeFill className="text-xl" />
-                    <span>Home</span>
+                    <span>Feed</span>
                   </Link>
                   <Link
                     to="/profile/myNetwork"
@@ -189,11 +190,18 @@ export const Navbar = ({
         <div className="flex flex-col py-2 overflow-y-auto h-[calc(100vh-80px)]">
           <div className="lg:hidden flex flex-col border-b border-slate-200 pb-2 mb-2">
             <Link
+              to="/"
+              onClick={() => setIsSidebarOpen(false)}
+              className="flex items-center gap-4 px-6 py-3 text-gray-700 hover:bg-slate-100 font-medium"
+            >
+              <GrDocumentText className="text-xl text-gray-500" /> Home
+            </Link>
+            <Link
               to="/feed"
               onClick={() => setIsSidebarOpen(false)}
               className="flex items-center gap-4 px-6 py-3 text-gray-700 hover:bg-slate-100 font-medium"
             >
-              <GoHomeFill className="text-xl text-gray-500" /> Home
+              <GoHomeFill className="text-xl text-gray-500" /> Feed
             </Link>
             <Link
               to="/profile/myNetwork"

@@ -14,6 +14,7 @@ export const Navbar = ({
   handleLogout,
   userData,
   setSearchResultData,
+  setRelationship,
 }) => {
   const [typer, setTyper] = useState("");
   const timer = useRef(null);
@@ -47,31 +48,36 @@ export const Navbar = ({
     <>
       <nav className="fixed top-0 left-0 w-full border-b border-slate-300 bg-white px-4 sm:px-6 lg:px-10 py-2 sm:py-1 z-50 shadow-xs">
         <div className="max-w-6xl mx-auto flex flex-row items-center justify-between gap-4">
-          {/* LEFT SECTION: Search */}
-          <div className="relative w-full max-w-xs sm:max-w-md lg:max-w-lg">
-            <div className="flex items-center border border-slate-300 rounded-lg bg-slate-100 overflow-hidden">
-              <span className="px-3 text-gray-500">
-                <CgSearch />
-              </span>
-              <input
-                type="text"
-                value={typer}
-                onChange={handleSearch}
-                placeholder="Search..."
-                className="w-full h-9 sm:h-10 bg-white outline-none px-2 text-sm"
-              />
+          <Link to="/">
+            <div className="font-medium text-lg md-text-xl md-font-bold">
+              Connect<span className="text-blue-500">SD</span>
             </div>
-            {/* Search Dropdown Results */}
-            <div className="absolute top-12 left-0 w-full z-50">
-              <Search
-                searchData={searchData}
-                setSearchResultData={setSearchResultData}
-                onSelect={handleClearSuggestions}
-              />
+          </Link>
+          {isLogin && (
+            <div className="relative w-full max-w-xs sm:max-w-md lg:max-w-lg">
+              <div className="flex items-center border border-slate-300 rounded-lg bg-slate-100 overflow-hidden">
+                <span className="px-3 text-gray-500">
+                  <CgSearch />
+                </span>
+                <input
+                  type="text"
+                  value={typer}
+                  onChange={handleSearch}
+                  placeholder="Search..."
+                  className="w-full h-9 sm:h-10 bg-white outline-none px-2 text-sm"
+                />
+              </div>
+              <div className="absolute top-12 left-0 w-full z-50">
+                <Search
+                  searchData={searchData}
+                  setSearchResultData={setSearchResultData}
+                  onSelect={handleClearSuggestions}
+                  setRelationship={setRelationship}
+                />
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* RIGHT SECTION: Links & Profile */}
           <div className="flex items-center justify-end gap-4 lg:gap-8 ml-auto">
             {isLogin ? (
               <>
@@ -106,7 +112,6 @@ export const Navbar = ({
                   </Link>
                 </div>
 
-                {/* Profile Button (Opens Sidebar) */}
                 <button
                   onClick={() => setIsSidebarOpen(true)}
                   className="flex flex-col items-center focus:outline-none"
@@ -125,10 +130,10 @@ export const Navbar = ({
                 </button>
               </>
             ) : (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 md-gap-10">
                 <Link
                   to="/login"
-                  className="text-gray-600 text-xs sm:text-sm hover:text-blue-600 font-medium"
+                  className="text-gray-600 text-sm hover:text-blue-600 font-medium border-2 border-blue-100 hover:border-blue-300 transition px-2 sm:px-4 py-2 rounded-md"
                 >
                   Login
                 </Link>
@@ -156,7 +161,6 @@ export const Navbar = ({
           isSidebarOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {/* Sidebar Header */}
         <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
           <div className="flex items-center gap-3">
             <img

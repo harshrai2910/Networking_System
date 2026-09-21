@@ -23,6 +23,7 @@ import {
   getPostFromServer,
 } from "./services/userPostLinkServices";
 import { UserSearchProfile } from "./components/navigation/showUsersProfile";
+import { LandingPage } from "./components/landing/LandingPage";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -33,8 +34,11 @@ function App() {
   const popupRef = useRef();
   const [AllPosts, setAllPosts] = useState([]);
   const [searchResultData, setSearchResultData] = useState({});
+  const [relationship, setRelationship] = useState("none");
 
   const navigate = useNavigate();
+
+  console.log("relationship: ", relationship);
 
   useEffect(() => {
     getPostFromServer().then((result) => {
@@ -97,9 +101,11 @@ function App() {
             userData={userData}
             popupRef={popupRef}
             setSearchResultData={setSearchResultData}
+            setRelationship={setRelationship}
           />
 
           <Routes>
+            <Route path="/" element={<LandingPage />} />
             {isLogin ? (
               <>
                 <Route
@@ -138,6 +144,7 @@ function App() {
                       searchResultData={searchResultData}
                       setSearchResultData={setSearchResultData}
                       setUserData={setUserData}
+                      relationship={relationship}
                     />
                   }
                 />

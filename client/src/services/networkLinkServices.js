@@ -38,3 +38,11 @@ export const patchIsRejectedFromServer = async (id) => {
     credentials: "include",
   });
 };
+
+export const getNetworkStatusFromServer = async ({ id }) => {
+  const response = await fetch(`${API_URL}/api/user/myNetwork/${id}/status`, {
+    credentials: "include",
+  });
+
+  return await response.json();
+};

@@ -1,12 +1,22 @@
+import { useState } from "react";
 import ProfileImg from "../../images/ProfileImg.png";
+import { getNetworkStatusFromServer } from "../../services/networkLinkServices";
 import { getSearchResultFromServer } from "../../services/searchLinkServices";
 import { Link } from "react-router-dom";
 
-export const Search = ({ searchData, setSearchResultData, onSelect }) => {
+export const Search = ({
+  searchData,
+  setSearchResultData,
+  onSelect,
+  setRelationship,
+}) => {
   const handleSearchClick = async (userId) => {
     if (onSelect) onSelect();
 
     const result = await getSearchResultFromServer(userId);
+    getNetworkStatusFromServer({ id: userId }).then((data) => {
+      setRelationship(data.relationship);
+    });
     setSearchResultData(result);
   };
   return (

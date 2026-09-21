@@ -1,3 +1,4 @@
+const userConnections = require("../model/userConnections");
 const UserConnection = require("../model/userConnections");
 
 exports.postRequestTofollow = async (req, res, _) => {
@@ -80,5 +81,35 @@ exports.patchRejectedRequestData = async (req, res, _) => {
   } catch (error) {
     console.log(error);
     return res.status(200).json({ status: "Error" });
+  }
+};
+
+exports.getNetworkStatus = async (req, res, next) => {
+  try {
+    const currentUserId = req.session.user.userId;
+    const targetUserId = req.params.id;
+
+    const connection = await userConnections.findOne({
+      $or: [
+        { sender: currentUserId, receiver: targetUserId },
+        { sender: targetUserId, receiver: currentUserId },
+      ],
+    });
+
+    if (!connection) {
+      return res.status(200).json({ relationship: "Connect" });
+    }
+
+    if (connection.status === "accepted") {
+      return res.json({ relationship: "Connected" });
+    }
+
+    if (connection.status === "pending") {
+      return res.json({ relationship: "Pending" });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "error occured while fetching network status" });
   }
 };

@@ -18,7 +18,6 @@ export const TotalConnection = ({ totalConnection }) => {
         totalConnection.map((data, index) => (
           <React.Fragment key={data._id}>
             <div className="flex items-center justify-between gap-3">
-              {/* User Details */}
               <div className="flex items-start gap-3">
                 <div className="relative shrink-0">
                   <img
@@ -52,16 +51,13 @@ export const TotalConnection = ({ totalConnection }) => {
                 </div>
               </div>
 
-              <button
-                // onClick={handleRemoveConnection(data._id)}
-                className="px-3 py-1.5 text-xs font-medium text-red-600 hover:text-red-700 border border-red-200 hover:border-red-300 rounded-full transition-colors"
-              >
+              <button className="px-3 py-1.5 text-xs font-medium text-red-600 hover:text-red-700 border border-red-200 hover:border-red-300 rounded-full transition-colors">
                 Remove
               </button>
             </div>
 
             {index !== totalConnection.length - 1 && (
-              <div className="w-full bg-gray-200 my-4"></div>
+              <div className="w-full bg-gray-200 h-px my-4"></div>
             )}
           </React.Fragment>
         ))

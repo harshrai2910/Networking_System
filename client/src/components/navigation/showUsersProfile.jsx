@@ -9,11 +9,11 @@ import {
   getConnectionDataFromServer,
   postfollowRequestFromServer,
 } from "../../services/networkLinkServices";
-import { userDataFromServer } from "../../services/userLinkServices";
 
 export const UserSearchProfile = ({
   searchResultData,
   setSearchResultData,
+  relationship,
 }) => {
   const { userId } = useParams();
   const [follow, setFollow] = useState(false);
@@ -55,8 +55,7 @@ export const UserSearchProfile = ({
 
   const handleFollow = async (receiverId) => {
     const result = await postfollowRequestFromServer({ receiverId });
-
-    console.log(receiverId);
+    if (result.status) setFollow(true);
   };
 
   const handleUnfollow = (receiverId) => {
@@ -98,21 +97,12 @@ export const UserSearchProfile = ({
                   </div>
                 </div>
                 <div className="h-full flex justify-center items-center">
-                  {follow ? (
-                    <button
-                      className="border px-5 py-1 rounded-sm bg-blue-500 text-white cursor-pointer"
-                      onClick={() => handleUnfollow(searchResultData._id)}
-                    >
-                      Following
-                    </button>
-                  ) : (
-                    <button
-                      className="border px-5 py-1 w-full rounded-sm bg-blue-500 text-white cursor-pointer"
-                      onClick={() => handleFollow(searchResultData._id)}
-                    >
-                      Follow
-                    </button>
-                  )}
+                  <button
+                    className={`border px-5 py-1 w-full rounded-sm ${relationship === "Pending" ? "bg-yellow-500" : "bg-blue-500"} text-white cursor-pointer`}
+                    onClick={() => handleFollow(searchResultData._id)}
+                  >
+                    {relationship}
+                  </button>
                 </div>
               </div>
               <div className="border-t border-slate-300 my-4 "></div>

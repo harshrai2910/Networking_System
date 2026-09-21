@@ -72,7 +72,7 @@ export const ReceivedRequest = ({
               </div>
 
               {index !== receivedRequest.length - 1 && (
-                <div className="w-full h-0.5 bg-gray-300 mt-4 mb-4"></div>
+                <div className="w-full bg-gray-200 h-px my-4"></div>
               )}
             </React.Fragment>
           ))}

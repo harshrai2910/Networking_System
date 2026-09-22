@@ -15,7 +15,6 @@ export const Navbar = ({
   handleLogout,
   userData,
   setSearchResultData,
-  setRelationship,
 }) => {
   const [typer, setTyper] = useState("");
   const timer = useRef(null);
@@ -48,12 +47,14 @@ export const Navbar = ({
   return (
     <>
       <nav className="fixed top-0 left-0 w-full border-b border-slate-300 bg-white px-4 sm:px-6 lg:px-10 py-2 sm:py-1 z-50 shadow-xs">
-        <div className="max-w-6xl mx-auto flex flex-row items-center justify-between gap-4">
-          <Link to="/">
-            <div className="font-medium text-lg md-text-xl md-font-bold md:block hidden">
-              Connect<span className="text-blue-500">SD</span>
-            </div>
-          </Link>
+        <div className="max-w-6xl mx-auto flex flex-row items-center justify-between md:gap-4 gap-2">
+          {!isLogin && (
+            <Link to="/">
+              <div className="font-medium text-lg md-text-xl md-font-bold">
+                Connect<span className="text-blue-500">SD</span>
+              </div>
+            </Link>
+          )}
           {isLogin && (
             <div className="relative w-full max-w-xs sm:max-w-md lg:max-w-lg">
               <div className="flex items-center border border-slate-300 rounded-lg bg-slate-100 overflow-hidden">
@@ -73,7 +74,6 @@ export const Navbar = ({
                   searchData={searchData}
                   setSearchResultData={setSearchResultData}
                   onSelect={handleClearSuggestions}
-                  setRelationship={setRelationship}
                 />
               </div>
             </div>
@@ -174,6 +174,7 @@ export const Navbar = ({
               <Link
                 to="/profile"
                 className="text-xs text-blue-600 hover:underline"
+                onClick={() => setIsSidebarOpen(false)}
               >
                 View Profile
               </Link>
@@ -228,7 +229,10 @@ export const Navbar = ({
 
           <Link
             to={"/"}
-            onClick={() => handleLogout(true)}
+            onClick={() => {
+              handleLogout(true);
+              isSidebarOpen(false);
+            }}
             className="w-full text-left px-6 py-3 text-sm text-red-600 hover:bg-red-50 active:bg-red-50 font-medium transition-colors"
           >
             Sign Out

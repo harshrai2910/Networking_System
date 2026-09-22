@@ -7,33 +7,35 @@ import { getSearchResultFromServer } from "../../services/searchLinkServices";
 import ProfileImg from "../../images/ProfileImg.png";
 import {
   getConnectionDataFromServer,
+  getNetworkStatusFromServer,
   postfollowRequestFromServer,
 } from "../../services/networkLinkServices";
 
 export const UserSearchProfile = ({
   searchResultData,
   setSearchResultData,
-  relationship,
 }) => {
   const { userId } = useParams();
-  const [follow, setFollow] = useState(false);
+  const [relationship, setRelationship] = useState("Connect");
 
   useEffect(() => {
     getSearchResultFromServer(userId).then((result) => {
       setSearchResultData(result);
     });
+    getNetworkStatusFromServer({ id: userId }).then((data) => {
+      setRelationship(data.relationship);
+      console.log(data.relationship);
+    });
   }, []);
 
-  const fetchConnectionData = async () => {
-    const connectionData = await getConnectionDataFromServer();
-
-    console.log(connectionData.sentRequest);
-    console.log(connectionData.receivedRequest);
+  const handleFollow = async (receiverId) => {
+    postfollowRequestFromServer({ receiverId }).then((d) => {
+      getNetworkStatusFromServer({ id: userId }).then((data) => {
+        setRelationship(data.relationship);
+        console.log(data.relationship);
+      });
+    });
   };
-
-  useEffect(() => {
-    fetchConnectionData();
-  }, []);
 
   const Links = [
     {
@@ -52,15 +54,6 @@ export const UserSearchProfile = ({
       icon: <FaTwitter />,
     },
   ];
-
-  const handleFollow = async (receiverId) => {
-    const result = await postfollowRequestFromServer({ receiverId });
-    if (result.status) setFollow(true);
-  };
-
-  const handleUnfollow = (receiverId) => {
-    console.log(receiverId);
-  };
 
   return (
     <>

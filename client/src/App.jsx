@@ -34,11 +34,8 @@ function App() {
   const popupRef = useRef();
   const [AllPosts, setAllPosts] = useState([]);
   const [searchResultData, setSearchResultData] = useState({});
-  const [relationship, setRelationship] = useState("none");
 
   const navigate = useNavigate();
-
-  console.log("relationship: ", relationship);
 
   useEffect(() => {
     getPostFromServer().then((result) => {
@@ -101,7 +98,6 @@ function App() {
             userData={userData}
             popupRef={popupRef}
             setSearchResultData={setSearchResultData}
-            setRelationship={setRelationship}
           />
 
           <Routes>
@@ -144,7 +140,6 @@ function App() {
                       searchResultData={searchResultData}
                       setSearchResultData={setSearchResultData}
                       setUserData={setUserData}
-                      relationship={relationship}
                     />
                   }
                 />

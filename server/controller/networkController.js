@@ -1,7 +1,7 @@
 const userConnections = require("../model/userConnections");
 const UserConnection = require("../model/userConnections");
 
-exports.postRequestTofollow = async (req, res, _) => {
+exports.postRequestToConnect = async (req, res, _) => {
   try {
     const { receiverId } = req.body;
     const senderId = req.session.user.userId;
@@ -93,6 +93,21 @@ exports.patchRejectedRequestData = async (req, res, _) => {
     console.log(error);
     return res.status(200).json({ status: "Error" });
   }
+};
+
+exports.removeConnectedUser = async (req, res, next) => {
+  const currentUserId = req.session.user.userId;
+  const targetUserId = req.params.id;
+
+  await userConnections.findOneAndDelete({
+    status: "accepted",
+    $or: [
+      { sender: currentUserId, receiver: targetUserId },
+      { sender: targetUserId, receiver: currentUserId },
+    ],
+  });
+
+  return res.json("deleted successfully!");
 };
 
 exports.getNetworkStatus = async (req, res, next) => {

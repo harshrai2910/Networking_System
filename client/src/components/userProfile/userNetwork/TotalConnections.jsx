@@ -1,10 +1,16 @@
 import React from "react";
 import ProfileImg from "../../../images/ProfileImg.png";
+import { patchRemovedUserFromServer } from "../../../services/networkLinkServices";
 
 export const TotalConnection = ({ totalConnection }) => {
   totalConnection.map((data) => {
     console.log(data.profile);
   });
+
+  const handleRemoveConnection = async (delId) => {
+    await patchRemovedUserFromServer({ id: delId });
+    console.log(delId);
+  };
 
   return (
     <>
@@ -51,7 +57,10 @@ export const TotalConnection = ({ totalConnection }) => {
                 </div>
               </div>
 
-              <button className="px-3 py-1.5 text-xs font-medium text-red-600 hover:text-red-700 border border-red-200 hover:border-red-300 rounded-full transition-colors">
+              <button
+                onClick={() => handleRemoveConnection(data._id)}
+                className="px-3 py-1.5 text-xs font-medium text-red-600 hover:text-red-700 border border-red-200 hover:border-red-300 rounded-full transition-colors"
+              >
                 Remove
               </button>
             </div>

@@ -6,18 +6,24 @@ import {
 } from "../../../services/userPostLinkServices";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Sm_loader } from "../../Sm_Loader";
 
 export const CreatePost = ({ setPost }) => {
   const { register, handleSubmit, reset } = useForm();
   const [isPost, setIsPost] = useState(false);
   const navigate = useNavigate();
+  const [disabled, setDisabled] = useState(false);
 
   const onSubmit = async (data) => {
     if (data.content === "" && data.postImage === "") return;
+    setDisabled(true);
 
-    const result = await createPostFromServer(data);
-    const newPost = result.post;
-    setIsPost(true);
+    createPostFromServer(data).then((d) => {
+      if (d) {
+        setDisabled(false);
+        setIsPost(true);
+      }
+    });
   };
 
   useEffect(() => {
@@ -66,8 +72,11 @@ export const CreatePost = ({ setPost }) => {
 
           {/* Action Buttons */}
           <div className="flex justify-end pt-2">
-            <button className="px-6 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition">
-              Post
+            <button
+              disabled={disabled}
+              className={`px-7 py-2 ${disabled ? "bg-blue-200" : "bg-blue-600"} text-white rounded-md font-medium ${disabled ? "hover:bg-none" : "hover:bg-blue-700"} transition`}
+            >
+              {!disabled ? "post" : <Sm_loader />}
             </button>
           </div>
         </form>

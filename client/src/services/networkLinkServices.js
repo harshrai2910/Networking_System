@@ -39,6 +39,16 @@ export const patchIsRejectedFromServer = async (id) => {
   });
 };
 
+export const patchRemovedUserFromServer = async ({ id }) => {
+  const response = await fetch(
+    `${API_URL}/api/user/myNetwork/${id}/removeConnection`,
+    {
+      method: "PATCH",
+      credentials: "include",
+    },
+  );
+};
+
 export const getNetworkStatusFromServer = async ({ id }) => {
   const response = await fetch(`${API_URL}/api/user/myNetwork/${id}/status`, {
     credentials: "include",

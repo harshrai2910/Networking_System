@@ -17,9 +17,6 @@ export const MyNetwork = () => {
   const fetchConnectionData = async () => {
     const connectionData = await getConnectionDataFromServer();
 
-    console.log(connectionData.sentRequest);
-    console.log(connectionData.receivedRequest);
-
     setSentRequest(connectionData.sentRequest);
     setReceivedRequest(connectionData.receivedRequest);
     setTotalConnection(connectionData.totalConnection);

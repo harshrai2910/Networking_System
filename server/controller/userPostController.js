@@ -5,6 +5,7 @@ const User = require("../model/user");
 const path = require("path");
 const fs = require("fs");
 const { uploadToCloudinary } = require("../utils/cloudinaryService.js");
+const cloudinary = require("../config/cloudinary.js");
 
 exports.createPost = async (req, res, next) => {
   try {
@@ -39,7 +40,7 @@ exports.createPost = async (req, res, next) => {
 
 exports.getPosts = async (req, res, next) => {
   const id = req.session.user.userId;
-  const posts = await UserPost.find({ UserId: id });
+  const posts = await UserPost.find({ UserId: id }).sort({ createdAt: -1 });
 
   return res.status(200).json({ post: posts });
 };
@@ -47,29 +48,27 @@ exports.getPosts = async (req, res, next) => {
 exports.deletePost = async (req, res, next) => {
   try {
     const { delId } = req.body;
+
     const post = await UserPost.findOne({ _id: delId });
-    const { postImage } = post;
+    const public_id = post.postPublicId;
 
-    if (!postImage) {
-      return res.json("post image does not exist");
-    }
+    await cloudinary.uploader.destroy(public_id, { invalidate: true });
 
-    const rootdir = require("../utils/pathUtils");
-    const imagePath = path.join(rootdir, "uploads/post", postImage);
+    await UserPost.findOneAndDelete({ _id: delId });
 
-    fs.unlinkSync(imagePath);
-    await UserPost.findByIdAndDelete(delId);
-
-    return res.json("post deleted successfully");
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json("Something went wrong");
+    return res.status(201).json({ status: "post created" });
+  } catch (error) {
+    return res.status(500).json({ error });
   }
 };
 
 exports.getAllPosts = async (req, res, next) => {
   const currentUserId = req.session.user.userId;
-  const posts = await UserPost.find().limit(20).lean().populate("UserId");
+  const posts = await UserPost.find()
+    .limit(20)
+    .lean()
+    .populate("UserId")
+    .sort({ createdAt: -1 });
 
   const totalConnection = await UserConnection.find({
     status: "accepted",
@@ -94,7 +93,7 @@ exports.putLikePost = async (req, res, next) => {
   const userId = req.session.user.userId;
   const postId = req.params.postId;
 
-  const post = await UserPost.findById(postId).populate("UserId");
+  const post = await UserPost.findById(postId);
 
   if (!post.likes.includes(userId)) {
     post.likes.push(userId);
@@ -104,7 +103,7 @@ exports.putLikePost = async (req, res, next) => {
 
   await post.save();
 
-  return res.json(post);
+  return res.status(200).json({ likes: post.likes, postId: post._id });
 };
 
 exports.putFollowers = async (req, res, next) => {

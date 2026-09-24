@@ -16,11 +16,32 @@ export const ShowAllPost = ({ AllPosts, userData }) => {
   const [followMsg, setFollowMsg] = useState("follow");
 
   const handleLikeClick = async (postId) => {
-    const result = await putLikesFromServer(postId);
-
     setPosts((prev) =>
-      prev.map((post) => (post._id === result._id ? result : post)),
+      prev.map((post) => {
+        if (post._id !== postId) return post;
+
+        const isLiked = post.likes.includes(userData._id);
+
+        return {
+          ...post,
+          likes: !isLiked
+            ? [...post.likes, userData._id]
+            : post.likes.filter((id) => id != userData._id),
+        };
+      }),
     );
+
+    try {
+      await putLikesFromServer(postId);
+    } catch (err) {
+      setPosts((prev) =>
+        prev.map((post) =>
+          post._id === postId
+            ? { ...post, likes: post.likes.filter((id) => id != userData._id) }
+            : post,
+        ),
+      );
+    }
   };
 
   useEffect(() => {
@@ -102,14 +123,15 @@ export const ShowAllPost = ({ AllPosts, userData }) => {
                 <button
                   onClick={() => handleLikeClick(post._id)}
                   className={`flex items-center justify-center gap-2 py-2 rounded-lg hover:bg-gray-100 cursor-pointer
-                    ${post.likes.includes(userData._id) ? "text-blue-500" : "text-black"} transition-all`}
+                    transition-all`}
+                  // ${post.likes.includes(userData._id) ? "text-blue-500" : "text-black"}
                 >
                   <div
-                    className={
-                      post.likes.includes(userData._id)
-                        ? "border rounded-full border-blue-500 bg-blue-100 p-1"
-                        : ""
-                    }
+                  // className={
+                  //   post.likes.includes(userData._id)
+                  //     ? "border rounded-full border-blue-500 bg-blue-100 p-1"
+                  //     : ""
+                  // }
                   >
                     <BiSolidLike className="transform scale-x-[-1]" />
                   </div>

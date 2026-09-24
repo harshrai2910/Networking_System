@@ -3,7 +3,7 @@ const networkRouter = express.Router();
 const networkController = require("../controller/networkController");
 const isAuth = require("../middleware/isAuth");
 
-networkRouter.post("/myNetwork", networkController.postRequestTofollow);
+networkRouter.post("/myNetwork", networkController.postRequestToConnect);
 
 networkRouter.get(
   "/myNetwork/connections",
@@ -18,6 +18,11 @@ networkRouter.patch(
 networkRouter.patch(
   "/myNetwork/:id/rejected",
   networkController.patchRejectedRequestData,
+);
+
+networkRouter.patch(
+  "/myNetwork/:id/removeConnection",
+  networkController.removeConnectedUser,
 );
 
 networkRouter.get("/myNetwork/:id/status", networkController.getNetworkStatus);

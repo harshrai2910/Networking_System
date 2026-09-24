@@ -6,6 +6,7 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import { BiSolidLike } from "react-icons/bi";
 import profileImg from "../../../images/ProfileImg.png";
+import { Sm_loader } from "../../Sm_Loader";
 
 import {
   deletePostFromServer,
@@ -15,13 +16,16 @@ import {
 export const ShowPost = ({ userData, posts, setPost }) => {
   const [activePost, setActivePost] = useState(null);
   const [isPost, setIsPost] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   console.log(posts);
 
   const handleDeletePost = async (delId) => {
-    const result = await deletePostFromServer({ delId: delId });
-    console.log(result);
-    setIsPost(true);
+    setLoader(true);
+    deletePostFromServer({ delId: delId }).then((result) => {
+      setIsPost(true);
+      setLoader(false);
+    });
   };
 
   useEffect(() => {
@@ -78,15 +82,12 @@ export const ShowPost = ({ userData, posts, setPost }) => {
                       <HiDotsHorizontal />
                     </button>
                     {activePost === post._id && (
-                      <div className="absolute top-6 right-0 py-2 w-30 bg-white flex flex-col gap-1 border border-slate-300 shadow-sm rounded-lg">
-                        <button className="border-none hover:bg-slate-100 py-2 w-full transition-all cursor-pointer">
-                          Edit
-                        </button>
+                      <div className="absolute top-6 right-0 p-1 w-30 bg-white flex flex-col gap-1 border border-slate-300 shadow-lg rounded-lg">
                         <button
                           onClick={() => handleDeletePost(post._id)}
-                          className="border-none hover:bg-slate-100 py-2 w-full transition-all cursor-pointer"
+                          className="border-none hover:bg-slate-100 py-3 w-full transition-all cursor-pointer"
                         >
-                          Delete
+                          {loader ? <Sm_loader /> : "Delete"}
                         </button>
                       </div>
                     )}

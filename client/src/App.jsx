@@ -15,7 +15,7 @@ import { Loader } from "./components/loader";
 import { userDataFromServer } from "./services/userLinkServices";
 import { CompleteProfile } from "./components/userProfile/profile/completeProfile";
 import { Dashboard } from "./components/dashboard/dashboard";
-import { CreatePost } from "./components/userProfile/PostCreate/temp";
+import { CreatePost } from "./components/userProfile/PostCreate/CreatePost";
 import { Post } from "./components/userProfile/showPost/Post";
 import { MyNetwork } from "./components/userProfile/userNetwork/MyNetwork";
 import {

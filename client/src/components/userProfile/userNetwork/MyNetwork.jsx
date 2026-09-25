@@ -33,16 +33,14 @@ export const MyNetwork = () => {
     patchIsAcceptedFromServer(id).then((data) => {
       if (data) {
         fetchConnectionData();
-        setIsloader();
+        setIsloader(false);
       }
     });
   };
 
   const handleReject = async (id) => {
-    setIsloader(true);
     await patchIsRejectedFromServer(id);
     fetchConnectionData();
-    setIsloader;
   };
 
   const handleRemoveConnection = async (id) => {

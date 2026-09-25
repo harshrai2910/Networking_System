@@ -2,11 +2,14 @@ import React from "react";
 import { RxCross2 } from "react-icons/rx";
 import { IoCheckmark } from "react-icons/io5";
 import ProfileImg from "../../../images/ProfileImg.png";
+import { Sm_loader } from "../../Sm_Loader";
+import { Link } from "react-router-dom";
 
 export const ReceivedRequest = ({
   receivedRequest,
   handleAccept,
   handleReject,
+  isloader,
 }) => {
   return (
     <>
@@ -32,9 +35,12 @@ export const ReceivedRequest = ({
                   </div>
 
                   <div className="flex flex-col gap-0.5">
-                    <h2 className="font-semibold text-gray-900">
+                    <Link
+                      to={`/profile/search=true/${data.sender._id}`}
+                      className="font-semibold text-gray-900"
+                    >
                       {data.sender.firstName} {data.sender.lastName}
-                    </h2>
+                    </Link>
 
                     {data.sender.headline && (
                       <p className="text-xs text-gray-600 line-clamp-1">
@@ -58,7 +64,11 @@ export const ReceivedRequest = ({
                     className="p-2.5 rounded-full text-gray-500 bg-gray-100 hover:bg-green-50 hover:text-green-600 transition-all duration-200 cursor-pointer"
                     onClick={() => handleAccept(data._id)}
                   >
-                    <IoCheckmark className="w-5 h-5" />
+                    {!isloader ? (
+                      <IoCheckmark className="w-5 h-5" />
+                    ) : (
+                      <Sm_loader />
+                    )}
                   </button>
 
                   <button

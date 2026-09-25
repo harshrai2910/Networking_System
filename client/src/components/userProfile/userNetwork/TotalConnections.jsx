@@ -1,17 +1,11 @@
 import React from "react";
 import ProfileImg from "../../../images/ProfileImg.png";
-import { patchRemovedUserFromServer } from "../../../services/networkLinkServices";
+import { Link } from "react-router-dom";
 
-export const TotalConnection = ({ totalConnection }) => {
-  totalConnection.map((data) => {
-    console.log(data.profile);
-  });
-
-  const handleRemoveConnection = async (delId) => {
-    await patchRemovedUserFromServer({ id: delId });
-    console.log(delId);
-  };
-
+export const TotalConnection = ({
+  totalConnection,
+  handleRemoveConnection,
+}) => {
   return (
     <>
       <h1 className="text-2xl font-medium mb-5">
@@ -34,9 +28,12 @@ export const TotalConnection = ({ totalConnection }) => {
                 </div>
 
                 <div className="flex flex-col gap-0.5">
-                  <h2 className="font-semibold text-gray-900 hover:text-indigo-600 transition-colors cursor-pointer">
+                  <Link
+                    to={`/profile/search=true/${data._id}`}
+                    className="font-semibold text-gray-900 hover:text-indigo-600 transition-colors cursor-pointer"
+                  >
                     {data.firstName} {data.lastName}
-                  </h2>
+                  </Link>
 
                   {data.headline && (
                     <p className="text-xs text-gray-600 line-clamp-1">

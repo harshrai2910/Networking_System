@@ -74,6 +74,7 @@ export const Navbar = ({
                   searchData={searchData}
                   setSearchResultData={setSearchResultData}
                   onSelect={handleClearSuggestions}
+                  userData={userData}
                 />
               </div>
             </div>
@@ -165,12 +166,14 @@ export const Navbar = ({
         <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
           <div className="flex items-center gap-3">
             <img
-              src={userData.profile}
+              src={userData?.profile ? userData.profile : profileImg}
               alt="Profile"
               className="h-10 w-10 rounded-full object-cover border border-slate-300"
             />
             <div className="flex flex-col">
-              <span className="font-bold text-gray-800 text-sm">Harsh Rai</span>
+              <span className="font-bold text-gray-800 text-sm">
+                {userData.firstName} {userData.lastName}
+              </span>
               <Link
                 to="/profile"
                 className="text-xs text-blue-600 hover:underline"

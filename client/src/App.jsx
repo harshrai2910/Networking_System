@@ -140,6 +140,7 @@ function App() {
                       searchResultData={searchResultData}
                       setSearchResultData={setSearchResultData}
                       setUserData={setUserData}
+                      userData={userData}
                     />
                   }
                 />

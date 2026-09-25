@@ -39,7 +39,7 @@ export const patchIsRejectedFromServer = async (id) => {
   });
 };
 
-export const patchRemovedUserFromServer = async ({ id }) => {
+export const patchRemovedUserFromServer = async (id) => {
   const response = await fetch(
     `${API_URL}/api/user/myNetwork/${id}/removeConnection`,
     {

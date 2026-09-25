@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { putLikesFromServer } from "../../services/userPostLinkServices";
 import { postfollowRequestFromServer } from "../../services/networkLinkServices";
+import { Link } from "react-router-dom";
 
 export const ShowAllPost = ({ AllPosts, userData }) => {
   const [posts, setPosts] = useState([]);
@@ -52,10 +53,7 @@ export const ShowAllPost = ({ AllPosts, userData }) => {
 
   const handleFollow = async (userId) => {
     const result = await postfollowRequestFromServer({ receiverId: userId });
-    console.log("result", result);
   };
-
-  useEffect(() => {}, []);
 
   return (
     <>
@@ -67,7 +65,10 @@ export const ShowAllPost = ({ AllPosts, userData }) => {
             className="flex flex-col gap-2 border border-slate-300 rounded-xl shadow-xs bg-white"
           >
             <div className="flex gap-2 items-center sm:p-4 p-3 pb-2">
-              <div className="relative shrink-0">
+              <Link
+                to={`/profile/search=true/${post.UserId._id}`}
+                className="relative shrink-0"
+              >
                 <img
                   src={
                     post.UserId.profile ? `${post.UserId.profile}` : profileImg
@@ -75,16 +76,19 @@ export const ShowAllPost = ({ AllPosts, userData }) => {
                   alt=""
                   className="h-10 w-10 sm:h-15 sm:w-15 rounded-full object-cover shadow-sm"
                 />
-              </div>
+              </Link>
               <div className="w-full">
                 <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-1">
+                  <Link
+                    to={`/profile/search=true/${post.UserId._id}`}
+                    className="flex items-center gap-1"
+                  >
                     <h1 className="sm:text-lg text-sm font-medium">
                       {post.UserId.firstName} {post.UserId.lastName}
                     </h1>
 
                     <GoShieldCheck />
-                  </div>
+                  </Link>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 line-clamp-1">
@@ -94,24 +98,30 @@ export const ShowAllPost = ({ AllPosts, userData }) => {
               </div>
 
               <div>
-                <button
-                  onClick={() => handleFollow(post.UserId._id)}
-                  className="text-blue-500 font-bold flex gap-1 items-center cursor-pointer"
-                >
-                  <IoMdAdd className="font-extrabold" />
-                  {post.isFollowing ? "Following" : "Follow"}
-                </button>
+                {userData._id !== post.UserId._id && (
+                  <button
+                    onClick={() => handleFollow(post.UserId._id)}
+                    className="text-blue-500 font-bold flex gap-1 items-center cursor-pointer"
+                  >
+                    <IoMdAdd className="font-extrabold" />
+                    {post.isFollowing ? "Following" : "Follow"}
+                  </button>
+                )}
               </div>
             </div>
 
             <div className="sm:px-4 px-2">{post.content}</div>
 
             <div>
-              <img src={`${post.postImage}`} alt="" className="w-full " />
+              <img
+                src={post.postImage}
+                alt=""
+                className="w-full h-auto max-h-150 object-contain"
+              />
             </div>
 
             <div>
-              <div className="p-2 border-t border-slate-300 flex gap-2 items-center">
+              <div className="p-2 border-slate-300 flex gap-2 items-center">
                 <div className="border rounded-full border-blue-500 bg-blue-100 p-1">
                   <BiSolidLike className="text-blue-500 transform scale-x-[-1]" />
                 </div>
@@ -119,31 +129,34 @@ export const ShowAllPost = ({ AllPosts, userData }) => {
                 <span>{post.likes.length}</span>
               </div>
 
-              <div className="grid grid-cols-3 py-1 border-t border-slate-300">
+              <div className="grid grid-cols-3 p-1 border-t border-slate-300">
                 <button
                   onClick={() => handleLikeClick(post._id)}
-                  className={`flex items-center justify-center gap-2 py-2 rounded-lg hover:bg-gray-100 cursor-pointer
-                    transition-all`}
-                  // ${post.likes.includes(userData._id) ? "text-blue-500" : "text-black"}
+                  title="Like"
+                  className={`flex items-center justify-center gap-2 py-2 ${post.likes.includes(userData._id) ? "text-blue-500" : "text-black"} 
+                  rounded-lg hover:bg-gray-100 cursor-pointer transition-all`}
                 >
                   <div
-                  // className={
-                  //   post.likes.includes(userData._id)
-                  //     ? "border rounded-full border-blue-500 bg-blue-100 p-1"
-                  //     : ""
-                  // }
+                    className={`border border-white p-1 rounded-full 
+                      ${post.likes.includes(userData._id) && "border-blue-500 bg-blue-100"}`}
                   >
                     <BiSolidLike className="transform scale-x-[-1]" />
                   </div>
                   Like
                 </button>
 
-                <button className="flex items-center justify-center gap-2 py-2 rounded-lg hover:bg-gray-100 transition cursor-pointer">
+                <button
+                  title="pending..."
+                  className="flex items-center justify-center gap-2 py-2 rounded-lg hover:bg-gray-100 transition cursor-pointer"
+                >
                   <FaRegCommentDots />
                   Comment
                 </button>
 
-                <button className="flex items-center justify-center gap-2 py-2 rounded-lg hover:bg-gray-100 transition cursor-pointer">
+                <button
+                  title="pending"
+                  className="flex items-center justify-center gap-2 py-2 rounded-lg hover:bg-gray-100 transition cursor-pointer"
+                >
                   <RiSendPlaneFill />
                   Send
                 </button>

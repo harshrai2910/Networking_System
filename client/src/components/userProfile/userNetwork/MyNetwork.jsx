@@ -4,6 +4,7 @@ import {
   getConnectionDataFromServer,
   patchIsAcceptedFromServer,
   patchIsRejectedFromServer,
+  patchRemovedUserFromServer,
 } from "../../../services/networkLinkServices";
 import { ReceivedRequest } from "./ReceivedRequest";
 import { SentRequest } from "./SentRequest";
@@ -13,6 +14,7 @@ export const MyNetwork = () => {
   const [sentRequest, setSentRequest] = useState([]);
   const [receivedRequest, setReceivedRequest] = useState([]);
   const [totalConnection, setTotalConnection] = useState([]);
+  const [isloader, setIsloader] = useState(false);
 
   const fetchConnectionData = async () => {
     const connectionData = await getConnectionDataFromServer();
@@ -27,12 +29,24 @@ export const MyNetwork = () => {
   }, []);
 
   const handleAccept = async (id) => {
-    await patchIsAcceptedFromServer(id);
-    fetchConnectionData();
+    setIsloader(true);
+    patchIsAcceptedFromServer(id).then((data) => {
+      if (data) {
+        fetchConnectionData();
+        setIsloader();
+      }
+    });
   };
 
   const handleReject = async (id) => {
+    setIsloader(true);
     await patchIsRejectedFromServer(id);
+    fetchConnectionData();
+    setIsloader;
+  };
+
+  const handleRemoveConnection = async (id) => {
+    await patchRemovedUserFromServer(id);
     fetchConnectionData();
   };
 
@@ -46,7 +60,10 @@ export const MyNetwork = () => {
           className="w-6xl grid grid-cols-1 md:grid-cols-8 md:gap-3 items-start"
         >
           <div className="md:col-span-3 border border-slate-200 md:rounded-2xl p-6 shadow-sm bg-white mb-3 ">
-            <TotalConnection totalConnection={totalConnection} />
+            <TotalConnection
+              totalConnection={totalConnection}
+              handleRemoveConnection={handleRemoveConnection}
+            />
           </div>
 
           <div className="md:col-span-3 border border-slate-200 md:rounded-2xl px-4 py-5 shadow-sm bg-white mb-3 ">
@@ -54,6 +71,8 @@ export const MyNetwork = () => {
               receivedRequest={receivedRequest}
               handleAccept={handleAccept}
               handleReject={handleReject}
+              isloader={isloader}
+              setIsloader={setIsloader}
             />
           </div>
 

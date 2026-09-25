@@ -20,8 +20,8 @@ export const CreatePost = ({ setPost }) => {
 
     createPostFromServer(data).then((d) => {
       if (d) {
-        setDisabled(false);
         setIsPost(true);
+        setDisabled(false);
       }
     });
   };

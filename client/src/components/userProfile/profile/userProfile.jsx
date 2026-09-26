@@ -1,8 +1,14 @@
 import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { HiPencil } from "react-icons/hi2";
+import { useState } from "react";
+import { EditProfile } from "./EditProfile";
 
-export const UserProfile = ({ userData }) => {
+export const UserProfile = ({ userData, setUserData }) => {
+  const [profileEdit, showProfileEdit] = useState(false);
+
+  console.log(profileEdit);
+
   if (!userData || Object.keys(userData).length === 0) return null;
 
   const firstCapital = (clgName = "") => {
@@ -61,12 +67,12 @@ export const UserProfile = ({ userData }) => {
           </div>
         ) : (
           <div>
-            <Link
-              to="/profile/edit=true"
+            <button
+              onClick={() => showProfileEdit(true)}
               className="inline-flex items-center justify-center p-2 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
             >
               <HiPencil className="font-bold text-xl text-gray-700" />
-            </Link>
+            </button>
           </div>
         )}
       </div>
@@ -120,6 +126,15 @@ export const UserProfile = ({ userData }) => {
           )}
         </div>
       </div>
+
+      {profileEdit && (
+        <EditProfile
+          showProfileEdit={showProfileEdit}
+          profileEdit={profileEdit}
+          userData={userData}
+          setUserData={setUserData}
+        />
+      )}
     </>
   );
 };

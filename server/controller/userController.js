@@ -75,24 +75,20 @@ exports.postCompleteData = [
       const skills = JSON.parse(req.body.skills);
       const links = JSON.parse(req.body.links);
 
-      await User.findByIdAndUpdate(
-        userId,
-        {
-          isProfileComplete: true,
-          firstName,
-          lastName,
-          course,
-          gradYear,
-          headline,
-          about,
-          links,
-          achievements,
-          skills,
-          profile: cloudinaryResult.secure_url,
-          profilePublicId: cloudinaryResult.public_id,
-        },
-        { returnDocument: "after" },
-      );
+      await User.findByIdAndUpdate(userId, {
+        isProfileComplete: true,
+        firstName,
+        lastName,
+        course,
+        gradYear,
+        headline,
+        about,
+        links,
+        achievements,
+        skills,
+        profile: cloudinaryResult.secure_url,
+        profilePublicId: cloudinaryResult.public_id,
+      });
 
       return res.status(200).json({ completed: true });
     } catch (error) {
@@ -193,4 +189,34 @@ exports.putUpdateAchievements = async (req, res, next) => {
   } catch (error) {
     return res.status(500).json({ error });
   }
+};
+
+exports.putUpdateProfile = async (req, res, next) => {
+  const id = req.session.user.userId;
+
+  const { firstName, lastName, course, gradYear, clgName, headline, about } =
+    req.body;
+
+  const cloudinaryResult = await uploadToCloudinary(
+    req.file.buffer,
+    "user_profile_img",
+  );
+
+  const updatedProfile = await User.findByIdAndUpdate(
+    id,
+    {
+      firstName,
+      lastName,
+      course,
+      gradYear,
+      clgName,
+      headline,
+      about,
+      profile: cloudinaryResult.secure_url,
+      profilePublicId: cloudinaryResult.public_id,
+    },
+    { returnDocument: "after" },
+  );
+
+  return res.json({ updatedProfile: updatedProfile });
 };

@@ -6,7 +6,6 @@ import { Link, useParams } from "react-router-dom";
 import { getSearchResultFromServer } from "../../services/searchLinkServices";
 import ProfileImg from "../../images/ProfileImg.png";
 import {
-  getConnectionDataFromServer,
   getNetworkStatusFromServer,
   postfollowRequestFromServer,
 } from "../../services/networkLinkServices";
@@ -32,7 +31,6 @@ export const UserSearchProfile = ({
     postfollowRequestFromServer({ receiverId }).then((d) => {
       getNetworkStatusFromServer({ id: userId }).then((data) => {
         setRelationship(data.relationship);
-        console.log(data.relationship);
       });
     });
   };
@@ -62,10 +60,10 @@ export const UserSearchProfile = ({
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-6xl grid grid-cols-1 md:grid-cols-18 gap-6"
+          className="w-6xl grid grid-cols-1 md:grid-cols-18 gap-4"
         >
           <div className="md:col-span-13 ">
-            <div className="border border-slate-200 rounded-2xl p-5 shadow-sm bg-white mb-3">
+            <div className="border border-slate-200 rounded-lg p-5 shadow-sm bg-white mb-3">
               <div className="flex justify-between gap-3 md:gap-0 flex-col md:flex-row">
                 <div className="flex items-center gap-6">
                   <div>
@@ -127,7 +125,7 @@ export const UserSearchProfile = ({
                 </div>
               </div>
             </div>
-            <div className="border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm bg-white mb-3">
+            <div className="border border-slate-200 rounded-lg p-4 sm:p-6 shadow-sm bg-white mb-3">
               <div className="flex justify-between items-center mb-2">
                 <h1 className="text-xl font-semibold text-gray-900">Skills</h1>
               </div>
@@ -147,7 +145,7 @@ export const UserSearchProfile = ({
               </div>
             </div>
 
-            <div className="border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm bg-white mb-3">
+            <div className="border border-slate-200 rounded-lg p-4 sm:p-6 shadow-sm bg-white mb-3">
               <div className="flex flex-col gap-2">
                 <h1 className="text-lg font-medium">Activity</h1>
 
@@ -163,7 +161,7 @@ export const UserSearchProfile = ({
               </div>
             </div>
 
-            <div className="border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm bg-white">
+            <div className="border border-slate-200 rounded-lg p-4 sm:p-6 shadow-sm bg-white">
               <div className="flex justify-between items-center mb-2">
                 <h1 className="text-lg font-medium">Achievements</h1>
               </div>
@@ -175,25 +173,25 @@ export const UserSearchProfile = ({
           </div>
 
           <div className="md:col-span-5">
-            <div className="w-full border rounded-2xl p-4 -z-50 border-slate-200 shadow-sm bg-white mb-3 relative">
+            <div className="w-full border rounded-lg p-4 -z-50 border-slate-200 shadow-sm bg-white mb-3 relative">
               <h1 className="text-lg font-medium">Language Known</h1>
               {searchResultData.language?.length === 0 && (
                 <p className="text-[13px] sm:text-[15px] font-medium text-gray-600 pt-2">
                   No language provided
                 </p>
               )}
-              <div>
+              <div className="divide-y divide-gray-200">
                 {searchResultData.language?.map((item, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between py-2 text-sm font-medium text-gray-800 border-b border-gray-200"
+                    className="flex items-center justify-between py-2 text-sm font-medium text-gray-800"
                   >
                     {item}
                   </div>
                 ))}
               </div>
             </div>
-            <div className="border rounded-2xl p-4 border-slate-200 shadow-sm bg-white mb-3">
+            <div className="border rounded-lg p-4 border-slate-200 shadow-sm bg-white mb-3">
               <div className="flex items-center justify-between">
                 <h1 className="text-lg font-medium">Public profile & URL</h1>
               </div>
@@ -205,29 +203,31 @@ export const UserSearchProfile = ({
                 {searchResultData?.links?.linkedin}
               </a>
             </div>
-            <div className="border rounded-2xl p-4 border-slate-200 shadow-sm bg-white mb-3">
+            <div className="border rounded-lg p-4 border-slate-200 shadow-sm bg-white mb-3">
               <div className="flex items-center justify-between">
                 <h1 className="text-lg font-medium">Contact</h1>
               </div>
-              {Links.map((link, unique) => (
-                <div
-                  key={unique}
-                  className="flex items-center justify-between gap-2 mt-2"
-                >
-                  <a
-                    href={link.link}
-                    className="text-xs text-blue-700 underline"
+              <div className="divide-y divide-gray-200">
+                {Links.map((link, unique) => (
+                  <div
+                    key={unique}
+                    className="flex items-center justify-between py-2 text-sm font-medium text-gray-800 border-gray-200"
                   >
-                    {link.name}
-                  </a>
-                  <a
-                    href={link.link}
-                    className="p-2 border rounded-2xl text-gray-800 border-gray-800 text-md hover:text-white hover:bg-gray-800 transition-colors shadow-sm"
-                  >
-                    {link.icon}
-                  </a>
-                </div>
-              ))}
+                    <a
+                      href={link.link}
+                      className="text-xs text-blue-700 underline"
+                    >
+                      {link.name}
+                    </a>
+                    <a
+                      href={link.link}
+                      className="p-2 border rounded-2xl text-gray-800 border-gray-800 text-md hover:text-white hover:bg-gray-800 transition-colors shadow-sm"
+                    >
+                      {link.icon}
+                    </a>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </motion.div>

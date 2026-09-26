@@ -38,14 +38,14 @@ export const Achievement = ({ achievement }) => {
             {...register("achievements")}
             className="border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full text-sm sm:text-base resize-none focus:outline-none focus:ring-2 focus:ring-blue-400"
           ></textarea>
-          <div className="flex items-center justify-between w-full mt-2 gap-3">
+          <div className="flex items-center justify-end w-full mt-2 gap-3">
             <button
               onClick={() => setAchive(false)}
-              className="w-full border border-gray-500 text-gray-600 font-medium py-1 rounded-lg bg-gray-100"
+              className="px-5 py-2 border border-gray-500 text-gray-600 font-medium rounded-lg bg-gray-100"
             >
               Cancel
             </button>
-            <button className="w-full border border-amber-500 py-1 rounded-lg bg-amber-400 text-white font-medium">
+            <button className="px-5 py-2 border-none rounded-lg bg-blue-400 text-white font-medium">
               Save
             </button>
           </div>

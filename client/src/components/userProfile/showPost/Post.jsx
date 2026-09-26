@@ -10,20 +10,20 @@ export const Post = ({ userData, posts, setPost }) => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-6xl grid grid-cols-1 md:grid-cols-4 md:gap-6"
+          className="w-6xl grid grid-cols-1 md:grid-cols-4 md:gap-4"
         >
           <div className="hidden md:block md:col-span-1">
-            <div className="border border-slate-200 rounded-2xl p-6 shadow-sm bg-white mb-3">
+            <div className="border border-slate-200 rounded-lg p-6 shadow-sm bg-white mb-3">
               <ProfileServices userData={userData} />
             </div>
           </div>
           <div className="md:col-span-2">
-            <div className="md:border md:border-slate-200 md:rounded-2xl md:p-6 p-2 md:shadow-sm md:bg-white bg-transparent mb-3">
+            <div className="md:border md:border-slate-200 md:rounded-lg md:p-6 p-2 md:shadow-sm md:bg-white bg-transparent mb-3">
               <ShowPost userData={userData} posts={posts} setPost={setPost} />
             </div>
           </div>
           <div className="hidden md:block md:col-span-1">
-            <div className="border border-slate-200 rounded-2xl p-6 shadow-sm bg-white mb-3">
+            <div className="border border-slate-200 rounded-lg p-6 shadow-sm bg-white mb-3">
               Pending...
             </div>
           </div>

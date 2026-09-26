@@ -57,14 +57,14 @@ export const MyNetwork = () => {
           transition={{ duration: 0.5 }}
           className="w-6xl grid grid-cols-1 md:grid-cols-8 md:gap-3 items-start"
         >
-          <div className="md:col-span-3 border border-slate-200 md:rounded-2xl p-6 shadow-sm bg-white mb-3 ">
+          <div className="md:col-span-3 border border-slate-200 md:rounded-lg p-6 shadow-sm bg-white mb-3 ">
             <TotalConnection
               totalConnection={totalConnection}
               handleRemoveConnection={handleRemoveConnection}
             />
           </div>
 
-          <div className="md:col-span-3 border border-slate-200 md:rounded-2xl px-4 py-5 shadow-sm bg-white mb-3 ">
+          <div className="md:col-span-3 border border-slate-200 md:rounded-lg px-4 py-5 shadow-sm bg-white mb-3 ">
             <ReceivedRequest
               receivedRequest={receivedRequest}
               handleAccept={handleAccept}
@@ -74,7 +74,7 @@ export const MyNetwork = () => {
             />
           </div>
 
-          <div className="md:col-span-2 border border-slate-200 md:rounded-2xl px-4 py-5 shadow-sm bg-white mb-3 ">
+          <div className="md:col-span-2 border border-slate-200 md:rounded-lg px-4 py-5 shadow-sm bg-white mb-3 ">
             <SentRequest sentRequest={sentRequest} />
           </div>
         </motion.div>

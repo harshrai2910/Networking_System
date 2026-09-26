@@ -31,4 +31,11 @@ userRouter.put(
   userController.putUpdateAchievements,
 );
 
+userRouter.put(
+  "/profile/update",
+  isAuth,
+  upload.single("profile"),
+  userController.putUpdateProfile,
+);
+
 module.exports = userRouter;

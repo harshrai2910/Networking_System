@@ -8,7 +8,7 @@ export const Connections = ({ userData }) => {
           <p className="text-xs">Grow your network</p>
         </div>
         <p className="text-blue-500 text-sm font-bold">
-          {userData.connections}
+          {userData?.connections ? userData.Connections : 0}
         </p>
       </div>
     </>

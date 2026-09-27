@@ -5,7 +5,7 @@ import { MiddleInfo } from "./MiddleInfo";
 import { Steps } from "./Steps";
 import { JoinSection } from "./JoinSection";
 
-export const LandingPage = () => {
+export const LandingPage = ({ isLogin }) => {
   return (
     <>
       <div className="bg-white">
@@ -17,7 +17,7 @@ export const LandingPage = () => {
 
           {/* Top right corner box */}
           <div className="md:col-span-3 md:pt-15 pt-5 px-5">
-            <TopLeft />
+            <TopLeft isLogin={isLogin} />
           </div>
           {/* Top left (image) corner box */}
           <div className="md:col-span-3">

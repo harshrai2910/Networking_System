@@ -86,6 +86,8 @@ function App() {
     }
   }, [isLogin]);
 
+  console.log("login from app.jsx", isLogin);
+
   return (
     <>
       {loading ? (
@@ -101,7 +103,7 @@ function App() {
           />
 
           <Routes>
-            <Route path="/" element={<LandingPage />} />
+            <Route path="/" element={<LandingPage isLogin={isLogin} />} />
             {isLogin ? (
               <>
                 <Route
@@ -149,7 +151,6 @@ function App() {
               </>
             ) : (
               <>
-                <Route path="/" element={<h1> Dashboard </h1>} />
                 <Route
                   path="/login"
                   element={

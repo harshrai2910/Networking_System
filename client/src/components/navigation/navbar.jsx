@@ -164,7 +164,11 @@ export const Navbar = ({
         }`}
       >
         <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
-          <div className="flex items-center gap-3">
+          <Link
+            to="/profile"
+            onClick={() => setIsSidebarOpen(false)}
+            className="flex items-center gap-3"
+          >
             <img
               src={userData?.profile ? userData.profile : profileImg}
               alt="Profile"
@@ -172,17 +176,15 @@ export const Navbar = ({
             />
             <div className="flex flex-col">
               <span className="font-bold text-gray-800 text-sm">
-                {userData.firstName} {userData.lastName}
+                {userData.firstName === undefined
+                  ? userData.username
+                  : userData.firstName}
               </span>
-              <Link
-                to="/profile"
-                className="text-xs text-blue-600 hover:underline"
-                onClick={() => setIsSidebarOpen(false)}
-              >
+              <div className="text-xs text-blue-600 hover:underline">
                 View Profile
-              </Link>
+              </div>
             </div>
-          </div>
+          </Link>
           <button
             onClick={() => setIsSidebarOpen(false)}
             className="text-2xl text-gray-500 hover:text-gray-800 p-1 hover:bg-slate-200 rounded-md transition-colors"

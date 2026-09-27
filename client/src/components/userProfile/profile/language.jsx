@@ -53,7 +53,7 @@ export const Language = ({ userData }) => {
             </button>
           </div>
 
-          {editLang && lang?.length == 0 && (
+          {!editLang && lang?.length == 0 && (
             <p className="text-[13px] sm:text-[15px] font-medium text-gray-600 pt-2">
               No Language Add yet
             </p>

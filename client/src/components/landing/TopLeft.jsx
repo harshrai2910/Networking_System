@@ -6,7 +6,7 @@ import img_02 from "../../assets/img_02.png";
 import img_03 from "../../assets/img_03.png";
 import img_07 from "../../assets/img_07.png";
 
-export const TopLeft = () => {
+export const TopLeft = ({ isLogin }) => {
   return (
     <>
       {/* Badge */}
@@ -36,23 +36,22 @@ export const TopLeft = () => {
         <img src={img_07} alt="" className="h-13 hidden md:block shrink-0" />
       </div>
 
-      {/* Buttons */}
       <div className="flex flex-wrap gap-2 mb-4">
         <Link
-          to="/signup"
+          to={isLogin ? "/feed" : "/signup"}
           className="px-5 py-2 rounded-lg bg-blue-500 flex items-center justify-center gap-2 text-white font-medium cursor-pointer"
         >
-          Get Started
+          {isLogin ? "Feed" : "Get Started"}
           <span>
             <IoIosArrowRoundForward className="text-2xl" />
           </span>
         </Link>
 
         <Link
-          to="/login"
+          to={isLogin ? "profile" : "/login"}
           className="px-5 py-2 border-2 border-blue-500 rounded-lg text-blue-500 font-medium cursor-pointer"
         >
-          Login
+          {isLogin ? "View Profile" : "Login"}
         </Link>
       </div>
 

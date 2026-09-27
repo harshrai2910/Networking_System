@@ -7,8 +7,6 @@ import { EditProfile } from "./EditProfile";
 export const UserProfile = ({ userData, setUserData }) => {
   const [profileEdit, showProfileEdit] = useState(false);
 
-  console.log(profileEdit);
-
   if (!userData || Object.keys(userData).length === 0) return null;
 
   const firstCapital = (clgName = "") => {
@@ -29,7 +27,7 @@ export const UserProfile = ({ userData, setUserData }) => {
 
   return (
     <>
-      <div className="flex justify-between items-start">
+      <div className="flex justify-between items-start flex-col md:flex-row gap-3 md:gap-0">
         <div className="flex items-center gap-6">
           {/* Avatar with Image Fallback */}
           {userData.profile ? (
@@ -54,15 +52,14 @@ export const UserProfile = ({ userData, setUserData }) => {
           </div>
         </div>
 
-        {/* Complete Profile vs Edit Button */}
         {!userData.isProfileComplete ? (
-          <div className="flex items-center">
+          <div className="flex justify-center w-full md:w-xs">
             <Link
               to={`/profile/isCompleted=${userData.isProfileComplete}`}
-              className="border px-3 py-1.5 rounded-xl border-blue-800 bg-blue-50 text-blue-900 font-medium text-xs sm:text-sm shadow-sm hover:bg-blue-100 transition-colors flex items-center gap-2"
+              className="inline-flex w-full md:w-xs items-center justify-center gap-2 px-4 py-2 rounded-lg border border-blue-200 bg-blue-50 text-blue-700 text-xs sm:text-sm font-medium shadow-sm transition-all duration-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 hover:shadow active:scale-95"
             >
               <CiEdit className="text-lg" />
-              Complete your profile
+              <span>Complete your profile</span>
             </Link>
           </div>
         ) : (

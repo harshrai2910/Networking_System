@@ -23,7 +23,6 @@ export const UserSearchProfile = ({
     });
     getNetworkStatusFromServer({ id: userId }).then((data) => {
       setRelationship(data.relationship);
-      console.log(data.relationship);
     });
   }, []);
 

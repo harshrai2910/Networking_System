@@ -39,11 +39,13 @@ export const ShowPost = ({ userData, posts, setPost }) => {
 
   return (
     <>
-      <div className="flex flex-col gap-4">
-        <h1 className="font-medium text-xl hidden md:block">All Activity</h1>
+      <div className="flex flex-col md:gap-4 gap-2">
+        <h1 className="font-medium text-xl">All Activity</h1>
         {posts?.length === 0 && (
           <div>
-            <h1>No post created Yet</h1>
+            <h1 className="font-medium text-sm text-gray-500">
+              No post created Yet
+            </h1>
           </div>
         )}
         {posts?.map((post, index) => (
@@ -56,7 +58,7 @@ export const ShowPost = ({ userData, posts, setPost }) => {
                 <img
                   src={`${userData.profile ? userData.profile : profileImg}`}
                   alt=""
-                  className="h-15 w-15 rounded-full object-cover shadow-sm"
+                  className="h-10 w-10 sm:h-15 sm:w-15 rounded-full object-cover shadow-sm"
                 />
               </div>
               <div className="w-full">

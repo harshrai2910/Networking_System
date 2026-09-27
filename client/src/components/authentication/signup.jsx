@@ -8,7 +8,6 @@ export const Signup = ({ handleSignupData }) => {
 
   const onSubmit = (data) => {
     handleSignupData(data);
-    console.log(data);
 
     reset();
   };

@@ -57,8 +57,15 @@ export const ShowAllPost = ({ AllPosts, userData }) => {
 
   return (
     <>
-      <div className="flex flex-col gap-4">
-        <h1 className="font-medium text-xl hidden md:block">All Activity</h1>
+      <div className="flex flex-col md:gap-4 gap-2">
+        <h1 className="font-medium text-xl">All Activity</h1>
+        {posts?.length === 0 && (
+          <div>
+            <h1 className="font-medium text-sm text-gray-500">
+              No post created Yet
+            </h1>
+          </div>
+        )}
         {posts?.map((post, index) => (
           <div
             key={index}

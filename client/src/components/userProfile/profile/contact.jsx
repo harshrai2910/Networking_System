@@ -48,8 +48,8 @@ export const Contact = ({ userData }) => {
               key={unique}
               className="flex items-center justify-between gap-2 py-1"
             >
-              <a href={link.name} className="text-xs text-blue-700 underline">
-                {link.name}
+              <a href={link.name || "#"} className="text-xs text-blue-700">
+                {link.name || "Not provided"}
               </a>
               <a
                 href={link.name}

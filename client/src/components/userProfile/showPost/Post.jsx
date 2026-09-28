@@ -18,7 +18,7 @@ export const Post = ({ userData, posts, setPost }) => {
             </div>
           </div>
           <div className="md:col-span-2">
-            <div className="md:border md:border-slate-200 md:rounded-lg md:p-6 p-2 md:shadow-sm md:bg-white bg-transparent mb-3">
+            <div className="md:border md:border-slate-200 md:rounded-lg md:p-6 md:shadow-sm shadow-xs md:bg-white bg-transparent mb-3">
               <ShowPost userData={userData} posts={posts} setPost={setPost} />
             </div>
           </div>

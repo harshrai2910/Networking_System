@@ -13,7 +13,9 @@ export const ReceivedRequest = ({
 }) => {
   return (
     <>
-      <h1 className="text-2xl font-medium mb-5">Invite Received</h1>
+      <h1 className="text-2xl font-medium mb-5">
+        Invite Received ({receivedRequest.length || 0})
+      </h1>
       {receivedRequest.length === 0 ? (
         <p className="text-sm text-gray-500">No received request</p>
       ) : (

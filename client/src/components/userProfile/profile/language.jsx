@@ -88,14 +88,14 @@ export const Language = ({ userData }) => {
                 <button
                   type="button"
                   onClick={() => handleLangClick()}
-                  className="border-none p-1 bg-blue-500 text-white rounded-full"
+                  className="border-none p-2 cursor-pointer bg-blue-500 text-white rounded-full"
                 >
                   <IoAdd />
                 </button>
                 <button
                   type="button"
                   onClick={() => saveLanguage()}
-                  className="border-none p-1 bg-yellow-500 text-white rounded-full"
+                  className="border-none p-2 bg-yellow-500 text-white cursor-pointer rounded-full"
                 >
                   <FaSave />
                 </button>
@@ -111,7 +111,7 @@ export const Language = ({ userData }) => {
                   <button
                     onClick={() => handleLangDelete(item)}
                     type="button"
-                    className="text-red-400 hover:text-red-600 text-xs"
+                    className="text-red-400 cursor-pointer hover:text-red-600 text-xs"
                   >
                     <RxCross2 />
                   </button>

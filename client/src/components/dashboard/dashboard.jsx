@@ -20,18 +20,18 @@ export const Dashboard = ({ AllPosts, userData }) => {
             <div className="rounded-lg p-6 shadow-sm bg-white mb-3 ">
               <ProfileServices userData={userData} />
             </div>
-            <div className="border border-slate-200 rounded-lg p-6 shadow-sm bg-white mb-3">
+            <div className="border border-slate-300 rounded-lg p-6 shadow-sm bg-white mb-3">
               <Connections userData={userData} />
             </div>
           </div>
           <div className="md:col-span-2">
-            <div className="md:border md:border-slate-200 md:rounded-lg md:p-6 p-2 md:shadow-sm md:bg-white bg-transparent mb-3">
+            <div className="md:border md:border-slate-300 md:rounded-lg md:p-6 md:shadow-sm md:bg-white bg-transparent">
               <ShowAllPost userData={userData} AllPosts={AllPosts} />
             </div>
           </div>
           <div>
             <div className="hidden md:block md:col-span-1 sticky top-15 h-fit">
-              <div className="border border-slate-200 rounded-lg p-6 shadow-sm bg-white mb-3">
+              <div className="border border-slate-300 rounded-lg p-6 shadow-sm bg-white mb-3">
                 <Analytics />
               </div>
             </div>

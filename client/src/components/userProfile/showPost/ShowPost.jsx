@@ -18,8 +18,6 @@ export const ShowPost = ({ userData, posts, setPost }) => {
   const [isPost, setIsPost] = useState(false);
   const [loader, setLoader] = useState(false);
 
-  console.log(posts);
-
   const handleDeletePost = async (delId) => {
     setLoader(true);
     deletePostFromServer({ delId: delId }).then((result) => {
@@ -40,7 +38,8 @@ export const ShowPost = ({ userData, posts, setPost }) => {
   return (
     <>
       <div className="flex flex-col md:gap-4 gap-2">
-        <h1 className="font-medium text-xl">All Activity</h1>
+        <h1 className="font-medium text-xl hidden md:block">All Activity</h1>
+
         {posts?.length === 0 && (
           <div>
             <h1 className="font-medium text-sm text-gray-500">
@@ -51,7 +50,7 @@ export const ShowPost = ({ userData, posts, setPost }) => {
         {posts?.map((post, index) => (
           <div
             key={index}
-            className="flex flex-col gap-2 border bg-white border-slate-300 rounded-xl shadow-xs"
+            className="flex flex-col gap-2 sm:border border-y border-slate-300 sm:rounded-lg sm:shadow-xs bg-white"
           >
             <div className="flex gap-2 items-center p-4">
               <div className="flex justify-between">

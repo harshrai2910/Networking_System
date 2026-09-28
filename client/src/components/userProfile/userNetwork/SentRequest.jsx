@@ -5,7 +5,9 @@ import React from "react";
 export const SentRequest = ({ sentRequest, handleWithdraw }) => {
   return (
     <>
-      <h1 className="text-2xl font-medium mb-5">Invite Sent</h1>
+      <h1 className="text-2xl font-medium mb-5">
+        Invite Sent ({sentRequest.length || 0})
+      </h1>
 
       {sentRequest.length === 0 ? (
         <p className="text-sm text-gray-500">No request sent</p>

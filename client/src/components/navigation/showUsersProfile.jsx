@@ -103,21 +103,27 @@ export const UserSearchProfile = ({
                 <p className="text-[13px] sm:text-[15px] font-medium text-gray-700 line-clamp-3">
                   {searchResultData?.about}
                 </p>
-                <div className="flex flex-wrap gap-2 my-3 text-xs sm:text-sm font-semibold">
-                  <div className="px-3 py-1 bg-blue-600 text-white rounded-2xl">
-                    {searchResultData?.course?.toUpperCase()}
-                  </div>
-                  <div className="px-3 py-1 bg-blue-600 text-white rounded-2xl">
-                    {searchResultData?.gradYear}
-                  </div>
-                </div>
+                {searchResultData?.course?.toUpperCase() ||
+                  (searchResultData?.gradYear && (
+                    <div className="flex flex-wrap gap-2 my-3 text-xs sm:text-sm font-semibold">
+                      <div className="px-3 py-1 bg-blue-600 text-white rounded-2xl">
+                        {searchResultData?.course?.toUpperCase()}
+                      </div>
+                      <div className="px-3 py-1 bg-blue-600 text-white rounded-2xl">
+                        {searchResultData?.gradYear}
+                      </div>
+                    </div>
+                  ))}
+
                 <div>
-                  <p className="text-xs sm:text-sm font-bold text-gray-800">
-                    College:{" "}
-                    <span className="font-normal text-gray-600">
-                      {searchResultData?.clgName}
-                    </span>
-                  </p>
+                  {searchResultData?.clgName && (
+                    <p className="text-xs sm:text-sm font-bold text-gray-800">
+                      College:{" "}
+                      <span className="font-normal text-gray-600">
+                        {searchResultData?.clgName}
+                      </span>
+                    </p>
+                  )}
                   <p className="text-xs sm:text-sm text-blue-600 font-medium">
                     {searchResultData?.email}
                   </p>
@@ -190,7 +196,8 @@ export const UserSearchProfile = ({
                 ))}
               </div>
             </div>
-            <div className="border rounded-lg p-4 border-slate-200 shadow-sm bg-white mb-3">
+            {/**-------------------------Add this later------------------------------------- */}
+            {/* <div className="border rounded-lg p-4 border-slate-200 shadow-sm bg-white mb-3">
               <div className="flex items-center justify-between">
                 <h1 className="text-lg font-medium">Public profile & URL</h1>
               </div>
@@ -201,7 +208,7 @@ export const UserSearchProfile = ({
               >
                 {searchResultData?.links?.linkedin}
               </a>
-            </div>
+            </div> */}
             <div className="border rounded-lg p-4 border-slate-200 shadow-sm bg-white mb-3">
               <div className="flex items-center justify-between">
                 <h1 className="text-lg font-medium">Contact</h1>
@@ -213,10 +220,10 @@ export const UserSearchProfile = ({
                     className="flex items-center justify-between py-2 text-sm font-medium text-gray-800 border-gray-200"
                   >
                     <a
-                      href={link.link}
-                      className="text-xs text-blue-700 underline"
+                      href={link.link || "#"}
+                      className="text-xs text-blue-700"
                     >
-                      {link.name}
+                      {(link.link && link.name) || "Not provided"}
                     </a>
                     <a
                       href={link.link}

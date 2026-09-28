@@ -27,54 +27,59 @@ export const UserProfile = ({ userData, setUserData }) => {
 
   return (
     <>
-      <div className="flex justify-between items-start flex-col md:flex-row gap-3 md:gap-0">
-        <div className="flex items-center gap-6">
-          {/* Avatar with Image Fallback */}
-          {userData.profile ? (
-            <img
-              src={userData.profile}
-              alt="profile"
-              className="h-16 w-16 sm:h-24 sm:w-24 rounded-full object-cover shadow-lg"
-            />
-          ) : (
-            <div className="h-16 w-16 sm:h-24 sm:w-24 rounded-full bg-blue-500 text-white font-bold text-2xl sm:text-4xl flex items-center justify-center shadow-lg">
-              {getInitial()}
+      <div className="relative">
+        {userData.isProfileComplete && (
+          <button
+            onClick={() => showProfileEdit(true)}
+            aria-label="Edit profile"
+            className="absolute right-0 top-0 flex border-none p-2 items-center justify-center rounded-full transition-all duration-200 hover:bg-gray-100 active:scale-95"
+          >
+            <HiPencil className="text-xl" />
+          </button>
+        )}
+        <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+          {/* Profile Info */}
+          <div className="flex min-w-0 items-center gap-4 sm:gap-5">
+            {/* Avatar */}
+            <div className="shrink-0">
+              {userData.profile ? (
+                <img
+                  src={userData.profile}
+                  alt={`${displayName || userData.username}'s profile`}
+                  className="h-16 w-16 rounded-full object-cover ring-2 ring-gray-100 sm:h-20 sm:w-20"
+                />
+              ) : (
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-500 text-2xl font-bold text-white ring-2 ring-blue-100 sm:h-20 sm:w-20 sm:text-3xl">
+                  {getInitial()}
+                </div>
+              )}
+            </div>
+            {/* Name */}
+            <div className="min-w-0">
+              <h2 className="truncate text-lg font-bold text-gray-900 sm:text-2xl">
+                {displayName || `@${userData.username}`}
+              </h2>
+              <p className="mt-0.5 truncate text-sm text-gray-500 sm:text-base">
+                @{userData.username}
+              </p>
+            </div>
+          </div>
+          {/* Complete Profile */}
+          {!userData.isProfileComplete && (
+            <div className="w-full md:w-auto">
+              <Link
+                to={`/profile/isCompleted=${userData.isProfileComplete}`}
+                className="group flex w-full items-center justify-center gap-2 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-medium text-blue-700 transition-all duration-200 hover:border-blue-600 hover:bg-blue-600 hover:text-white active:scale-[0.98] md:w-auto"
+              >
+                <CiEdit className="text-lg transition-transform group-hover:scale-110" />
+                <span>Complete your profile</span>
+              </Link>
             </div>
           )}
-
-          <div>
-            <h2 className="text-xl sm:text-2xl font-bold">
-              {displayName || `@${userData.username}`}
-            </h2>
-            <p className="text-gray-600 text-sm sm:text-base">
-              @{userData.username}
-            </p>
-          </div>
         </div>
-
-        {!userData.isProfileComplete ? (
-          <div className="flex justify-center w-full md:w-xs">
-            <Link
-              to={`/profile/isCompleted=${userData.isProfileComplete}`}
-              className="inline-flex w-full md:w-xs items-center justify-center gap-2 px-4 py-2 rounded-lg border border-blue-200 bg-blue-50 text-blue-700 text-xs sm:text-sm font-medium shadow-sm transition-all duration-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 hover:shadow active:scale-95"
-            >
-              <CiEdit className="text-lg" />
-              <span>Complete your profile</span>
-            </Link>
-          </div>
-        ) : (
-          <div>
-            <button
-              onClick={() => showProfileEdit(true)}
-              className="inline-flex items-center justify-center p-2 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
-            >
-              <HiPencil className="font-bold text-xl text-gray-700" />
-            </button>
-          </div>
-        )}
       </div>
 
-      <div className="border-t border-slate-300 my-3 sm:my-4"></div>
+      <div className="border-t border-slate-300 my-3 sm:my-3"></div>
 
       {/* Details Section (Renders conditionally) */}
       <div className="space-y-2">
@@ -109,7 +114,7 @@ export const UserProfile = ({ userData, setUserData }) => {
         <div>
           {userData.clgName && (
             <p className="text-xs sm:text-sm font-bold text-gray-800">
-              College:{" "}
+              College:
               <span className="font-normal text-gray-600">
                 {firstCapital(userData.clgName)}
               </span>

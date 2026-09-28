@@ -64,7 +64,7 @@ export const EditProfile = ({
           </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-2 w-full md:max-h-[65vh] max-h-[90vh] overflow-y-auto p-5"
+            className="flex flex-col gap-2 w-full md:max-h-[65vh] max-h-[90vh] overflow-y-auto px-5 pt-5"
           >
             <div className="flex justify-between items-center gap-4">
               <div className="flex flex-col gap-1 w-full">
@@ -74,7 +74,7 @@ export const EditProfile = ({
                 <input
                   type="text"
                   {...register("firstName")}
-                  className="border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
                   placeholder="Enter your first name"
                 />
               </div>
@@ -86,7 +86,7 @@ export const EditProfile = ({
                   type="text"
                   {...register("lastName")}
                   placeholder="Enter your last name"
-                  className="border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
                 />
               </div>
             </div>
@@ -98,7 +98,7 @@ export const EditProfile = ({
               <input
                 type="file"
                 {...register("profile")}
-                className="border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
               />
             </div>
 
@@ -110,7 +110,7 @@ export const EditProfile = ({
 
                 <select
                   {...register("course")}
-                  className="border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full text-sm bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 cursor-pointer"
+                  className="border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full text-sm bg-white text-slate-700 focus:outline-none focus:ring-1 focus:ring-gray-400 cursor-pointer"
                   defaultValue=""
                 >
                   <option value="" disabled>
@@ -138,13 +138,14 @@ export const EditProfile = ({
 
                 <select
                   {...register("gradYear")}
-                  className="border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full text-sm bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 cursor-pointer"
+                  className="border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full text-sm bg-white text-slate-700 focus:outline-none focus:ring-1 focus:ring-gray-400 cursor-pointer"
                   defaultValue=""
                 >
                   <option value="" disabled>
                     Select year
                   </option>
-
+                  <option value="2024">2024</option>
+                  <option value="2025">2025</option>
                   <option value="2026">2026</option>
                   <option value="2027">2027</option>
                   <option value="2028">2028</option>
@@ -164,7 +165,7 @@ export const EditProfile = ({
                 type="text"
                 {...register("clgName")}
                 placeholder="Enter your College name..."
-                className="border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
               />
             </div>
 
@@ -176,7 +177,7 @@ export const EditProfile = ({
                 type="text"
                 {...register("headline")}
                 placeholder="e.g. MERN Stack Developer | Designer"
-                className="border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
               />
             </div>
 
@@ -188,7 +189,7 @@ export const EditProfile = ({
                 placeholder="Tell us about yourself..."
                 rows={4}
                 {...register("about")}
-                className="text-sm border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full resize-none focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="text-sm border border-slate-300 rounded-lg px-3 sm:px-4 py-2 w-full resize-none focus:outline-none focus:ring-1 focus:ring-gray-400"
               ></textarea>
             </div>
             <div className="flex items-center justify-end border-t border-gray-500 px-5 py-3 bg-gray-50">

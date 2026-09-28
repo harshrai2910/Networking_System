@@ -191,32 +191,77 @@ exports.putUpdateAchievements = async (req, res, next) => {
   }
 };
 
-exports.putUpdateProfile = async (req, res, next) => {
-  const id = req.session.user.userId;
+exports.putUpdateProfile = [
+  check("firstName").trim().notEmpty().withMessage("First name is required"),
 
-  const { firstName, lastName, course, gradYear, clgName, headline, about } =
-    req.body;
+  check("lastName").trim(),
 
-  const cloudinaryResult = await uploadToCloudinary(
-    req.file.buffer,
-    "user_profile_img",
-  );
+  check("course").trim().notEmpty().withMessage("Course is required"),
 
-  const updatedProfile = await User.findByIdAndUpdate(
-    id,
-    {
-      firstName,
-      lastName,
-      course,
-      gradYear,
-      clgName,
-      headline,
-      about,
-      profile: cloudinaryResult.secure_url,
-      profilePublicId: cloudinaryResult.public_id,
-    },
-    { returnDocument: "after" },
-  );
+  check("gradYear")
+    .isInt()
+    .notEmpty()
+    .withMessage("Valid graduation year is required"),
 
-  return res.json({ updatedProfile: updatedProfile });
-};
+  check("clgName").trim(),
+  check("headline").trim(),
+  check("about").trim(),
+
+  async (req, res, next) => {
+    try {
+      const id = req.session.user.userId;
+
+      const {
+        firstName,
+        lastName,
+        course,
+        gradYear,
+        clgName,
+        headline,
+        about,
+      } = req.body;
+
+      if (!req.file) {
+        const updatedProfile = await User.findByIdAndUpdate(
+          id,
+          {
+            firstName,
+            lastName,
+            course,
+            gradYear,
+            clgName,
+            headline,
+            about,
+          },
+          { returnDocument: "after" },
+        );
+        return res.status(200).json({ updatedProfile: updatedProfile });
+      }
+
+      const cloudinaryResult = await uploadToCloudinary(
+        req.file.buffer,
+        "user_profile_img",
+      );
+
+      const updatedProfile = await User.findByIdAndUpdate(
+        id,
+        {
+          firstName,
+          lastName,
+          course,
+          gradYear,
+          clgName,
+          headline,
+          about,
+          profile: cloudinaryResult.secure_url,
+          profilePublicId: cloudinaryResult.public_id,
+        },
+        { returnDocument: "after" },
+      );
+
+      return res.status(200).json({ updatedProfile: updatedProfile });
+    } catch (err) {
+      return res.status(500).json({ err });
+    }
+  },
+];

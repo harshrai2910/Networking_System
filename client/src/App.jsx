@@ -86,8 +86,6 @@ function App() {
     }
   }, [isLogin]);
 
-  console.log("login from app.jsx", isLogin);
-
   return (
     <>
       {loading ? (

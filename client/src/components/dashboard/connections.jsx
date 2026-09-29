@@ -1,5 +1,4 @@
 export const Connections = ({ userData }) => {
-  console.log(userData);
   return (
     <>
       <div className="flex items-center justify-between">

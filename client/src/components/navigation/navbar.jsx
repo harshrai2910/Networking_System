@@ -86,6 +86,7 @@ export const Navbar = ({
                 <div className="hidden lg:flex items-center gap-6">
                   <Link
                     to="/feed"
+                    onClick={() => console.log("hello")}
                     className="flex flex-col items-center text-gray-600 hover:text-black text-xs font-medium"
                   >
                     <GoHomeFill className="text-xl" />

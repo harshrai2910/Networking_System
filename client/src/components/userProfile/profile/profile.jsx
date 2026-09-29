@@ -16,7 +16,7 @@ export const Profile = ({ userData, setUserData }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 md:gap-4"
+        className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 md:gap-3 gap-2"
       >
         <div className="lg:col-span-8 flex flex-col md:gap-3 gap-2">
           <div className="border border-slate-300 md:rounded-lg p-4 sm:p-5 md:shadow-sm shadow-xs bg-white">

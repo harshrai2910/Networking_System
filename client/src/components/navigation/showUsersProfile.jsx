@@ -54,15 +54,15 @@ export const UserSearchProfile = ({
 
   return (
     <>
-      <div className="flex items-center justify-center mb-3 sm:mb-20 p-3 mt-12">
+      <div className="flex justify-center md:px-3 sm:px-6 lg:px-8 mt-15 mb-3 sm:mb-20">
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-6xl grid grid-cols-1 md:grid-cols-18 gap-4"
+          className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 md:gap-3 gap-2"
         >
-          <div className="md:col-span-13 ">
-            <div className="border border-slate-200 rounded-lg p-5 shadow-sm bg-white mb-3">
+          <div className="md:col-span-13">
+            <div className="border border-slate-300 md:rounded-lg p-4 sm:p-5 md:shadow-sm shadow-xs bg-white mb-3">
               <div className="flex justify-between gap-3 md:gap-0 flex-col md:flex-row">
                 <div className="flex items-center gap-6">
                   <div>
@@ -103,18 +103,18 @@ export const UserSearchProfile = ({
                 <p className="text-[13px] sm:text-[15px] font-medium text-gray-700 line-clamp-3">
                   {searchResultData?.about}
                 </p>
-                {searchResultData?.course?.toUpperCase() ||
-                  (searchResultData?.gradYear && (
-                    <div className="flex flex-wrap gap-2 my-3 text-xs sm:text-sm font-semibold">
-                      <div className="px-3 py-1 bg-blue-600 text-white rounded-2xl">
-                        {searchResultData?.course?.toUpperCase()}
-                      </div>
-                      <div className="px-3 py-1 bg-blue-600 text-white rounded-2xl">
-                        {searchResultData?.gradYear}
-                      </div>
-                    </div>
-                  ))}
-
+                {/* {searchResultData?.course?.toUpperCase() || */}
+                {/* (searchResultData?.gradYear && ( */}
+                <div className="flex flex-wrap gap-2 my-3 text-xs sm:text-sm font-semibold">
+                  <div className="px-3 py-1 bg-blue-600 text-white rounded-2xl">
+                    {searchResultData?.course?.toUpperCase()}
+                  </div>
+                  <div className="px-3 py-1 bg-blue-600 text-white rounded-2xl">
+                    {searchResultData?.gradYear}
+                  </div>
+                </div>
+                {/* )) */}
+                {/* } */}
                 <div>
                   {searchResultData?.clgName && (
                     <p className="text-xs sm:text-sm font-bold text-gray-800">
@@ -166,7 +166,7 @@ export const UserSearchProfile = ({
               </div>
             </div>
 
-            <div className="border border-slate-200 rounded-lg p-4 sm:p-6 shadow-sm bg-white">
+            <div className="border border-slate-200 rounded-lg p-4 sm:p-6 shadow-sm bg-white mg-3">
               <div className="flex justify-between items-center mb-2">
                 <h1 className="text-lg font-medium">Achievements</h1>
               </div>

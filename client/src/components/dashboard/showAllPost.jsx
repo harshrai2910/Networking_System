@@ -71,7 +71,11 @@ export const ShowAllPost = ({ AllPosts, userData }) => {
           >
             <div className="flex gap-2 items-center sm:p-4 p-3 pb-2">
               <Link
-                to={`/profile/search=true/${post.UserId._id}`}
+                to={
+                  userData._id === post.UserId._id
+                    ? "/profile"
+                    : `/profile/search=true/${post.UserId._id}`
+                }
                 className="relative shrink-0"
               >
                 <img

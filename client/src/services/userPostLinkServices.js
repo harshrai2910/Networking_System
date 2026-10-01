@@ -53,12 +53,3 @@ export const putLikesFromServer = async (postId) => {
 
   return await response.json();
 };
-
-export const putFollowersfromServer = async (userId) => {
-  const response = await fetch(`${API_URL}/api/user/follwers/${userId}`, {
-    method: "put",
-    credentials: "include",
-  });
-
-  return await response.json();
-};

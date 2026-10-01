@@ -1,4 +1,3 @@
-const userConnections = require("../model/userConnections");
 const UserConnection = require("../model/userConnections");
 
 exports.postRequestToConnect = async (req, res, _) => {
@@ -28,6 +27,8 @@ exports.postRequestToConnect = async (req, res, _) => {
     } else if (connection.status == "accepted") {
       await UserConnection.findByIdAndDelete(connection._id);
       return res.status(200).json({ status: "none" });
+    } else if (connection.status === "pending") {
+      return res.status(200).json({ status: "pending" });
     }
   } catch (exception) {
     console.log("error while following, error: ", exception);
@@ -74,10 +75,22 @@ exports.getConnectionData = async (req, res, next) => {
 
 exports.patchAcceptedRequestData = async (req, res, _) => {
   try {
-    const { id } = req.params;
-    await UserConnection.findByIdAndUpdate(id, {
-      status: "accepted",
-    });
+    const connection = await UserConnection.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        receiver: req.session.user.userId,
+        status: "pending",
+      },
+      {
+        status: "accepted",
+      },
+      { new: true },
+    );
+
+    if (!connection) {
+      return res.status(404).json({ status: "Request not found" });
+    }
+
     return res.status(200).json({ status: "Accepted" });
   } catch (error) {
     console.log(error);
@@ -87,11 +100,20 @@ exports.patchAcceptedRequestData = async (req, res, _) => {
 
 exports.patchRejectedRequestData = async (req, res, _) => {
   try {
-    await UserConnection.findByIdAndDelete(req.params.id);
+    const connection = await UserConnection.findOneAndDelete({
+      _id: req.params.id,
+      receiver: req.session.user.userId,
+      status: "pending",
+    });
+
+    if (!connection) {
+      return res.status(404).json({ status: "Request not found" });
+    }
+
     return res.status(200).json({ status: "Rejected" });
   } catch (error) {
     console.log(error);
-    return res.status(200).json({ status: "Error" });
+    return res.status(500).json({ status: "Error" });
   }
 };
 

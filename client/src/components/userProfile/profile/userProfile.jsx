@@ -28,15 +28,14 @@ export const UserProfile = ({ userData, setUserData }) => {
   return (
     <>
       <div className="relative">
-        {userData.isProfileComplete && (
-          <button
-            onClick={() => showProfileEdit(true)}
-            aria-label="Edit profile"
-            className="absolute right-0 top-0 flex border-none p-2 items-center justify-center rounded-full transition-all duration-200 hover:bg-gray-100 active:scale-95"
-          >
-            <HiPencil className="text-xl" />
-          </button>
-        )}
+        <button
+          onClick={() => showProfileEdit(true)}
+          aria-label="Edit profile"
+          className="absolute right-0 top-0 flex border-none p-2 items-center justify-center rounded-full transition-all duration-200 hover:bg-gray-100 active:scale-95"
+        >
+          <HiPencil className="text-xl" />
+        </button>
+
         <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
           {/* Profile Info */}
           <div className="flex min-w-0 items-center gap-4 sm:gap-5">
@@ -64,18 +63,6 @@ export const UserProfile = ({ userData, setUserData }) => {
               </p>
             </div>
           </div>
-          {/* Complete Profile */}
-          {!userData.isProfileComplete && (
-            <div className="w-full md:w-auto">
-              <Link
-                to={`/profile/isCompleted=${userData.isProfileComplete}`}
-                className="group flex w-full items-center justify-center gap-2 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-medium text-blue-700 transition-all duration-200 hover:border-blue-600 hover:bg-blue-600 hover:text-white active:scale-[0.98] md:w-auto"
-              >
-                <CiEdit className="text-lg transition-transform group-hover:scale-110" />
-                <span>Complete your profile</span>
-              </Link>
-            </div>
-          )}
         </div>
       </div>
 

@@ -54,12 +54,12 @@ export const UserSearchProfile = ({
 
   return (
     <>
-      <div className="flex justify-center md:px-3 sm:px-6 lg:px-8 mt-15 mb-3 sm:mb-20">
+      <div className="flex items-center justify-center md:px-3 sm:px-6 lg:px-8 mt-15 mb-3 sm:mb-20">
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 md:gap-3 gap-2"
+          className="w-6xl grid grid-cols-1 md:grid-cols-18 md:gap-3 gap-2"
         >
           <div className="md:col-span-13">
             <div className="border border-slate-300 md:rounded-lg p-4 sm:p-5 md:shadow-sm shadow-xs bg-white mb-3">
@@ -130,7 +130,7 @@ export const UserSearchProfile = ({
                 </div>
               </div>
             </div>
-            <div className="border border-slate-200 rounded-lg p-4 sm:p-6 shadow-sm bg-white mb-3">
+            <div className="border border-slate-300 rounded-lg p-4 sm:p-6 shadow-sm bg-white mb-5">
               <div className="flex justify-between items-center mb-2">
                 <h1 className="text-xl font-semibold text-gray-900">Skills</h1>
               </div>
@@ -138,7 +138,7 @@ export const UserSearchProfile = ({
                 {searchResultData.skills?.map((skill, index) => (
                   <div
                     key={index}
-                    className={`flex items-center justify-between py-2 text-sm font-medium text-gray-800 ${
+                    className={`flex items-center justify-between py-3 text-sm font-medium text-gray-800 ${
                       index !== searchResultData.skills.length - 1
                         ? "border-b border-gray-200"
                         : ""
@@ -150,7 +150,7 @@ export const UserSearchProfile = ({
               </div>
             </div>
 
-            <div className="border border-slate-200 rounded-lg p-4 sm:p-6 shadow-sm bg-white mb-3">
+            <div className="border border-slate-300 rounded-lg p-4 sm:p-6 shadow-sm bg-white mb-3">
               <div className="flex flex-col gap-2">
                 <h1 className="text-lg font-medium">Activity</h1>
 
@@ -166,7 +166,7 @@ export const UserSearchProfile = ({
               </div>
             </div>
 
-            <div className="border border-slate-200 rounded-lg p-4 sm:p-6 shadow-sm bg-white mg-3">
+            <div className="border border-slate-300 rounded-lg p-4 sm:p-6 shadow-sm bg-white mg-3">
               <div className="flex justify-between items-center mb-2">
                 <h1 className="text-lg font-medium">Achievements</h1>
               </div>
@@ -178,7 +178,7 @@ export const UserSearchProfile = ({
           </div>
 
           <div className="md:col-span-5">
-            <div className="w-full border rounded-lg p-4 -z-50 border-slate-200 shadow-sm bg-white mb-3 relative">
+            <div className="w-full border rounded-lg p-4 -z-50 border-slate-300 shadow-sm bg-white mb-3 relative">
               <h1 className="text-lg font-medium">Language Known</h1>
               {searchResultData.language?.length === 0 && (
                 <p className="text-[13px] sm:text-[15px] font-medium text-gray-600 pt-2">
@@ -209,7 +209,7 @@ export const UserSearchProfile = ({
                 {searchResultData?.links?.linkedin}
               </a>
             </div> */}
-            <div className="border rounded-lg p-4 border-slate-200 shadow-sm bg-white mb-3">
+            <div className="border rounded-lg p-4 border-slate-300 shadow-sm bg-white mb-3">
               <div className="flex items-center justify-between">
                 <h1 className="text-lg font-medium">Contact</h1>
               </div>

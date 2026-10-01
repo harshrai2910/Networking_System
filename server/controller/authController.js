@@ -33,7 +33,7 @@ exports.postSignup = [
     }),
 
   async (req, res, next) => {
-    const { username, isProfileComplete, email, password } = req.body;
+    const { username, email, password } = req.body;
     const result = validationResult(req);
 
     if (!result.isEmpty()) {
@@ -45,7 +45,6 @@ exports.postSignup = [
       if (!err) {
         const user = new User({
           username,
-          isProfileComplete,
           email,
           password: hashedPassword,
         });

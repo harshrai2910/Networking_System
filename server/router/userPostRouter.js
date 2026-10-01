@@ -21,10 +21,5 @@ userPostRouter.delete(
 
 userPostRouter.get("/getallPost", isAuth, userPostController.getAllPosts);
 userPostRouter.put("/post/:postId", isAuth, userPostController.putLikePost);
-userPostRouter.put(
-  "/follwers/:userId",
-  isAuth,
-  userPostController.putFollowers,
-);
 
 module.exports = userPostRouter;

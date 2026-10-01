@@ -1,11 +1,12 @@
 const { check, validationResult } = require("express-validator");
 const UserConnection = require("../model/userConnections");
 const UserPost = require("../model/userPost");
-const User = require("../model/user");
-const path = require("path");
-const fs = require("fs");
 const { uploadToCloudinary } = require("../utils/cloudinaryService.js");
 const cloudinary = require("../config/cloudinary.js");
+const { GoogleGenAI } = require("@google/genai");
+require("dotenv").config();
+
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API });
 
 exports.createPost = async (req, res, next) => {
   try {
@@ -15,23 +16,65 @@ exports.createPost = async (req, res, next) => {
 
     const id = req.session.user.userId;
     const { content } = req.body;
-    const cloudinaryResult = await uploadToCloudinary(
-      req.file.buffer,
-      "user_post_img",
-    );
+    console.log("AI review Started");
 
-    console.log("postImage: ", cloudinaryResult.secure_url);
+    console.time("AI");
 
-    const userPost = new UserPost({
-      UserId: id,
-      content,
-      postImage: cloudinaryResult.secure_url,
-      postPublicId: cloudinaryResult.public_id,
+    const interaction = await ai.interactions.create({
+      model: "gemini-3.5-flash-lite",
+      input: [
+        {
+          type: "text",
+          text: `Act as a strict content moderator for a student app. Block any sexual, explicit, nude, or hateful content
+                Content: ${content}
+                Respond ONLY in JSON: {"flag": boolean, "action": "ALLOW" | "BLOCK", "reason": string | null}`,
+        },
+        {
+          type: "image",
+          data: req.file.buffer.toString("base64"),
+          mime_type: req.file.mimetype,
+        },
+      ],
     });
 
-    await userPost.save();
+    console.timeEnd("AI");
+    const cleanOutput = interaction.output_text
+      .replace(/```json\s*/i, "")
+      .replace(/```\s*$/, "")
+      .trim();
 
-    return await res.status(200).json({ post: userPost });
+    const AI_Review = JSON.parse(cleanOutput);
+
+    console.log(AI_Review);
+
+    if (!AI_Review.flag && AI_Review.action === "ALLOW") {
+      console.time("cloud");
+      const cloudinaryResult = await uploadToCloudinary(
+        req.file.buffer,
+        "user_post_img",
+      );
+
+      console.timeEnd("cloud");
+
+      console.time("Database");
+
+      const userPost = new UserPost({
+        UserId: id,
+        content,
+        postImage: cloudinaryResult.secure_url,
+        postPublicId: cloudinaryResult.public_id,
+      });
+
+      await userPost.save();
+
+      console.timeEnd("Database");
+
+      return await res.status(200).json({ post: userPost });
+    } else {
+      return await res
+        .status(200)
+        .json({ reason: AI_Review.reason, action: AI_Review.action });
+    }
   } catch (error) {
     console.error("Profile Completion Error:", error);
     return res.status(500).json({ error: error.message || "Server Error" });
@@ -104,21 +147,4 @@ exports.putLikePost = async (req, res, next) => {
   await post.save();
 
   return res.status(200).json({ likes: post.likes, postId: post._id });
-};
-
-exports.putFollowers = async (req, res, next) => {
-  const { userId } = req.params;
-  const id = req.session.user.userId;
-
-  const user = await User.findById(id);
-
-  if (!user.following.includes(userId)) {
-    user.following.push(userId);
-  } else {
-    user.following.pull(userId);
-  }
-
-  await user.save();
-
-  return res.json("followed");
 };

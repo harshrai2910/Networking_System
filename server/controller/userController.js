@@ -22,82 +22,6 @@ exports.getUserData = async (req, res, next) => {
   }
 };
 
-exports.postCompleteData = [
-  check("firstName").trim().notEmpty().withMessage("First name is required"),
-
-  check("lastName").trim(),
-
-  check("course").trim().notEmpty().withMessage("Course is required"),
-
-  check("gradYear")
-    .isInt()
-    .notEmpty()
-    .withMessage("Valid graduation year is required"),
-
-  check("headline").trim(),
-  check("about").trim(),
-  check("links.github").optional().isURL().withMessage("only URL are allowed"),
-  check("links.linkedin")
-    .optional()
-    .isURL()
-    .withMessage("only URL are allowed"),
-  check("links.twitter").optional().isURL().withMessage("only URL are allowed"),
-
-  check("achievements").trim(),
-
-  async (req, res, next) => {
-    try {
-      const result = validationResult(req);
-      if (!result.isEmpty()) {
-        return res.status(400).json({ errors: result.array() });
-      }
-
-      if (!req.file) {
-        return res.status(400).json({ message: "No profile image provided" });
-      }
-
-      const userId = req.session.user.userId;
-
-      const {
-        firstName,
-        lastName,
-        course,
-        gradYear,
-        headline,
-        about,
-        achievements,
-      } = req.body;
-
-      const cloudinaryResult = await uploadToCloudinary(
-        req.file.buffer,
-        "user_profile_img",
-      );
-      const skills = JSON.parse(req.body.skills);
-      const links = JSON.parse(req.body.links);
-
-      await User.findByIdAndUpdate(userId, {
-        isProfileComplete: true,
-        firstName,
-        lastName,
-        course,
-        gradYear,
-        headline,
-        about,
-        links,
-        achievements,
-        skills,
-        profile: cloudinaryResult.secure_url,
-        profilePublicId: cloudinaryResult.public_id,
-      });
-
-      return res.status(200).json({ completed: true });
-    } catch (error) {
-      console.error("Profile Completion Error:", error);
-      return res.status(500).json({ error: error.message || "Server Error" });
-    }
-  },
-];
-
 exports.postEditLanguage = async (req, res, next) => {
   const { language } = req.body;
 
@@ -265,3 +189,15 @@ exports.putUpdateProfile = [
     }
   },
 ];
+
+exports.totalProfileView = async (req, res, _) => {
+  try {
+    const userId = req.session.user.userid;
+
+    const userProfileData = await User.findById(userId).select("postViews");
+
+    return res.status(200).json({ ProfileView: userProfileData });
+  } catch (err) {
+    return res.status(200).json({ err });
+  }
+};

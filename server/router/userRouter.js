@@ -6,13 +6,6 @@ const { upload } = require("../middleware/multer");
 
 userRouter.get("/profile", isAuth, userController.getUserData);
 
-userRouter.post(
-  "/profile/complete",
-  isAuth,
-  upload.single("profile"),
-  userController.postCompleteData,
-);
-
 userRouter.put("/profile/language", isAuth, userController.postEditLanguage);
 
 userRouter.put(
@@ -36,6 +29,13 @@ userRouter.put(
   isAuth,
   upload.single("profile"),
   userController.putUpdateProfile,
+);
+
+userRouter.put(
+  "/profile/views",
+  isAuth,
+  upload.single("profile"),
+  userController.totalProfileView,
 );
 
 module.exports = userRouter;

@@ -13,7 +13,6 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { Loader } from "./components/loader";
 import { userDataFromServer } from "./services/userLinkServices";
-import { CompleteProfile } from "./components/userProfile/profile/completeProfile";
 import { Dashboard } from "./components/dashboard/dashboard";
 import { CreatePost } from "./components/userProfile/PostCreate/CreatePost";
 import { Post } from "./components/userProfile/showPost/Post";
@@ -115,11 +114,6 @@ function App() {
                   element={
                     <Profile userData={userData} setUserData={setUserData} />
                   }
-                />
-
-                <Route
-                  path={`/profile/isCompleted=${userData.isProfileComplete}`}
-                  element={<CompleteProfile />}
                 />
 
                 <Route path="/profile/myNetwork" element={<MyNetwork />} />

@@ -16,7 +16,6 @@ const userSchema = new mongoose.Schema(
     },
     email: { type: String, unique: true },
     password: { type: String, required: true },
-    isProfileComplete: { type: Boolean, default: false },
 
     headline: { type: String },
     about: { type: String },

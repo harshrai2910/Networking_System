@@ -47,7 +47,7 @@ export const Language = ({ userData }) => {
             <button
               onClick={() => setEditLang(!editLang)}
               to="/profile/edit=true"
-              className="inline-flex items-center justify-center border-none p-2 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+              className="inline-flex items-center justify-center border-none p-2 rounded-full hover:bg-gray-200 transition-colors cursor-pointer"
             >
               <HiPencil className="font-bold text-xl" />
             </button>

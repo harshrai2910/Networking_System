@@ -3,11 +3,8 @@ import { HiPencil } from "react-icons/hi2";
 import {
   deleteSkillFromServer,
   updateSkillFromServer,
-  userDataFromServer,
 } from "../../../services/userLinkServices";
 import { useEffect, useRef, useState } from "react";
-import { IoAdd } from "react-icons/io5";
-import { FaSave } from "react-icons/fa";
 
 export const Skills = ({ skills }) => {
   const [editSkill, setEditSkill] = useState(false);
@@ -47,7 +44,7 @@ export const Skills = ({ skills }) => {
         <h1 className="text-xl font-semibold text-gray-900">Skills</h1>
         <button
           onClick={() => setEditSkill(!editSkill)}
-          className="flex border-none p-2 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+          className="flex border-none p-2 rounded-full hover:bg-gray-200 transition-colors cursor-pointer"
         >
           <HiPencil className="font-bold text-xl" />
         </button>
@@ -72,7 +69,7 @@ export const Skills = ({ skills }) => {
               <button
                 type="button"
                 onClick={() => handleDeleteSkill(skill)}
-                className="border-none p-2 rounded-full hover:bg-gray-100 cursor-pointer active:bg-gray-200 transition-colors"
+                className="border-none p-2 rounded-full hover:bg-gray-200 cursor-pointer active:bg-gray-200 transition-colors"
               >
                 <RxCross2 className="text-black" />
               </button>

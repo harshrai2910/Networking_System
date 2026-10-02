@@ -29,7 +29,7 @@ export const Contact = ({ userData }) => {
         <button
           to="/profile/edit=true"
           onClick={() => setEditContact(!editContact)}
-          className="border-none p-2 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+          className="border-none p-2 rounded-full hover:bg-gray-200 transition-colors cursor-pointer"
         >
           <HiPencil className="font-bold text-xl" />
         </button>

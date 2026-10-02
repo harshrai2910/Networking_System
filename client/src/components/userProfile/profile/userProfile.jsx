@@ -31,7 +31,7 @@ export const UserProfile = ({ userData, setUserData }) => {
         <button
           onClick={() => showProfileEdit(true)}
           aria-label="Edit profile"
-          className="absolute right-0 top-0 flex border-none p-2 items-center justify-center rounded-full transition-all duration-200 hover:bg-gray-100 active:scale-95"
+          className="absolute right-0 top-0 flex border-none p-2 items-center justify-center rounded-full transition-all duration-200 hover:bg-gray-200 active:scale-95"
         >
           <HiPencil className="text-xl" />
         </button>

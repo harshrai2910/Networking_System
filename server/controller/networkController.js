@@ -9,7 +9,7 @@ exports.postRequestToConnect = async (req, res, _) => {
       return res.status(400).json({ msg: "You cannot follow yourself" });
     }
 
-    const connection = await userConnections.findOne({
+    const connection = await UserConnection.findOne({
       $or: [
         { sender: senderId, receiver: receiverId },
         { sender: receiverId, receiver: senderId },
@@ -121,7 +121,7 @@ exports.removeConnectedUser = async (req, res, next) => {
   const currentUserId = req.session.user.userId;
   const targetUserId = req.params.id;
 
-  await userConnections.findOneAndDelete({
+  await userConnection.findOneAndDelete({
     status: "accepted",
     $or: [
       { sender: currentUserId, receiver: targetUserId },
@@ -137,7 +137,7 @@ exports.getNetworkStatus = async (req, res, next) => {
     const currentUserId = req.session.user.userId;
     const targetUserId = req.params.id;
 
-    const connection = await userConnections.findOne({
+    const connection = await UserConnection.findOne({
       $or: [
         { sender: currentUserId, receiver: targetUserId },
         { sender: targetUserId, receiver: currentUserId },

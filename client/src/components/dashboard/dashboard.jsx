@@ -2,10 +2,9 @@ import { motion } from "motion/react";
 import { ProfileServices } from "./profileService";
 import { Connections } from "./connections";
 import { ShowAllPost } from "./showAllPost";
-import { Loader } from "../loader";
 import { Analytics } from "./Analytics";
 
-export const Dashboard = ({ AllPosts, userData }) => {
+export const Dashboard = ({ AllPosts, userData, posts }) => {
   return (
     <>
       <div className="flex items-center justify-center mt-15 mb-3 sm:mb-20">
@@ -32,7 +31,7 @@ export const Dashboard = ({ AllPosts, userData }) => {
           <div>
             <div className="hidden md:block md:col-span-1 sticky top-15 h-fit">
               <div className="border border-slate-300 rounded-lg p-6 shadow-sm bg-white mb-3">
-                <Analytics />
+                <Analytics userData={userData} posts={posts} />
               </div>
             </div>
           </div>

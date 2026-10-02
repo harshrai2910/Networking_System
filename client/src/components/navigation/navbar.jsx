@@ -87,30 +87,30 @@ export const Navbar = ({
                   <Link
                     to="/feed"
                     onClick={() => console.log("hello")}
-                    className="flex flex-col items-center text-gray-600 hover:text-black text-xs font-medium"
+                    className="flex flex-col items-center text-gray-700 hover:text-black text-xs font-medium"
                   >
                     <GoHomeFill className="text-xl" />
                     <span>Feed</span>
                   </Link>
                   <Link
                     to="/profile/myNetwork"
-                    className="flex flex-col items-center text-gray-600 hover:text-black text-xs font-medium"
+                    className="flex flex-col items-center text-gray-700 hover:text-black text-xs font-medium"
                   >
                     <FaImages className="text-lg" />
                     <span>My Network</span>
                   </Link>
                   <Link
                     to="/profile/post"
-                    className="flex flex-col items-center text-gray-600 hover:text-black text-xs font-medium"
+                    className="flex flex-col items-center text-gray-700 hover:text-black text-xs font-medium"
                   >
                     <FaImages className="text-lg" />
                     <span>Posts</span>
                   </Link>
                   <Link
                     to="/profile/create-post"
-                    className="flex flex-col items-center text-gray-600 hover:text-black text-xs font-medium"
+                    className="flex flex-col items-center text-gray-700 hover:text-black text-xs font-medium"
                   >
-                    <IoCreate className="text-xl" />
+                    <IoCreate className="text-lg" />
                     <span>Create Post</span>
                   </Link>
                 </div>

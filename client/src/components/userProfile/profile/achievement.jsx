@@ -25,7 +25,7 @@ export const Achievement = ({ achievement }) => {
         <h1 className="text-lg font-medium">Achievements</h1>
         <button
           onClick={() => setAchive(!achive)}
-          className="inline-flex items-center justify-center border-none p-2 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+          className="inline-flex items-center justify-center border-none p-2 rounded-full hover:bg-gray-200 transition-colors cursor-pointer"
         >
           <HiPencil className="font-bold text-xl" />
         </button>

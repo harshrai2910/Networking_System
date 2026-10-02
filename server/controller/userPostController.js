@@ -27,7 +27,7 @@ exports.createPost = async (req, res, next) => {
           type: "text",
           text: `Act as a strict content moderator for a student app. Block any sexual, explicit, nude, or hateful content
                 Content: ${content}
-                Respond ONLY in JSON: {"flag": boolean, "action": "ALLOW" | "BLOCK", "reason": string | null}`,
+                Respond ONLY in JSON: {"flag": boolean, "action": "ALLOW" | "BLOCK", "reason": string(7-8 words) | null}`,
         },
         {
           type: "image",
@@ -69,7 +69,9 @@ exports.createPost = async (req, res, next) => {
 
       console.timeEnd("Database");
 
-      return await res.status(200).json({ post: userPost });
+      return await res
+        .status(200)
+        .json({ post: userPost, action: AI_Review.action });
     } else {
       return await res
         .status(200)

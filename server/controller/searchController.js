@@ -22,7 +22,16 @@ exports.postSearch = async (req, res, next) => {
 exports.getSearchResult = async (req, res, next) => {
   try {
     const { userId } = req.params;
+    const currentUserId = req.session.user.userId;
+
     const user = await User.findById(userId);
+
+    if (!user.ProfileViews.includes(currentUserId)) {
+      user.ProfileViews.push(currentUserId);
+    }
+
+    await user.save();
+
     return res.status(200).json(user);
   } catch (err) {
     return res.status(500).json({ err });

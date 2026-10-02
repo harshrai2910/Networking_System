@@ -12,6 +12,7 @@ import { FiUploadCloud } from "react-icons/fi";
 import { IoImages } from "react-icons/io5";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { RiGeminiFill } from "react-icons/ri";
+import { RxCross2 } from "react-icons/rx";
 
 export const CreatePost = ({ setPost, userData }) => {
   const { register, handleSubmit, reset, watch } = useForm();
@@ -28,21 +29,20 @@ export const CreatePost = ({ setPost, userData }) => {
     : null;
 
   const onSubmit = async (data) => {
-    if (data.content === "" && data.postImage === "") return;
+    if (data.content === "" || data.postImage === "") return;
     setDisabled(true);
     setIsPostReview(true);
+    setPostReviewData("");
 
     createPostFromServer(data).then((data) => {
+      console.log(data);
+
       if (data.action === "ALLOW") {
         setIsPost(true);
+        console.log(isPost);
       } else {
-        console.log(data.reason);
         setPostReviewData(data.reason);
         reset();
-
-        // setTimeout(() => {
-        //   setIsPostReview(false);
-        // }, 5000);
       }
 
       setDisabled(false);
@@ -118,7 +118,7 @@ export const CreatePost = ({ setPost, userData }) => {
                   <RiGeminiFill className="relative md:text-xl text-lg text-blue-700 drop-shadow-sm" />
                 </div>
 
-                <div className="flex-1 space-y-1">
+                <div className="flex-1 space-y-1 relative">
                   <div className="flex gap-1 items-center">
                     <h3 className="font-medium text-sm text-gray-900">
                       AI Post Review
@@ -128,11 +128,24 @@ export const CreatePost = ({ setPost, userData }) => {
                     </span>
                   </div>
 
-                  {/* Content */}
-                  <p className="text-xs md:text-sm text-slate-600">
-                    {postReviewData}
-                  </p>
+                  {postReviewData?.length !== 0 ? (
+                    <p className="text-xs md:text-sm text-slate-600">
+                      {postReviewData}
+                    </p>
+                  ) : (
+                    <div className="sm:w-sm w-50 h-3 bg-blue-200 rounded-sm animate-pulse"></div>
+                  )}
                 </div>
+
+                {postReviewData?.length !== 0 && (
+                  <button
+                    onClick={() => setIsPostReview(false)}
+                    type="button"
+                    className="absolute top-1 right-1 p-2 hover:bg-blue-200 rounded-full transition-colors cursor-pointer"
+                  >
+                    <RxCross2 />
+                  </button>
+                )}
               </div>
             </div>
           )}

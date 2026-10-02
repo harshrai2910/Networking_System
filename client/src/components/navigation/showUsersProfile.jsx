@@ -22,6 +22,7 @@ export const UserSearchProfile = ({
       setSearchResultData(result);
     });
     getNetworkStatusFromServer({ id: userId }).then((data) => {
+      console.log(data);
       setRelationship(data.relationship);
     });
   }, []);
@@ -59,10 +60,10 @@ export const UserSearchProfile = ({
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-6xl grid grid-cols-1 md:grid-cols-18 md:gap-3 gap-2"
+          className="w-6xl grid grid-cols-1 md:grid-cols-18 md:gap-3"
         >
           <div className="md:col-span-13">
-            <div className="border border-slate-300 md:rounded-lg p-4 sm:p-5 md:shadow-sm shadow-xs bg-white mb-3">
+            <div className="border border-slate-300 md:rounded-lg p-4 sm:p-5 md:shadow-sm bg-white md:mb-3 mb-2">
               <div className="flex justify-between gap-3 md:gap-0 flex-col md:flex-row">
                 <div className="flex items-center gap-6">
                   <div>
@@ -130,7 +131,7 @@ export const UserSearchProfile = ({
                 </div>
               </div>
             </div>
-            <div className="border border-slate-300 rounded-lg p-4 sm:p-6 shadow-sm bg-white mb-5">
+            <div className="border border-slate-300 md:rounded-lg p-4 sm:p-6 shadow-sm bg-white md:mb-3 mb-2">
               <div className="flex justify-between items-center mb-2">
                 <h1 className="text-xl font-semibold text-gray-900">Skills</h1>
               </div>
@@ -150,7 +151,7 @@ export const UserSearchProfile = ({
               </div>
             </div>
 
-            <div className="border border-slate-300 rounded-lg p-4 sm:p-6 shadow-sm bg-white mb-3">
+            <div className="border border-slate-300 md:rounded-lg p-4 sm:p-6 shadow-sm bg-white md:mb-3 mb-2">
               <div className="flex flex-col gap-2">
                 <h1 className="text-lg font-medium">Activity</h1>
 
@@ -166,10 +167,16 @@ export const UserSearchProfile = ({
               </div>
             </div>
 
-            <div className="border border-slate-300 rounded-lg p-4 sm:p-6 shadow-sm bg-white mg-3">
+            <div className="border border-slate-300 md:rounded-lg p-4 sm:p-6 shadow-sm bg-white md:mb-3 mb-2">
               <div className="flex justify-between items-center mb-2">
                 <h1 className="text-lg font-medium">Achievements</h1>
               </div>
+
+              {/* {searchResultData.achievements?.length !== 0 && (
+                <p className="text-[13px] sm:text-[15px] font-medium text-gray-600 pt-2">
+                  No achievements provided
+                </p>
+              )} */}
 
               <p className="text-[13px] sm:text-[15px] font-medium text-gray-700 line-clamp-4">
                 {searchResultData?.achievements}
@@ -178,7 +185,7 @@ export const UserSearchProfile = ({
           </div>
 
           <div className="md:col-span-5">
-            <div className="w-full border rounded-lg p-4 -z-50 border-slate-300 shadow-sm bg-white mb-3 relative">
+            <div className="w-full border md:rounded-lg p-4 -z-50 border-slate-300 shadow-sm bg-white mb-2 md:mb-3 relative">
               <h1 className="text-lg font-medium">Language Known</h1>
               {searchResultData.language?.length === 0 && (
                 <p className="text-[13px] sm:text-[15px] font-medium text-gray-600 pt-2">
@@ -209,7 +216,7 @@ export const UserSearchProfile = ({
                 {searchResultData?.links?.linkedin}
               </a>
             </div> */}
-            <div className="border rounded-lg p-4 border-slate-300 shadow-sm bg-white mb-3">
+            <div className="border md:rounded-lg p-4 border-slate-300 shadow-sm bg-white mb-3">
               <div className="flex items-center justify-between">
                 <h1 className="text-lg font-medium">Contact</h1>
               </div>

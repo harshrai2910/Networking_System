@@ -106,7 +106,11 @@ function App() {
                 <Route
                   path="/feed"
                   element={
-                    <Dashboard userData={userData} AllPosts={AllPosts} />
+                    <Dashboard
+                      userData={userData}
+                      AllPosts={AllPosts}
+                      posts={posts}
+                    />
                   }
                 />
                 <Route

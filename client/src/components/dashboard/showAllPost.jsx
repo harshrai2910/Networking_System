@@ -105,14 +105,12 @@ export const ShowAllPost = ({ AllPosts, userData }) => {
                   </p>
                 </div>
               </div>
-
               <div>
                 {userData._id !== post.UserId._id && (
                   <button
                     onClick={() => handleFollow(post.UserId._id)}
                     className="text-blue-500 font-bold flex gap-1 items-center cursor-pointer"
                   >
-                    <IoMdAdd className="font-extrabold" />
                     {post.isFollowing ? "Following" : "Follow"}
                   </button>
                 )}

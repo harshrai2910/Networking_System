@@ -31,11 +31,6 @@ userRouter.put(
   userController.putUpdateProfile,
 );
 
-userRouter.put(
-  "/profile/views",
-  isAuth,
-  upload.single("profile"),
-  userController.totalProfileView,
-);
+userRouter.get("/profile/views", isAuth, userController.totalProfileView);
 
 module.exports = userRouter;

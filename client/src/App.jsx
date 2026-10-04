@@ -23,6 +23,7 @@ import {
 } from "./services/userPostLinkServices";
 import { UserSearchProfile } from "./components/navigation/showUsersProfile";
 import { LandingPage } from "./components/landing/LandingPage";
+import { ProfileViewers } from "./components/userProfile/profile/ProfileViewers";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -147,6 +148,11 @@ function App() {
                       userData={userData}
                     />
                   }
+                />
+
+                <Route
+                  path="/analytics/profile-views"
+                  element={<ProfileViewers userData={userData} />}
                 />
               </>
             ) : (

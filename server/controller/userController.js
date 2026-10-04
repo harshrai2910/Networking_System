@@ -192,11 +192,14 @@ exports.putUpdateProfile = [
 
 exports.totalProfileView = async (req, res, _) => {
   try {
-    const userId = req.session.user.userid;
+    const userId = req.session.user.userId;
 
-    const userProfileData = await User.findById(userId).select("postViews");
+    const userProfileData = await User.findById(userId).populate(
+      "ProfileViews",
+      "firstName lastName headline profile",
+    );
 
-    return res.status(200).json({ ProfileView: userProfileData });
+    return res.status(200).json({ ProfileViews: userProfileData.ProfileViews });
   } catch (err) {
     return res.status(200).json({ err });
   }

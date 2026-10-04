@@ -100,3 +100,11 @@ export const updateProfileFromServer = async (data) => {
 
   return await response.json();
 };
+
+export const totalProfileViewFromServer = async (data) => {
+  const response = await fetch(`${API_URL}/api/user/profile/views`, {
+    credentials: "include",
+  });
+
+  return await response.json();
+};

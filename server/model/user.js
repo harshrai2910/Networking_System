@@ -31,7 +31,9 @@ const userSchema = new mongoose.Schema(
     profile: { type: String, default: "" },
     profilePublicId: { type: String, default: "" },
     language: [{ type: String }],
-    ProfileViews: [{ type: String }],
+    ProfileViews: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "userProfile" },
+    ],
   },
   {
     timestamps: true,

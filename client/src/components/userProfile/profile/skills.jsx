@@ -40,8 +40,8 @@ export const Skills = ({ skills }) => {
 
   return (
     <>
-      <div className="flex justify-between items-center mb-2">
-        <h1 className="text-xl font-semibold text-gray-900">Skills</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-lg font-medium">Skills</h1>
         <button
           onClick={() => setEditSkill(!editSkill)}
           className="flex border-none p-2 rounded-full hover:bg-gray-200 transition-colors cursor-pointer"

@@ -6,8 +6,9 @@ import { Language } from "./language";
 // import { ProfileURL } from "./profileURL";
 import { Contact } from "./contact";
 import { UserPost } from "./post";
+import { ProfileAnalytics } from "./ProfileAnalytics";
 
-export const Profile = ({ userData, setUserData }) => {
+export const Profile = ({ userData, setUserData, posts }) => {
   const skills = userData.skills;
   const achievement = userData.achievements;
   return (
@@ -21,6 +22,10 @@ export const Profile = ({ userData, setUserData }) => {
         <div className="lg:col-span-8 flex flex-col md:gap-3 gap-2">
           <div className="border border-slate-300 md:rounded-lg p-4 sm:p-5 md:shadow-sm shadow-xs bg-white">
             <UserProfile userData={userData} setUserData={setUserData} />
+          </div>
+
+          <div className="border border-slate-300 md:rounded-lg p-4 sm:p-5 md:shadow-sm shadow-xs bg-white">
+            <ProfileAnalytics userData={userData} posts={posts} />
           </div>
 
           <div className="border border-slate-300 md:rounded-lg p-4 sm:p-5 md:shadow-sm shadow-xs bg-white">

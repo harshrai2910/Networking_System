@@ -21,5 +21,10 @@ userPostRouter.delete(
 
 userPostRouter.get("/getallPost", isAuth, userPostController.getAllPosts);
 userPostRouter.put("/post/:postId", isAuth, userPostController.putLikePost);
+userPostRouter.put(
+  "/post/impression/:postId",
+  isAuth,
+  userPostController.recordPostImpression,
+);
 
 module.exports = userPostRouter;

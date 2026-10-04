@@ -116,7 +116,11 @@ function App() {
                 <Route
                   path="/profile"
                   element={
-                    <Profile userData={userData} setUserData={setUserData} />
+                    <Profile
+                      userData={userData}
+                      setUserData={setUserData}
+                      posts={posts}
+                    />
                   }
                 />
 

@@ -7,7 +7,7 @@ const userPostSchema = new mongoose.Schema(
     postImage: { type: String, default: "" },
     postPublicId: { type: String, default: "" },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "userProfile" }],
-    isFollowing: { type: Boolean, default: false },
+    postImpression: { type: Number },
   },
   {
     timestamps: true,

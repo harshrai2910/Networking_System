@@ -150,3 +150,9 @@ exports.putLikePost = async (req, res, next) => {
 
   return res.status(200).json({ likes: post.likes, postId: post._id });
 };
+
+exports.recordPostImpression = async (req, res, next) => {
+  const { postId } = req.params;
+  await UserPost.findByIdAndUpdate(postId, { $inc: { postImpression: 1 } });
+  return res.status(200).json({ flag: "success" });
+};

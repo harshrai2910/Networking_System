@@ -53,3 +53,15 @@ export const putLikesFromServer = async (postId) => {
 
   return await response.json();
 };
+
+export const postImpressionFromServer = async (postId) => {
+  const response = await fetch(
+    `${API_URL}/api/user/post/impression/${postId}`,
+    {
+      method: "put",
+      credentials: "include",
+    },
+  );
+
+  return await response.json();
+};

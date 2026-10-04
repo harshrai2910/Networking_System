@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
 
-export const Analytics = ({ userData, posts }) => {
+export const ProfileAnalytics = ({ userData, posts }) => {
   const totalPostImpression = posts?.reduce(
     (total, data) => total + data?.postImpression || 0,
     0,
   );
+
   return (
     <>
       <h3 className="font-semibold text-gray-800 text-sm mb-3">
@@ -12,7 +13,7 @@ export const Analytics = ({ userData, posts }) => {
       </h3>
 
       <div className="flex flex-col gap-2">
-        <div className="flex justify-between items-center py-1 border-b border-slate-100">
+        <Link className="flex justify-between items-center py-1 border-b border-slate-100">
           <span className="text-xs text-gray-700 font-medium">
             Profile Views
           </span>
@@ -21,7 +22,7 @@ export const Analytics = ({ userData, posts }) => {
               ? userData?.ProfileViews?.length
               : 0}
           </span>
-        </div>
+        </Link>
 
         <div className="flex justify-between items-center py-1 border-b border-slate-100">
           <span className="text-xs text-gray-700 font-medium">

@@ -110,6 +110,8 @@ exports.patchRejectedRequestData = async (req, res, _) => {
       return res.status(404).json({ status: "Request not found" });
     }
 
+    console.log("reject status");
+
     return res.status(200).json({ status: "Rejected" });
   } catch (error) {
     console.log(error);
@@ -121,7 +123,7 @@ exports.removeConnectedUser = async (req, res, next) => {
   const currentUserId = req.session.user.userId;
   const targetUserId = req.params.id;
 
-  await userConnection.findOneAndDelete({
+  await UserConnection.findOneAndDelete({
     status: "accepted",
     $or: [
       { sender: currentUserId, receiver: targetUserId },

@@ -37,8 +37,8 @@ export const deletePostFromServer = async (data) => {
   return await response.json();
 };
 
-export const getAllPostsFromServer = async () => {
-  const response = await fetch(`${API_URL}/api/user/getallPost`, {
+export const getAllPostsFromServer = async (skip) => {
+  const response = await fetch(`${API_URL}/api/user/getallPost/${skip}`, {
     credentials: "include",
   });
 

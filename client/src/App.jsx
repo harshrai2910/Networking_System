@@ -111,6 +111,7 @@ function App() {
                       userData={userData}
                       AllPosts={AllPosts}
                       posts={posts}
+                      setAllPosts={setAllPosts}
                     />
                   }
                 />

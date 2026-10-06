@@ -108,12 +108,17 @@ exports.deletePost = async (req, res, next) => {
 };
 
 exports.getAllPosts = async (req, res, next) => {
+  const { skip } = req.params;
+  const limit = 5;
   const currentUserId = req.session.user.userId;
   const posts = await UserPost.find()
-    .limit(20)
+    .skip(Number(skip))
+    .limit(limit)
     .lean()
     .populate("UserId")
     .sort({ createdAt: -1 });
+
+  let hasMore = posts.length == limit;
 
   const totalConnection = await UserConnection.find({
     status: "accepted",
@@ -131,7 +136,7 @@ exports.getAllPosts = async (req, res, next) => {
     isFollowing: connectedIds.includes(post.UserId._id.toString()),
   }));
 
-  return res.json({ usersPost });
+  return res.json({ usersPost: usersPost, hasMore });
 };
 
 exports.putLikePost = async (req, res, next) => {

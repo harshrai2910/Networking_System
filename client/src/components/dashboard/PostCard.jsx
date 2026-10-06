@@ -11,12 +11,11 @@ import { BiSolidLike } from "react-icons/bi";
 import profileImg from "../../images/ProfileImg.png";
 import { useEffect, useRef } from "react";
 
-export const PostCard = ({ post, postId, userData, setPosts }) => {
+export const PostCard = ({ post, postId, userData, setAllPosts }) => {
   const postRef = useRef(null);
-
   // increment/decrement like count to improve UX
   const handleLikeClick = async (postId) => {
-    setPosts((prev) =>
+    setAllPosts((prev) =>
       prev.map((post) => {
         if (post._id !== postId) return post;
 
@@ -35,7 +34,7 @@ export const PostCard = ({ post, postId, userData, setPosts }) => {
     try {
       await putLikesFromServer(postId);
     } catch (err) {
-      setPosts((prev) =>
+      setAllPosts((prev) =>
         prev.map((post) =>
           post._id === postId
             ? { ...post, likes: post.likes.filter((id) => id != userData._id) }

@@ -4,10 +4,10 @@ import { Connections } from "./connections";
 import { ShowAllPost } from "./showAllPost";
 import { Analytics } from "./Analytics";
 
-export const Dashboard = ({ AllPosts, userData, posts }) => {
+export const Dashboard = ({ AllPosts, userData, posts, setAllPosts }) => {
   return (
     <>
-      <div className="flex items-center justify-center mt-15 mb-3 sm:mb-20">
+      <div className="flex items-center justify-center mt-15 mb-3">
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -25,7 +25,11 @@ export const Dashboard = ({ AllPosts, userData, posts }) => {
           </div>
           <div className="md:col-span-2">
             <div className="md:border md:border-slate-300 md:rounded-lg md:p-6 md:shadow-sm md:bg-white bg-transparent">
-              <ShowAllPost userData={userData} AllPosts={AllPosts} />
+              <ShowAllPost
+                userData={userData}
+                AllPosts={AllPosts}
+                setAllPosts={setAllPosts}
+              />
             </div>
           </div>
           <div>

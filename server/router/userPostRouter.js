@@ -19,7 +19,7 @@ userPostRouter.delete(
   userPostController.deletePost,
 );
 
-userPostRouter.get("/getallPost", isAuth, userPostController.getAllPosts);
+userPostRouter.get("/getallPost/:skip", isAuth, userPostController.getAllPosts);
 userPostRouter.put("/post/:postId", isAuth, userPostController.putLikePost);
 userPostRouter.put(
   "/post/impression/:postId",

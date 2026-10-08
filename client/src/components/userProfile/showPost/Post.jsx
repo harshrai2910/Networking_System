@@ -1,8 +1,21 @@
 import { motion } from "motion/react";
 import { ProfileServices } from "../../dashboard/profileService";
 import { ShowPost } from "./ShowPost";
+import { useEffect } from "react";
+import { getPostFromServer } from "../../../services/userPostLinkServices";
 
 export const Post = ({ userData, posts, setPost }) => {
+  useEffect(() => {
+    try {
+      getPostFromServer().then((result) => {
+        setPost(result?.post);
+      });
+    } catch (err) {
+      console.log(err);
+      setPost([]);
+    }
+  }, []);
+
   return (
     <>
       <div className="flex items-center justify-center mt-15">

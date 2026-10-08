@@ -38,12 +38,6 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getPostFromServer().then((result) => {
-      setPost(result?.post);
-    });
-  }, []);
-
-  useEffect(() => {
     authStatus()
       .then((res) => {
         setIsLogin(res.isLoggedIn);
@@ -80,9 +74,6 @@ function App() {
       userDataFromServer().then((data) => {
         setUserData(data);
       });
-      getAllPostsFromServer().then((result) => {
-        setAllPosts(result.usersPost);
-      });
     }
   }, [isLogin]);
 
@@ -106,14 +97,7 @@ function App() {
               <>
                 <Route
                   path="/feed"
-                  element={
-                    <Dashboard
-                      userData={userData}
-                      AllPosts={AllPosts}
-                      posts={posts}
-                      setAllPosts={setAllPosts}
-                    />
-                  }
+                  element={<Dashboard userData={userData} posts={posts} />}
                 />
                 <Route
                   path="/profile"

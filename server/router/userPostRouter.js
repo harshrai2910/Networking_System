@@ -11,7 +11,7 @@ userPostRouter.post(
   userPostController.createPost,
 );
 
-userPostRouter.get("/profile/all-post", isAuth, userPostController.getPosts);
+userPostRouter.get("/profile/posts", isAuth, userPostController.getPosts);
 
 userPostRouter.delete(
   "/profile/post/delete",

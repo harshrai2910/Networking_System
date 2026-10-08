@@ -17,7 +17,7 @@ export const createPostFromServer = async (data) => {
 };
 
 export const getPostFromServer = async () => {
-  const response = await fetch(`${API_URL}/api/user/profile/all-post`, {
+  const response = await fetch(`${API_URL}/api/user/profile/posts`, {
     credentials: "include",
   });
 

@@ -16,18 +16,29 @@ exports.createPost = async (req, res, next) => {
 
     const id = req.session.user.userId;
     const { content } = req.body;
-    console.log("AI review Started");
-
-    console.time("AI");
 
     const interaction = await ai.interactions.create({
       model: "gemini-3.5-flash-lite",
       input: [
         {
           type: "text",
-          text: `Act as a strict content moderator for a student app. Block any sexual, explicit, nude, or hateful content
-                Content: ${content}
-                Respond ONLY in JSON: {"flag": boolean, "action": "ALLOW" | "BLOCK", "reason": string(7-8 words) | null}`,
+          text: `You are a strict moderator for a student social app.
+
+                BLOCK images containing:
+                - nudity or partial nudity
+                - exposed genitals, breasts, or buttocks
+                - underwear/lingerie
+                - bikini/swimwear
+                - shirtless people
+                - sexually suggestive or highly revealing images
+                - pornography or sexual acts
+
+                ALLOW normal fully-clothed people, sports, and fitness content.
+
+                When uncertain, BLOCK.
+
+                Return ONLY JSON:
+                {"flag":boolean,"action":"ALLOW"|"BLOCK","reason":string|null}`,
         },
         {
           type: "image",
@@ -37,15 +48,12 @@ exports.createPost = async (req, res, next) => {
       ],
     });
 
-    console.timeEnd("AI");
     const cleanOutput = interaction.output_text
       .replace(/```json\s*/i, "")
       .replace(/```\s*$/, "")
       .trim();
 
     const AI_Review = JSON.parse(cleanOutput);
-
-    console.log(AI_Review);
 
     if (!AI_Review.flag && AI_Review.action === "ALLOW") {
       console.time("cloud");
@@ -157,7 +165,14 @@ exports.putLikePost = async (req, res, next) => {
 };
 
 exports.recordPostImpression = async (req, res, next) => {
-  const { postId } = req.params;
-  await UserPost.findByIdAndUpdate(postId, { $inc: { postImpression: 1 } });
-  return res.status(200).json({ flag: "success" });
+  try {
+    const { postId } = req.params;
+    await UserPost.findByIdAndUpdate(postId, { $inc: { postImpression: 1 } });
+    return res.status(200).json({ flag: "success" });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ err });
+  }
 };
+
+// exports.getAllImpression

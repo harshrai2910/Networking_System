@@ -3,8 +3,18 @@ import { ProfileServices } from "./profileService";
 import { Connections } from "./connections";
 import { ShowAllPost } from "./showAllPost";
 import { Analytics } from "./Analytics";
+import { useEffect } from "react";
+import { getAllPostsFromServer } from "../../services/userPostLinkServices";
+import { useState } from "react";
 
-export const Dashboard = ({ AllPosts, userData, posts, setAllPosts }) => {
+export const Dashboard = ({ userData, posts }) => {
+  const [AllPosts, setAllPosts] = useState([]);
+  useEffect(() => {
+    getAllPostsFromServer().then((result) => {
+      setAllPosts(result.usersPost);
+    });
+  }, []);
+
   return (
     <>
       <div className="flex items-center justify-center mt-15 mb-3">
@@ -35,7 +45,7 @@ export const Dashboard = ({ AllPosts, userData, posts, setAllPosts }) => {
           <div>
             <div className="hidden md:block md:col-span-1 sticky top-15 h-fit">
               <div className="border border-slate-300 rounded-lg p-6 shadow-sm bg-white mb-3">
-                <Analytics userData={userData} posts={posts} />
+                <Analytics userData={userData} AllPosts={AllPosts} />
               </div>
             </div>
           </div>

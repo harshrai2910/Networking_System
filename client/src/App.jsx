@@ -17,10 +17,6 @@ import { Dashboard } from "./components/dashboard/dashboard";
 import { CreatePost } from "./components/userProfile/PostCreate/CreatePost";
 import { Post } from "./components/userProfile/showPost/Post";
 import { MyNetwork } from "./components/userProfile/userNetwork/MyNetwork";
-import {
-  getAllPostsFromServer,
-  getPostFromServer,
-} from "./services/userPostLinkServices";
 import { UserSearchProfile } from "./components/navigation/showUsersProfile";
 import { LandingPage } from "./components/landing/LandingPage";
 import { ProfileViewers } from "./components/userProfile/profile/ProfileViewers";
@@ -32,7 +28,6 @@ function App() {
   const [loginErr, setLoginErr] = useState("");
   const [posts, setPost] = useState([]);
   const popupRef = useRef();
-  const [AllPosts, setAllPosts] = useState([]);
   const [searchResultData, setSearchResultData] = useState({});
 
   const navigate = useNavigate();

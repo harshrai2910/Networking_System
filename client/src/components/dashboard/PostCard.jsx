@@ -76,6 +76,9 @@ export const PostCard = ({ post, postId, userData, setAllPosts }) => {
     await postImpressionFromServer(postId);
   };
 
+  const date = new Date(post?.createdAt);
+  const createdAt = date.toDateString();
+
   return (
     <div
       key={postId}
@@ -111,8 +114,13 @@ export const PostCard = ({ post, postId, userData, setAllPosts }) => {
             </Link>
           </div>
           <div>
-            <p className="text-xs text-gray-500 line-clamp-1">
+            <p className="text-xs text-gray-600 line-clamp-1">
               {post.UserId.headline}
+            </p>
+          </div>
+          <div>
+            <p className="text-[10px] font-medium text-gray-500 line-clamp-1">
+              {createdAt}
             </p>
           </div>
         </div>

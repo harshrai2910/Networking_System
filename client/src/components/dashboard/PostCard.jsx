@@ -136,7 +136,7 @@ export const PostCard = ({ post, postId, userData, setAllPosts }) => {
         </div>
       </div>
 
-      <div className="sm:px-4 px-2">{post.content}</div>
+      <div className="sm:px-4 px-2 text-sm text-lg">{post.content}</div>
 
       <div>
         <img

@@ -19,8 +19,8 @@ export const Dashboard = ({ userData, posts }) => {
     <>
       <div className="flex items-center justify-center mt-15 mb-3">
         <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="w-6xl grid grid-cols-1 md:grid-cols-4 md:gap-4"
         >

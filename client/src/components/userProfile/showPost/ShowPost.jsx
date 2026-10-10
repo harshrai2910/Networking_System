@@ -52,7 +52,7 @@ export const ShowPost = ({ userData, posts, setPost }) => {
             key={index}
             className="flex flex-col gap-2 sm:border border-y border-slate-300 sm:rounded-lg sm:shadow-xs bg-white"
           >
-            <div className="flex gap-2 items-center p-4">
+            <div className="flex gap-2 items-center py-4 px-2">
               <div className="flex justify-between">
                 <img
                   src={`${userData.profile ? userData.profile : profileImg}`}
@@ -102,7 +102,7 @@ export const ShowPost = ({ userData, posts, setPost }) => {
               </div>
             </div>
 
-            <div className="px-4">{post.content}</div>
+            <div className="px-2">{post.content}</div>
 
             <div>
               <img src={`${post.postImage}`} alt="" className="w-full " />

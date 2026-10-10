@@ -15,12 +15,12 @@ export const ProfileViewers = ({ userData }) => {
   console.log(profileViewers);
   return (
     <>
-      <div className="flex justify-center md:px-3 sm:px-6 lg:px-8 mt-15 mb-3 sm:mb-20">
+      <div className="flex justify-center md:px-3 sm:px-6 lg:px-8 mt-15 mb-3 ">
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="w-full max-w-4xl bg-white md:rounded-lg border border-slate-200 shadow-sm p-5 sm:p-6"
+          className="w-full max-w-4xl bg-white md:rounded-lg border border-slate-200 shadow-sm p-2 sm:p-6"
         >
           {/* Header Section */}
           <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
@@ -36,7 +36,7 @@ export const ProfileViewers = ({ userData }) => {
 
           {/* Viewers List */}
           {profileViewers.length > 0 ? (
-            <div className="divide-y divide-slate-100">
+            <div className="divide-y divide-gray-200">
               {profileViewers.map((viewer, index) => {
                 const fullName =
                   `${viewer.firstName || ""} ${viewer.lastName || ""}`.trim();

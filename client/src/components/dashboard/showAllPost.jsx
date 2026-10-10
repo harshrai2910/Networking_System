@@ -35,7 +35,7 @@ export const ShowAllPost = ({ AllPosts, userData, setAllPosts }) => {
           next={handlefetchMore}
           hasMore={hasMore}
           loader={
-            <div className="flex justify-center items-center mt-2">
+            <div className="flex justify-center items-center mt-4">
               <div className="inline-flex justify-center items-center space-x-2">
                 <div className="h-2 w-2 animate-bounce rounded-full bg-blue-600 [animation-duration:0.6s] [animation-delay:-0.3s]"></div>
                 <div className="h-2 w-2 animate-bounce rounded-full bg-blue-600 [animation-duration:0.6s] [animation-delay:-0.15s]"></div>

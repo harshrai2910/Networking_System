@@ -83,7 +83,7 @@ export const PostCard = ({ post, postId, userData, setAllPosts }) => {
     <div
       key={postId}
       ref={postRef}
-      className="flex flex-col gap-2 sm:border border-y border-slate-300 sm:rounded-lg sm:shadow-xs bg-white"
+      className="flex flex-col gap-2 sm:border border-y border-slate-300 sm:rounded-lg sm:shadow-xs bg-white mb-2"
     >
       <div className="flex gap-2 items-center sm:p-4 p-3 pb-2">
         <Link
@@ -136,7 +136,7 @@ export const PostCard = ({ post, postId, userData, setAllPosts }) => {
         </div>
       </div>
 
-      <div className="sm:px-4 px-2 text-sm text-lg">{post.content}</div>
+      <div className="sm:px-4 px-2 text-sm sm:text-lg">{post.content}</div>
 
       <div>
         <img

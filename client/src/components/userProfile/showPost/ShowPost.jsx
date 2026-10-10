@@ -102,7 +102,9 @@ export const ShowPost = ({ userData, posts, setPost }) => {
               </div>
             </div>
 
-            <div className="px-2">{post.content}</div>
+            <div className="sm:px-4 px-2 text-sm sm:text-lg">
+              {post.content}
+            </div>
 
             <div>
               <img src={`${post.postImage}`} alt="" className="w-full " />

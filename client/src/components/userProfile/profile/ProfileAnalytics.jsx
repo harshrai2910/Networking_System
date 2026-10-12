@@ -6,12 +6,8 @@ import {
   FiChevronRight,
 } from "react-icons/fi";
 
-export const ProfileAnalytics = ({ userData, posts }) => {
-  const totalPostImpression =
-    posts?.reduce((total, data) => total + (data?.postImpression || 0), 0) || 0;
-
+export const ProfileAnalytics = ({ userData, profileAnalytics }) => {
   const profileViewsCount = userData?.ProfileViews?.length || 0;
-  const totalPostsCount = posts?.length || 0;
 
   return (
     <>
@@ -63,7 +59,7 @@ export const ProfileAnalytics = ({ userData, posts }) => {
           </div>
 
           <span className="text-sm font-bold text-gray-900">
-            {totalPostImpression.toLocaleString()}
+            {profileAnalytics?.totalPostImpression}
           </span>
         </div>
 
@@ -81,7 +77,7 @@ export const ProfileAnalytics = ({ userData, posts }) => {
           </div>
 
           <span className="text-sm font-bold text-gray-900">
-            {totalPostsCount.toLocaleString()}
+            {profileAnalytics?.totalPostCount}
           </span>
         </div>
       </div>

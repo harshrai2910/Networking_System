@@ -93,14 +93,14 @@ export const Skills = ({ skills }) => {
               <button
                 type="button"
                 onClick={() => handleEditSkills()}
-                className="border-none px-3 py-1 bg-blue-500 text-white rounded-lg"
+                className="border-none px-3 py-1 cursor-pointer bg-blue-500 text-white rounded-lg"
               >
                 Add
               </button>
               <button
                 type="button"
                 onClick={() => saveEditedSkill()}
-                className="border-none px-3 py-1 bg-yellow-500 text-white rounded-lg"
+                className="border-none px-3 py-1 cursor-pointer bg-yellow-500 text-white rounded-lg"
               >
                 Save
               </button>
@@ -110,13 +110,13 @@ export const Skills = ({ skills }) => {
             {newSkill.map((skill, unique) => (
               <span
                 key={unique}
-                className="flex items-center gap-2 px-3 py-1 bg-white border border-slate-300 text-sm text-blue-600 rounded-full shadow-sm"
+                className="flex items-center gap-2 px-3 py-1 bg-white border border-slate-300 text-sm font-medium text-gray-600 rounded-lg shadow-xs"
               >
                 {skill}
                 <button
                   onClick={() => handleDeleteEditedSkill(skill)}
                   type="button"
-                  className="text-red-400 hover:text-red-600 text-xs"
+                  className="text-red-400 cursor-pointer hover:text-red-600 text-xs"
                 >
                   <RxCross2 />
                 </button>

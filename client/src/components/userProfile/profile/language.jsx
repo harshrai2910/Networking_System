@@ -64,7 +64,7 @@ export const Language = ({ userData }) => {
               ? lang?.map((item, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between py-4 text-sm font-medium text-gray-800 border-gray-200"
+                    className="flex items-center justify-between py-4 md:py-3 text-sm font-medium text-gray-800 border-gray-200"
                   >
                     {item}
                   </div>
@@ -105,7 +105,7 @@ export const Language = ({ userData }) => {
               {lang.map((item, unique) => (
                 <span
                   key={unique}
-                  className="flex items-center gap-2 px-3 py-1 bg-white border border-slate-300 text-sm text-blue-600 rounded-full shadow-sm"
+                  className="flex items-center gap-2 px-3 py-1 bg-white border border-slate-300 text-sm font-medium text-gray-600 rounded-lg shadow-xs"
                 >
                   {item}
                   <button

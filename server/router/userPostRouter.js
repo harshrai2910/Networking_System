@@ -27,4 +27,10 @@ userPostRouter.put(
   userPostController.recordPostImpression,
 );
 
+userPostRouter.get(
+  "/post/analytics",
+  isAuth,
+  userPostController.getPostAnalytics,
+);
+
 module.exports = userPostRouter;

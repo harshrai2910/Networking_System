@@ -20,6 +20,7 @@ import { MyNetwork } from "./components/userProfile/userNetwork/MyNetwork";
 import { UserSearchProfile } from "./components/navigation/showUsersProfile";
 import { LandingPage } from "./components/landing/LandingPage";
 import { ProfileViewers } from "./components/userProfile/profile/ProfileViewers";
+import { getProfileAnalytics } from "./services/userPostLinkServices";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -29,6 +30,7 @@ function App() {
   const [posts, setPost] = useState([]);
   const popupRef = useRef();
   const [searchResultData, setSearchResultData] = useState({});
+  const [profileAnalytics, setProfileAnalytics] = useState({});
 
   const navigate = useNavigate();
 
@@ -72,6 +74,14 @@ function App() {
     }
   }, [isLogin]);
 
+  useEffect(() => {
+    getProfileAnalytics().then((data) => {
+      setProfileAnalytics(data);
+    });
+  }, []);
+
+  console.log(posts);
+
   return (
     <>
       {loading ? (
@@ -92,7 +102,12 @@ function App() {
               <>
                 <Route
                   path="/feed"
-                  element={<Dashboard userData={userData} posts={posts} />}
+                  element={
+                    <Dashboard
+                      userData={userData}
+                      profileAnalytics={profileAnalytics}
+                    />
+                  }
                 />
                 <Route
                   path="/profile"
@@ -101,6 +116,7 @@ function App() {
                       userData={userData}
                       setUserData={setUserData}
                       posts={posts}
+                      profileAnalytics={profileAnalytics}
                     />
                   }
                 />
@@ -114,7 +130,12 @@ function App() {
                 <Route
                   path="/profile/post"
                   element={
-                    <Post userData={userData} posts={posts} setPost={setPost} />
+                    <Post
+                      userData={userData}
+                      posts={posts}
+                      setPost={setPost}
+                      profileAnalytics={profileAnalytics}
+                    />
                   }
                 />
 

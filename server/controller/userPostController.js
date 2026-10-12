@@ -22,23 +22,28 @@ exports.createPost = async (req, res, next) => {
       input: [
         {
           type: "text",
-          text: `You are a strict moderator for a student social app.
+          text: `
+  Moderate this student social app post.
 
-                BLOCK images containing:
-                - nudity or partial nudity
-                - exposed genitals, breasts, or buttocks
-                - underwear/lingerie
-                - bikini/swimwear
-                - shirtless people
-                - sexually suggestive or highly revealing images
-                - pornography or sexual acts
+  BLOCK images containing nudity, exposed intimate body parts,
+  underwear, lingerie, bikinis, swimwear, shirtless people,
+  sexual content, or highly revealing clothing.
 
-                ALLOW normal fully-clothed people, sports, and fitness content.
+  BLOCK text containing explicit sexual content, sexual harassment,
+  threats, targeted abuse, hate speech, or scams.
 
-                When uncertain, BLOCK.
+  ALLOW normal conversations, fully clothed people, sports,
+  fitness, educational content, and professional discussions.
 
-                Return ONLY JSON:
-                {"flag":boolean,"action":"ALLOW"|"BLOCK","reason":string|null}`,
+  Evaluate image and text independently.
+  BLOCK if either violates these rules.
+  When uncertain, BLOCK.
+
+  POST TEXT: ${content}
+
+  Return ONLY valid JSON:
+  {"flag":boolean,"action":"ALLOW"|"BLOCK","reason":string|null}
+`,
         },
         {
           type: "image",
@@ -175,4 +180,24 @@ exports.recordPostImpression = async (req, res, next) => {
   }
 };
 
-// exports.getAllImpression
+exports.getPostAnalytics = async (req, res, _) => {
+  try {
+    const userId = req.session.user.userId;
+
+    const post = await UserPost.find({ UserId: userId }).select(
+      "postImpression",
+    );
+
+    const totalPostImpression = post.reduce(
+      (total, post) => total + post.postImpression,
+      0,
+    );
+
+    const totalPostCount = post.length;
+    return res.status(200).json({ totalPostImpression, totalPostCount });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ msg: "error occured in fetching post analytics" });
+  }
+};

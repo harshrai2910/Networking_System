@@ -65,3 +65,11 @@ export const postImpressionFromServer = async (postId) => {
 
   return await response.json();
 };
+
+export const getProfileAnalytics = async (skip) => {
+  const response = await fetch(`${API_URL}/api/user/post/analytics`, {
+    credentials: "include",
+  });
+
+  return await response.json();
+};

@@ -3,23 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getPostFromServer } from "../../services/userPostLinkServices";
 
-export const Analytics = ({ userData }) => {
-  const [posts, setPost] = useState([]);
-  useEffect(() => {
-    try {
-      getPostFromServer().then((result) => {
-        setPost(result?.post);
-      });
-    } catch (err) {
-      console.log(err);
-      setPost([]);
-    }
-  }, []);
-
-  const totalPostImpression = posts?.reduce(
-    (total, data) => total + data?.postImpression || 0,
-    0,
-  );
+export const Analytics = ({ userData, profileAnalytics }) => {
   return (
     <>
       <h3 className="font-semibold text-gray-800 text-sm mb-3">
@@ -46,14 +30,14 @@ export const Analytics = ({ userData }) => {
             Post Impressions
           </span>
           <span className="text-sm font-bold text-gray-700">
-            {totalPostImpression}
+            {profileAnalytics?.totalPostImpression}
           </span>
         </div>
 
         <div className="flex justify-between items-center py-1">
           <span className="text-xs text-gray-700 font-medium">Total Posts</span>
           <span className="text-sm font-bold text-gray-700">
-            {posts?.length !== 0 ? posts?.length : 0}
+            {profileAnalytics?.totalPostCount}
           </span>
         </div>
       </div>

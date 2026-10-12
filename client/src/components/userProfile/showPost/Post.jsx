@@ -3,8 +3,9 @@ import { ProfileServices } from "../../dashboard/profileService";
 import { ShowPost } from "./ShowPost";
 import { useEffect } from "react";
 import { getPostFromServer } from "../../../services/userPostLinkServices";
+import { Analytics } from "../../dashboard/Analytics";
 
-export const Post = ({ userData, posts, setPost }) => {
+export const Post = ({ userData, posts, setPost, profileAnalytics }) => {
   useEffect(() => {
     try {
       getPostFromServer().then((result) => {
@@ -37,7 +38,10 @@ export const Post = ({ userData, posts, setPost }) => {
           </div>
           <div className="hidden md:block md:col-span-1">
             <div className="border border-slate-200 rounded-lg p-6 shadow-sm bg-white mb-3">
-              Pending...
+              <Analytics
+                userData={userData}
+                profileAnalytics={profileAnalytics}
+              />
             </div>
           </div>
         </motion.div>

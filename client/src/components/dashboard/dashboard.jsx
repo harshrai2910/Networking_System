@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { getAllPostsFromServer } from "../../services/userPostLinkServices";
 import { useState } from "react";
 
-export const Dashboard = ({ userData, posts }) => {
+export const Dashboard = ({ userData, profileAnalytics }) => {
   const [AllPosts, setAllPosts] = useState([]);
   useEffect(() => {
     getAllPostsFromServer().then((result) => {
@@ -45,7 +45,10 @@ export const Dashboard = ({ userData, posts }) => {
           <div>
             <div className="hidden md:block md:col-span-1 sticky top-15 h-fit">
               <div className="border border-slate-300 rounded-lg p-6 shadow-sm bg-white mb-3">
-                <Analytics userData={userData} AllPosts={AllPosts} />
+                <Analytics
+                  userData={userData}
+                  profileAnalytics={profileAnalytics}
+                />
               </div>
             </div>
           </div>

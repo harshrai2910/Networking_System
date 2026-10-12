@@ -41,11 +41,11 @@ export const Achievement = ({ achievement }) => {
           <div className="flex items-center justify-end w-full mt-2 gap-3">
             <button
               onClick={() => setAchive(false)}
-              className="px-5 py-2 border border-gray-500 text-gray-600 font-medium rounded-lg bg-gray-100"
+              className="px-5 py-2 bg-gray-50 cursor-pointer border border-slate-300 font-medium text-gray-600 rounded-lg shadow-xs"
             >
               Cancel
             </button>
-            <button className="px-5 py-2 border-none rounded-lg bg-blue-400 text-white font-medium">
+            <button className="px-5 py-2 border-none cursor-pointer rounded-lg bg-blue-400 text-white font-medium">
               Save
             </button>
           </div>

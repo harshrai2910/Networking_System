@@ -8,7 +8,7 @@ import { Contact } from "./contact";
 import { UserPost } from "./post";
 import { ProfileAnalytics } from "./ProfileAnalytics";
 
-export const Profile = ({ userData, setUserData, posts }) => {
+export const Profile = ({ userData, setUserData, profileAnalytics }) => {
   const skills = userData.skills;
   const achievement = userData.achievements;
   return (
@@ -25,7 +25,10 @@ export const Profile = ({ userData, setUserData, posts }) => {
           </div>
 
           <div className="border border-slate-300 md:rounded-lg p-4 sm:p-5 md:shadow-sm shadow-xs bg-white">
-            <ProfileAnalytics userData={userData} posts={posts} />
+            <ProfileAnalytics
+              userData={userData}
+              profileAnalytics={profileAnalytics}
+            />
           </div>
 
           <div className="border border-slate-300 md:rounded-lg p-4 sm:p-5 md:shadow-sm shadow-xs bg-white">

@@ -22,28 +22,27 @@ exports.createPost = async (req, res, next) => {
       input: [
         {
           type: "text",
-          text: `
-  Moderate this student social app post.
+          text: `Moderate this student social app post.
 
-  BLOCK images containing nudity, exposed intimate body parts,
-  underwear, lingerie, bikinis, swimwear, shirtless people,
-  sexual content, or highly revealing clothing.
+                BLOCK images containing nudity, exposed intimate body parts,
+                underwear, lingerie, bikinis, swimwear, shirtless people,
+                sexual content, or highly revealing clothing.
 
-  BLOCK text containing explicit sexual content, sexual harassment,
-  threats, targeted abuse, hate speech, or scams.
+                BLOCK text containing explicit sexual content, sexual harassment,
+                threats, targeted abuse, hate speech, or scams.
 
-  ALLOW normal conversations, fully clothed people, sports,
-  fitness, educational content, and professional discussions.
+                ALLOW normal conversations, fully clothed people, sports,
+                fitness, educational content, and professional discussions.
 
-  Evaluate image and text independently.
-  BLOCK if either violates these rules.
-  When uncertain, BLOCK.
+                Evaluate image and text independently.
+                BLOCK if either violates these rules.
+                When uncertain, BLOCK.
 
-  POST TEXT: ${content}
+                POST TEXT: ${content}
 
-  Return ONLY valid JSON:
-  {"flag":boolean,"action":"ALLOW"|"BLOCK","reason":string|null}
-`,
+                Return ONLY valid JSON:
+                {"flag":boolean,"action":"ALLOW"|"BLOCK","reason":string|null}
+              `,
         },
         {
           type: "image",
@@ -188,13 +187,19 @@ exports.getPostAnalytics = async (req, res, _) => {
       "postImpression",
     );
 
-    const totalPostImpression = post.reduce(
-      (total, post) => total + post.postImpression,
-      0,
-    );
+    const n = post.reduce((total, post) => total + post.postImpression, 0);
+    let postImpression = "";
+    if (n >= 1000 && n < 1000000) {
+      let newN = n / 1000;
+      postImpression = newN.toFixed(1) + "k";
+    } else {
+      postImpression = n.toString();
+    }
 
     const totalPostCount = post.length;
-    return res.status(200).json({ totalPostImpression, totalPostCount });
+    return res
+      .status(200)
+      .json({ totalPostImpression: postImpression, totalPostCount });
   } catch (err) {
     return res
       .status(500)

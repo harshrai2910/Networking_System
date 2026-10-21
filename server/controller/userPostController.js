@@ -41,7 +41,7 @@ exports.createPost = async (req, res, next) => {
                 POST TEXT: ${content}
 
                 Return ONLY valid JSON:
-                {"flag":boolean,"action":"ALLOW"|"BLOCK","reason":string|null}
+                {"flag":boolean,"action":"ALLOW"|"BLOCK","reason": (6-7 words)string|null}
               `,
         },
         {

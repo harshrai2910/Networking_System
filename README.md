@@ -1,255 +1,283 @@
-# ConnectSD — Student Networking Platform
+# ConnectSD — A Networking Platform Built for Students
 
-ConnectSD is a student-focused networking platform where students can build a professional profile, showcase their skills and achievements, share posts, discover other students, and manage connection requests.
+> A full-stack MERN application where students build a professional profile, showcase skills and achievements, share posts, discover peers, and manage connection requests, with AI-assisted content moderation.
 
 🔗 **Live demo:** [connectsd.vercel.app](https://connectsd.vercel.app/)
 
-## ✨ Features
+---
 
-### Authentication
+## 🎯 The Problem
 
-- Student registration and login.
-- Password hashing with `bcrypt`.
-- Cookie-based sessions managed with Express Session and MongoDB session storage.
+Students usually have little to show a recruiter or a peer: no work history, no polished profile, and no network. General-purpose professional platforms are built around experienced professionals and job titles, so a first-year student's skills, projects and achievements get buried.
 
-### Student Profiles
+**ConnectSD gives students a focused space to:**
 
-- Complete and update academic and personal profile details.
-- Add a headline, about section, skills, languages, achievements, and social links.
-- Upload a profile picture.
-- View other students' profiles and skills.
+- Present themselves through structured sections (skills, languages, achievements, links) instead of a job-history-first profile.
+- Find other students by name, username, or **skill**.
+- Build a verified two-way network through a request/accept workflow.
+- Share posts safely, with user-generated content checked by AI moderation.
 
-### Posts and Feed
+---
 
-- Create image posts with text content.
-- View your posts and browse a feed of recent posts.
-- Like and unlike posts.
-- Delete posts.
-- Store post images on Cloudinary rather than relying on local server storage.
+## 🧠 Engineering Highlights
 
-### Student Discovery and Connections
+| Area                    | What I built                                                                                                                                                                                 | Why it matters                                                                                                                |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **Architecture**        | MERN stack with an MVC-style Express backend (`router → controller → model`, plus `middleware`, `config`, `utils`) and a component-based React client with a dedicated `services/` API layer | Clear separation of concerns; each layer can be changed without touching the others                                           |
+| **Auth & sessions**     | `bcrypt` password hashing, cookie-based sessions via `express-session`, persisted in MongoDB with `connect-mongodb-session`                                                                  | Sessions survive server restarts, and passwords are never stored in plain text                                                |
+| **Data integrity**      | Compound unique index on connection `(sender, receiver)`                                                                                                                                     | Duplicate requests are rejected by the **database**, not just by application code, so they can't slip through race conditions |
+| **Connection workflow** | Dedicated connection model with `pending / accepted / rejected` states, plus send, accept, reject, remove and status endpoints                                                               | Models the real-world relationship cleanly instead of overloading the user document                                           |
+| **Media pipeline**      | Multer → Cloudinary; URL and `public_id` stored in MongoDB                                                                                                                                   | Images survive redeploys on ephemeral hosts like Render, and the `public_id` enables cleanup on delete                        |
+| **Search UX**           | Debounced, skill-aware student search                                                                                                                                                        | Fewer API calls while typing and a more responsive UI                                                                         |
+| **Validation**          | `express-validator` on server-side inputs                                                                                                                                                    | The API doesn't trust the client                                                                                              |
+| **AI moderation**       | Google Gemini API integration to flag inappropriate user-generated content                                                                                                                   | Proactive safety layer for a student (often minor-adjacent) community                                                         |
+| **Deployment**          | Vercel (client), Render (API), MongoDB Atlas, Cloudinary, with cross-origin cookie auth over HTTPS                                                                                           | A real production setup, not just localhost                                                                                   |
 
-- Search students by name, username, or skill.
-- Send connection requests.
-- Accept or reject received requests.
-- View sent requests and existing connections.
-- Check a user's connection status and remove an accepted connection.
+---
 
-### User Interface
+## 🧩 Problems I Solved
 
-- Responsive React interface.
-- Client-side navigation with React Router.
-- Tailwind CSS styling, animated UI elements, and React Icons.
+### 1. Duplicate connection requests
 
-## 🧰 Tech Stack
+**Problem:** Two users could end up with multiple requests between them, for example from double clicks or concurrent requests, which corrupts the network graph.
+**Solution:** A compound unique index on sender and receiver enforces uniqueness at the database level. Application checks alone can't guarantee this under concurrency.
 
-| Layer                  | Technologies                                                             |
-| ---------------------- | ------------------------------------------------------------------------ |
-| Frontend               | React, JavaScript, Vite, React Router, Tailwind CSS, Motion, React Icons |
-| Backend                | Node.js, Express.js                                                      |
-| Database               | MongoDB, Mongoose                                                        |
-| Authentication         | `bcrypt`, `express-session`, `connect-mongodb-session`                   |
-| Validation and uploads | `express-validator`, Multer                                              |
-| Image storage          | Cloudinary                                                               |
-| Deployment options     | Vercel (frontend), Render (backend), MongoDB Atlas, Cloudinary           |
+### 2. Modeling complex connection states
+
+**Problem:** Pending, accepted, rejected and removed relationships don't fit as a simple array on the user document.
+**Solution:** A separate connection collection with a status field. One query returns sent requests, received requests and accepted connections, and each status change has its own endpoint.
+
+### 3. Images disappearing after deployment
+
+**Problem:** Hosts like Render use ephemeral file systems, so locally stored uploads are lost on redeploy.
+**Solution:** Uploads go through Multer to Cloudinary. MongoDB stores only the URL and `public_id`, which keeps the backend stateless and the images persistent.
+
+### 4. Wasteful search requests
+
+**Problem:** Firing an API call on every keystroke floods the backend and makes the UI flicker.
+**Solution:** Debounced input on the client, so a request goes out only after the user pauses typing. Search covers name, username and skills.
+
+### 5. Unstructured student profiles
+
+**Problem:** A single free-text "bio" can't showcase a student's technical background.
+**Solution:** Modular profile sections (headline, about, skills, languages, achievements, social links), each with its own update endpoint, so sections can be edited independently.
+
+### 6. Inappropriate user-generated content
+
+**Problem:** An open posting platform invites spam and harmful content.
+**Solution:** Gemini-based moderation checks content for inappropriate material.
+
+<!-- TODO(author): state where in the flow moderation runs (before saving a post? on text, images, or both?) and what happens to flagged content. -->
+
+### 7. Cookie authentication across two domains
+
+**Problem:** The frontend (Vercel) and backend (Render) live on different origins, so session cookies need correct CORS and cookie settings to work in production.
+**Solution:** Credentialed requests from the client, `FRONTEND_URL` as an exact-origin CORS allowlist, and HTTPS in production.
+
+<!-- TODO(author): confirm and add the exact cookie flags you used (sameSite, secure, trust proxy) and what the failure looked like before you fixed it. This is a strong interview story. -->
+
+---
 
 ## 🏗️ Architecture
-
-The frontend calls the Express REST API and includes session cookies with requests. The backend handles authentication, profile and post operations, connection management, and database access. Uploaded images are sent to Cloudinary; their URLs and Cloudinary public IDs are stored in MongoDB.
 
 ```mermaid
 flowchart LR
     U[Student] --> FE[React + Vite Client]
     FE -->|REST API + session cookie| BE[Express API]
-    BE --> DB[(MongoDB)]
+    BE --> DB[(MongoDB Atlas)]
+    BE -->|Session store| DB
     BE -->|Image uploads| CL[Cloudinary]
+    BE -->|Content moderation| AI[Gemini API]
 ```
+
+### Request lifecycle
+
+```
+Client (services/) → Router → Auth middleware → Validator → Controller → Mongoose Model → Response
+```
+
+### Connection state machine
+
+```mermaid
+stateDiagram-v2
+    [*] --> Pending: send request
+    Pending --> Accepted: receiver accepts
+    Pending --> Rejected: receiver rejects
+    Accepted --> [*]: either user removes connection
+    Rejected --> [*]
+```
+
+---
+
+## ✨ Features
+
+**Authentication**
+
+- Registration and login with bcrypt-hashed passwords
+- Cookie sessions persisted in MongoDB
+- Session status check and logout
+
+**Profiles**
+
+- Headline, about, academic details, skills, languages, achievements, social links
+- Profile picture upload
+- View other students' profiles
+
+**Posts and feed**
+
+- Image + text posts stored on Cloudinary
+- Feed of recent posts, personal post list
+- Like / unlike, delete
+
+**Discovery and connections**
+
+- Search by name, username, or skill
+- Send, accept, reject and remove connections
+- Connection status check between any two users
+
+**UI**
+
+- Responsive React interface with Tailwind CSS
+- Client-side routing, animated components (Motion), React Icons
+
+---
+
+## 🧰 Tech Stack
+
+| Layer                | Technologies                                                 |
+| -------------------- | ------------------------------------------------------------ |
+| Frontend             | React, Vite, React Router, Tailwind CSS, Motion, React Icons |
+| Backend              | Node.js, Express.js                                          |
+| Database             | MongoDB, Mongoose                                            |
+| Auth                 | `bcrypt`, `express-session`, `connect-mongodb-session`       |
+| Validation & uploads | `express-validator`, Multer                                  |
+| Media                | Cloudinary                                                   |
+| AI                   | Google Gemini API                                            |
+| Deployment           | Vercel, Render, MongoDB Atlas                                |
+
+---
 
 ## 📁 Project Structure
 
-```text
+```
 Networking_System/
 ├── client/
 │   ├── public/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── authentication/
-│   │   │   ├── dashboard/
-│   │   │   ├── landing/
-│   │   │   ├── navigation/
-│   │   │   └── userProfile/
-│   │   ├── services/          # Frontend API calls
-│   │   ├── App.jsx
-│   │   ├── App.css
-│   │   ├── index.css
-│   │   └── main.jsx
-│   ├── package.json
-│   └── vite.config.js
+│   └── src/
+│       ├── components/
+│       │   ├── authentication/
+│       │   ├── dashboard/
+│       │   ├── landing/
+│       │   ├── navigation/
+│       │   └── userProfile/
+│       ├── services/        # Frontend API calls
+│       ├── App.jsx
+│       └── main.jsx
 ├── server/
-│   ├── config/                # Cloudinary configuration
-│   ├── controller/            # Request handlers and business logic
-│   ├── middleware/            # Authentication and upload middleware
-│   ├── model/                 # Mongoose schemas
-│   ├── router/                # Express route definitions
-│   ├── utils/                 # Shared server utilities
-│   ├── app.js
-│   └── package.json
-├── .gitignore
+│   ├── config/              # Cloudinary configuration
+│   ├── controller/          # Request handlers and business logic
+│   ├── middleware/          # Auth and upload middleware
+│   ├── model/               # Mongoose schemas
+│   ├── router/              # Route definitions
+│   ├── utils/               # Shared utilities
+│   └── app.js
 └── README.md
 ```
+
+---
+
+## 🗃️ Data Models
+
+- **User profile:** credentials (hashed), academic info, skills, languages, links, achievements, profile-image metadata
+- **User post:** author, text, image URL, Cloudinary `public_id`, likes, timestamps
+- **User connection:** sender, receiver, status, timestamps, with a **unique compound index on (sender, receiver)**
+
+---
+
+## 🔌 API Overview
+
+All routes are mounted under `/api/user`.
+
+| Area    | Method & path                                                                                                                            | Purpose                                    |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| Auth    | `POST /signup` · `POST /login` · `GET /status` · `POST /postLogout`                                                                      | Register, log in, check session, log out   |
+| Profile | `GET /profile` · `POST /profile/complete` · `PUT /profile/update`                                                                        | Read, complete and update profile          |
+| Profile | `PUT /profile/language` · `/profile/skills/update` · `/profile/skills/delete` · `/profile/links/update` · `/profile/achievements/update` | Granular section updates                   |
+| Posts   | `POST /profile/create-post` · `GET /profile/all-post` · `DELETE /profile/post/delete`                                                    | Create, list own, delete                   |
+| Feed    | `GET /getallPost` · `PUT /post/:postId`                                                                                                  | Feed and like toggle                       |
+| Search  | `POST /search` · `GET /search/:userId`                                                                                                   | Find students, view profile                |
+| Network | `POST /myNetwork` · `GET /myNetwork/connections`                                                                                         | Send request, list sent/received/connected |
+| Network | `PATCH /myNetwork/:id/accepted` · `/rejected` · `/removeConnection` · `GET /myNetwork/:id/status`                                        | Manage a connection                        |
+
+> Known cleanup item: the follow-toggle route is spelled `/follwers/:userId` in code. Fix it in backend and frontend together.
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js and npm
-- A MongoDB database (MongoDB Atlas is suitable for cloud deployment)
-- A Cloudinary account for profile and post images
+Node.js and npm, a MongoDB database (Atlas works), a Cloudinary account, and a Google Gemini API key.
 
-### 1. Clone the repository
+### Backend
 
 ```bash
 git clone https://github.com/harshrai2910/Networking_System.git
-cd Networking_System
-```
-
-### 2. Configure and run the backend
-
-```bash
-cd server
+cd Networking_System/server
 npm install
 ```
 
-Create a `server/.env` file with the following variables:
+Create `server/.env`:
 
-```dotenv
+```env
 PORT=3006
-MONGODB_PATH=mongodb+srv://<username>:<password>@<cluster>/<database>?retryWrites=true&w=majority
+MONGODB_PATH=mongodb+srv://<username>:<password>@<cluster>/<database>
 SESSION_SECRET=replace_with_a_long_random_secret
 FRONTEND_URL=http://localhost:5173
 NODE_ENV=development
 
-CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-CLOUDINARY_API_KEY=your_cloudinary_api_key
-CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+GEMINI_API_KEY=your_gemini_api_key   # confirm the exact variable name used in code
 ```
-
-Replace the example values with your own credentials. `MONGODB_PATH` is used by both Mongoose and the MongoDB-backed session store. For a local MongoDB instance, use its local connection URI instead.
-
-Start the API:
 
 ```bash
 npm start
 ```
 
-The backend defaults to `http://localhost:3006`. The current `start` script uses Nodemon; `node app.js` can be used to start the server directly.
-
-### 3. Configure and run the frontend
-
-Open a second terminal from the repository root:
+### Frontend
 
 ```bash
-cd client
+cd ../client
 npm install
-```
-
-Create `client/.env`:
-
-```dotenv
-VITE_API_URL=http://localhost:3006
-```
-
-Start the Vite development server:
-
-```bash
+echo "VITE_API_URL=http://localhost:3006" > .env
 npm run dev
 ```
 
-Vite will print the local frontend URL, normally `http://localhost:5173`.
+---
 
-### 4. Useful frontend commands
+## 🔐 Deployment Notes
 
-Run these from the `client` directory:
+- Set `FRONTEND_URL` to the exact frontend origin (no path) and `VITE_API_URL` to the backend base URL (no trailing slash).
+- Cookie auth across two domains requires HTTPS plus correct CORS and cookie settings.
+- Configure all backend secrets on the host, never in the repo.
 
-```bash
-npm run dev       # Start development server
-npm run build     # Create a production build
-npm run preview   # Preview the production build
-npm run lint      # Run ESLint
-```
+---
 
-## 🔐 Environment and Deployment Notes
+## 🔭 What I'd Build Next
 
-- Never commit `.env` files or real credentials. Use environment variables provided by your hosting platform.
-- Set `FRONTEND_URL` to the exact origin of the deployed frontend, without a path.
-- Set `VITE_API_URL` to the deployed backend's base URL, without a trailing slash.
-- Configure `MONGODB_PATH`, `SESSION_SECRET`, and all Cloudinary variables on the backend host.
-- Because authentication uses cookies across the frontend and backend, production deployments must use HTTPS and correctly configured CORS and cookie settings.
-- A typical deployment uses `client` as the Vercel project root and `server` as the backend service root. Configure the backend start command to run `node app.js` and make sure the host supplies `PORT`.
+- Real-time chat and notifications (WebSockets)
+- Pagination or infinite scroll on the feed
+- Rate limiting and secure headers (`helmet`)
+- Comments on posts and richer feed ranking
+- Automated tests for connection logic and auth
+- Rename the `follwers` route and add API documentation (OpenAPI/Swagger)
 
-## 🔌 API Overview
-
-The backend mounts its routers under `/api/user`.
-
-| Area           | Method and path                                  | Purpose                                                    |
-| -------------- | ------------------------------------------------ | ---------------------------------------------------------- |
-| Authentication | `POST /api/user/signup`                          | Register an account                                        |
-| Authentication | `POST /api/user/login`                           | Log in                                                     |
-| Authentication | `GET /api/user/status`                           | Check the current session                                  |
-| Authentication | `POST /api/user/postLogout`                      | Log out                                                    |
-| Profile        | `GET /api/user/profile`                          | Retrieve the current profile                               |
-| Profile        | `POST /api/user/profile/complete`                | Complete a profile, including an image upload              |
-| Profile        | `PUT /api/user/profile/update`                   | Update profile details                                     |
-| Profile        | `PUT /api/user/profile/language`                 | Update languages                                           |
-| Profile        | `PUT /api/user/profile/skills/update`            | Update skills                                              |
-| Profile        | `PUT /api/user/profile/skills/delete`            | Remove a skill                                             |
-| Profile        | `PUT /api/user/profile/links/update`             | Update social links                                        |
-| Profile        | `PUT /api/user/profile/achievements/update`      | Update achievements                                        |
-| Posts          | `POST /api/user/profile/create-post`             | Create an image post                                       |
-| Posts          | `GET /api/user/profile/all-post`                 | Retrieve the current user's posts                          |
-| Posts          | `DELETE /api/user/profile/post/delete`           | Delete a post                                              |
-| Posts          | `GET /api/user/getallPost`                       | Retrieve feed posts                                        |
-| Posts          | `PUT /api/user/post/:postId`                     | Toggle a post like                                         |
-| Student search | `POST /api/user/search`                          | Search students                                            |
-| Student search | `GET /api/user/search/:userId`                   | Retrieve a student's profile                               |
-| Connections    | `POST /api/user/myNetwork`                       | Send a connection request                                  |
-| Connections    | `GET /api/user/myNetwork/connections`            | Retrieve sent requests, received requests, and connections |
-| Connections    | `PATCH /api/user/myNetwork/:id/accepted`         | Accept a request                                           |
-| Connections    | `PATCH /api/user/myNetwork/:id/rejected`         | Reject a request                                           |
-| Connections    | `PATCH /api/user/myNetwork/:id/removeConnection` | Remove a connection                                        |
-| Connections    | `GET /api/user/myNetwork/:id/status`             | Check connection status                                    |
-
-The current follow-toggle endpoint is spelled `/api/user/follwers/:userId` in the code. It is listed here by its actual path; consider correcting the spelling in both the backend and frontend together.
-
-## 🗃️ Data Models
-
-- **User profile:** login credentials, academic and profile information, skills, links, achievements, and profile-image metadata.
-- **User post:** author, text content, image URL, Cloudinary public ID, likes, and timestamps.
-- **User connection:** sender, receiver, request status, and timestamps.
-
-## 🛠️ Engineering I Did
-
-- **Full-Stack Architecture:** Designed and developed a student networking platform using the MERN stack, with modular React components and an MVC-based Express.js backend.
-- **Authentication & Authorization:** Implemented user registration, login, session management, and password hashing using bcrypt.
-- **Database Design:** Designed MongoDB schemas for user profiles, posts, and connections, including a compound unique index to prevent duplicate connection requests.
-- **Networking System:** Built connection workflows to send requests, manage received requests, and maintain connection status.
-- **Media Management:** Integrated Multer and Cloudinary to handle image uploads and store publicly accessible media URLs.
-- **Search & User Experience:** Implemented debounced, skill-based user search, responsive interfaces, and profile management.
-- **AI Integration:** Integrated Google's Gemini API for content moderation to help identify inappropriate user-generated content.
-
-## 🧩 Problems I Solved
-
-- **Duplicate Connection Requests:** Used a compound database index on sender and receiver to enforce connection uniqueness at the database level.
-- **Unnecessary Search Requests:** Implemented debouncing to reduce API calls while users type search queries.
-- **Image Persistence Across Deployments:** Integrated Cloudinary instead of relying on local server storage, ensuring uploaded images remain accessible independently of the backend's local filesystem.
-- **Complex Connection States:** Designed a dedicated connection model to manage request senders, receivers, and pending or accepted states.
-- **Unstructured Student Profiles:** Created modular profile sections for skills, achievements, languages, and professional links, allowing students to showcase their technical backgrounds.
-- **Inappropriate User-Generated Content:** Integrated AI-powered moderation to help detect potentially inappropriate content before it spreads across the platform.
+---
 
 ## 👤 Author
 
-**Harsh Rai** — BCA student and MERN stack developer
-
-- GitHub: [@harshrai2910](https://github.com/harshrai2910)
-- Repository: [Networking_System](https://github.com/harshrai2910/Networking_System)
-- Live demo: [connectsd.app](https://connectsd.vercel.app/)
+**Harsh Rai**, BCA student and MERN stack developer
+GitHub: [@harshrai2910](https://github.com/harshrai2910)

@@ -9,6 +9,7 @@ require("dotenv").config();
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API });
 
 exports.createPost = async (req, res, next) => {
+  let cloudinaryResult;
   try {
     if (!req.file) {
       return res.status(400).json({ error: "Post Image not provided" });
@@ -17,40 +18,46 @@ exports.createPost = async (req, res, next) => {
     const id = req.session.user.userId;
     const { content } = req.body;
 
-    const interaction = await ai.interactions.create({
-      model: "gemini-3.5-flash-lite",
-      input: [
-        {
-          type: "text",
-          text: `Moderate this student social app post.
+    const [interaction, uploadResult] = await Promise.all([
+      ai.interactions.create({
+        model: "gemini-3.5-flash-lite",
+        input: [
+          {
+            type: "text",
+            text: `Moderate this student social app post.
 
-                BLOCK images containing nudity, exposed intimate body parts,
-                underwear, lingerie, bikinis, swimwear, shirtless people,
-                sexual content, or highly revealing clothing.
+            BLOCK images containing nudity, exposed intimate body parts,
+            underwear, lingerie, bikinis, swimwear, shirtless people,
+            sexual content, or highly revealing clothing.
 
-                BLOCK text containing explicit sexual content, sexual harassment,
-                threats, targeted abuse, hate speech, or scams.
+            BLOCK text containing explicit sexual content, sexual harassment,
+            threats, targeted abuse, hate speech, or scams.
 
-                ALLOW normal conversations, fully clothed people, sports,
-                fitness, educational content, and professional discussions.
+            ALLOW normal conversations, fully clothed people, sports,
+            fitness, educational content, and professional discussions.
 
-                Evaluate image and text independently.
-                BLOCK if either violates these rules.
-                When uncertain, BLOCK.
+            Evaluate image and text independently.
+            BLOCK if either violates these rules.
+            When uncertain, BLOCK.
 
-                POST TEXT: ${content}
+            POST TEXT: ${content}
 
-                Return ONLY valid JSON:
-                {"flag":boolean,"action":"ALLOW"|"BLOCK","reason": (6-7 words)string|null}
-              `,
-        },
-        {
-          type: "image",
-          data: req.file.buffer.toString("base64"),
-          mime_type: req.file.mimetype,
-        },
-      ],
-    });
+            Return ONLY valid JSON:
+            {"flag":boolean,"action":"ALLOW"|"BLOCK","reason": "6-7 words" or null}
+            `,
+          },
+          {
+            type: "image",
+            data: req.file.buffer.toString("base64"),
+            mime_type: req.file.mimetype,
+          },
+        ],
+      }),
+
+      uploadToCloudinary(req.file.buffer, "user_post_img"),
+    ]);
+
+    cloudinaryResult = uploadResult;
 
     const cleanOutput = interaction.output_text
       .replace(/```json\s*/i, "")
@@ -59,35 +66,43 @@ exports.createPost = async (req, res, next) => {
 
     const AI_Review = JSON.parse(cleanOutput);
 
-    if (!AI_Review.flag && AI_Review.action === "ALLOW") {
-      console.time("cloud");
-      const cloudinaryResult = await uploadToCloudinary(
-        req.file.buffer,
-        "user_post_img",
-      );
+    if (AI_Review.flag !== false || AI_Review.action !== "ALLOW") {
+      await cloudinary.uploader.destroy(cloudinaryResult.public_id);
 
-      const userPost = new UserPost({
-        UserId: id,
-        content,
-        postImage: cloudinaryResult.secure_url,
-        postPublicId: cloudinaryResult.public_id,
+      return res.status(200).json({
+        reason: AI_Review.reason || "Content could not be approved.",
+        action: "BLOCK",
       });
-
-      await userPost.save();
-
-      console.timeEnd("Database");
-
-      return await res
-        .status(200)
-        .json({ post: userPost, action: AI_Review.action });
-    } else {
-      return await res
-        .status(200)
-        .json({ reason: AI_Review.reason, action: AI_Review.action });
     }
+
+    const userPost = new UserPost({
+      UserId: id,
+      content,
+      postImage: cloudinaryResult.secure_url,
+      postPublicId: cloudinaryResult.public_id,
+    });
+
+    await userPost.save();
+
+    return res.status(201).json({
+      post: userPost,
+      action: AI_Review.action,
+    });
   } catch (error) {
-    console.error("Profile Completion Error:", error);
-    return res.status(500).json({ error: error.message || "Server Error" });
+    console.error("Post Creation Error:", error);
+
+    // Cleanup uploaded image if something fails
+    if (cloudinaryResult?.public_id) {
+      try {
+        await cloudinary.uploader.destroy(cloudinaryResult.public_id);
+      } catch (cleanupError) {
+        console.error("Cloudinary cleanup failed:", cleanupError);
+      }
+    }
+
+    return res.status(500).json({
+      error: error.message || "Server Error",
+    });
   }
 };
 

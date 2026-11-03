@@ -4,7 +4,6 @@ export const FormField = ({
   name,
   type = "text",
   placeholder,
-  options,
   required = false,
 }) => (
   <div className="flex flex-col gap-1.5 w-full">

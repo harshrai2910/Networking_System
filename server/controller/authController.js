@@ -14,14 +14,8 @@ exports.postSignup = [
 
   check("password")
     .trim()
-    .isLength({ min: 8 })
-    .withMessage("password should contain minimum 8 characters")
-    .matches(/[a-z]/)
-    .withMessage("password must contain 1 lowercase character")
-    .matches(/[A-Z]/)
-    .withMessage("password must contain 1 uppercase character")
-    .matches(/[!@#$%^&*(),.?":{}|<>]/)
-    .withMessage("password must contain 1 special character"),
+    .isLength({ min: 6 })
+    .withMessage("Password must be 6 chars"),
 
   check("confirmPassword")
     .trim()
@@ -49,24 +43,33 @@ exports.postSignup = [
           password: hashedPassword,
         });
         await user.save();
-        return res.json({ mes: "signup successfully!" });
+        return res.json({ signup: true });
       }
-      return res.json({ mes: "error while hashing" });
+      return res.json({ signup: false });
     });
   },
 ];
 
 exports.postLogin = async (req, res, _) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email: email });
+  const { identity, password, identifier } = req.body;
+  console.log(req.body);
+  let user = {};
+
+  if (identity === "email") {
+    user = await User.findOne({ email: identifier }); // based on email
+  } else {
+    user = await User.findOne({ username: identifier }); // basde on username
+  }
+
+  console.log(user);
 
   if (!user) {
-    return res.json({ mes: "email or password dosen't match!" });
+    return res.json({ msg: "email/username or password dosen't match!" });
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    return res.json({ mes: "email or password dosen't match!" });
+    return res.json({ msg: "email/username or password dosen't match!" });
   }
 
   req.session.isLoggedIn = true;
@@ -92,5 +95,17 @@ exports.getAuthStatus = (req, res, next) => {
       .json({ isLoggedIn: true, userId: req.session.userId });
   } else {
     return res.status(200).json({ isLoggedIn: false });
+  }
+};
+
+exports.statusOfUserName = async (req, res) => {
+  try {
+    const username = req.params.username;
+    const userdata = await User.find().select("username");
+    let existsUsername = userdata.some((user) => user.username === username);
+
+    return res.json({ status: existsUsername });
+  } catch (err) {
+    return res.status(500).json({ error: "Internal server error" });
   }
 };

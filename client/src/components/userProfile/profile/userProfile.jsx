@@ -1,8 +1,7 @@
-import { CiEdit } from "react-icons/ci";
-import { Link } from "react-router-dom";
 import { HiPencil } from "react-icons/hi2";
 import { useState } from "react";
 import { EditProfile } from "./EditProfile";
+import { ReduceContent } from "./ReduceContent";
 
 export const UserProfile = ({ userData, setUserData }) => {
   const [profileEdit, showProfileEdit] = useState(false);
@@ -77,8 +76,8 @@ export const UserProfile = ({ userData, setUserData }) => {
         )}
 
         {userData.about && (
-          <p className="text-[13px] sm:text-[15px] font-medium text-gray-700 line-clamp-3">
-            {userData.about}
+          <p className="text-[13px] sm:text-[15px] font-medium text-gray-700">
+            <ReduceContent content={userData.about} />
           </p>
         )}
 

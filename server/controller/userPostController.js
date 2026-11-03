@@ -66,10 +66,6 @@ exports.createPost = async (req, res, next) => {
         "user_post_img",
       );
 
-      console.timeEnd("cloud");
-
-      console.time("Database");
-
       const userPost = new UserPost({
         UserId: id,
         content,

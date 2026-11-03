@@ -8,7 +8,6 @@ import {
   authStatus,
   loginFromServer,
   logoutFromServer,
-  signupFromServer,
 } from "./services/authLinkServices";
 import { useEffect, useRef, useState } from "react";
 import { Loader } from "./components/loader";
@@ -49,13 +48,6 @@ function App() {
     setLoginErr(result);
     if (result.isLoggedIn) {
       navigate("/profile");
-    }
-  };
-
-  const handleSignupData = async (data) => {
-    const result = await signupFromServer(data);
-    if (result) {
-      navigate("/login");
     }
   };
 
@@ -167,10 +159,7 @@ function App() {
                     />
                   }
                 />
-                <Route
-                  path="/signup"
-                  element={<Signup handleSignupData={handleSignupData} />}
-                />
+                <Route path="/signup" element={<Signup />} />
               </>
             )}
           </Routes>

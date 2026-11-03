@@ -6,6 +6,18 @@ export const Login = ({ handleLoginData, loginErr }) => {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
+    if (data.identifier == "" || data.password == "") {
+      console.log("this field is required");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    data.identity = "username";
+
+    if (emailRegex.test(data.identifier)) {
+      data.identity = "email";
+    }
+
     handleLoginData(data);
   };
 
@@ -21,11 +33,11 @@ export const Login = ({ handleLoginData, loginErr }) => {
             <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-col gap-1.5">
                 <label className="text-sm font-medium text-gray-600 ml-1">
-                  Email
+                  Email/Username
                 </label>
                 <input
-                  type="email"
-                  {...register("email")}
+                  type="text"
+                  {...register("identifier")}
                   placeholder="harsh@example.com"
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                 />
@@ -41,7 +53,7 @@ export const Login = ({ handleLoginData, loginErr }) => {
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                 />
                 <p className="text-red-600 text-sm font-medium absolute top-19 italic">
-                  {loginErr?.mes}
+                  {loginErr?.msg}
                 </p>
               </div>
               <div className="pt-4 flex items-center justify-end">

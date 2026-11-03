@@ -9,10 +9,14 @@ import { FaRegCommentDots } from "react-icons/fa";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { BiSolidLike } from "react-icons/bi";
 import profileImg from "../../images/ProfileImg.png";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { PostContent } from "./PostContent";
 
 export const PostCard = ({ post, postId, userData, setAllPosts }) => {
+  const [Loadmore, setLoadmore] = useState(false);
+
   const postRef = useRef(null);
+
   // increment/decrement like count to improve UX
   const handleLikeClick = async (postId) => {
     setAllPosts((prev) =>
@@ -81,7 +85,6 @@ export const PostCard = ({ post, postId, userData, setAllPosts }) => {
 
   return (
     <div
-      key={postId}
       ref={postRef}
       className="flex flex-col gap-2 sm:border border-y border-slate-300 sm:rounded-lg sm:shadow-xs bg-white mb-2"
     >
@@ -136,12 +139,14 @@ export const PostCard = ({ post, postId, userData, setAllPosts }) => {
         </div>
       </div>
 
-      <div className="sm:px-4 px-2 text-sm sm:text-lg">{post.content}</div>
+      <div className="px-2 text-sm">
+        <PostContent content={post.content} />
+      </div>
 
       <div>
         <img
           src={post.postImage}
-          alt=""
+          alt="postImg"
           className="w-full h-auto max-h-150 object-contain"
         />
       </div>

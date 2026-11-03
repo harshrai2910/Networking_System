@@ -43,3 +43,14 @@ export const authStatus = async () => {
 
   return await response.json();
 };
+
+export const usernameStatus = async ({ username }) => {
+  const response = await fetch(
+    `${API_URL}/api/user/usernameStatus/${username}`,
+    {
+      credentials: "include",
+    },
+  );
+
+  return await response.json();
+};

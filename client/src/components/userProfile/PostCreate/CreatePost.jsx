@@ -1,27 +1,18 @@
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
-import {
-  createPostFromServer,
-  getPostFromServer,
-} from "../../../services/userPostLinkServices";
+import { createPostFromServer } from "../../../services/userPostLinkServices";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Sm_loader } from "../../Sm_Loader";
 import profileImg from "../../../images/ProfileImg.png";
 import { FiUploadCloud } from "react-icons/fi";
 import { IoImages } from "react-icons/io5";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { RiGeminiFill } from "react-icons/ri";
-import { RxCross2 } from "react-icons/rx";
 
 export const CreatePost = ({ setPost, userData }) => {
   const { register, handleSubmit, reset, watch } = useForm();
-  const [isPost, setIsPost] = useState(false);
   const navigate = useNavigate();
   const [disabled, setDisabled] = useState(false);
-  const [postReviewData, setPostReviewData] = useState("");
-  const [isPostReview, setIsPostReview] = useState(false);
-
   const postImage = watch("postImage");
 
   const imagePreview = postImage?.[0]
@@ -31,34 +22,17 @@ export const CreatePost = ({ setPost, userData }) => {
   const onSubmit = async (data) => {
     if (data.content === "" || data.postImage === "") return;
     setDisabled(true);
-    setIsPostReview(true);
-    setPostReviewData("");
 
     createPostFromServer(data).then((data) => {
-      console.log(data);
-
-      if (data.action === "ALLOW") {
-        setIsPost(true);
-        console.log(isPost);
+      if (data.created) {
+        setDisabled(false);
+        navigate("/profile/post");
       } else {
-        setPostReviewData(data.reason);
-        reset();
+        setDisabled(true);
+        console.log(data.error);
       }
-
-      setDisabled(false);
     });
   };
-
-  useEffect(() => {
-    if (isPost) {
-      getPostFromServer().then((result) => {
-        setPost(result?.post);
-        setIsPost(false);
-        navigate("/profile/post");
-        reset();
-      });
-    }
-  }, [isPost]);
 
   return (
     <div className="flex items-center justify-center mt-15">
@@ -98,58 +72,6 @@ export const CreatePost = ({ setPost, userData }) => {
             </button>
           </div>
 
-          {isPostReview && (
-            <div className="relative overflow-hidden rounded-lg border-none shadow-sm border-gray-200 bg-blue-50 mb-3 p-2">
-              <div className="flex items-center gap-4">
-                <div className="relative flex p-2 md:p-3 items-center justify-center rounded-xl bg-linear-to-tr via-indigo-300 to-purple-300 text-white shadow-md shadow-indigo-500/20">
-                  <style>{`
-                      @keyframes continuousColorChange {
-                        0% { filter: hue-rotate(0deg); }
-                        100% { filter: hue-rotate(360deg); }
-                      }
-                      .animate-continuous-bg {
-                        animation: continuousColorChange 4s linear infinite;
-                      }
-                  `}</style>
-
-                  <div className="animate-continuous-bg absolute inset-0 rounded-xl bg-linear-to-tr from-blue-300 via-indigo-300 to-purple-300" />
-
-                  {/* Icon */}
-                  <RiGeminiFill className="relative md:text-xl text-lg text-blue-700 drop-shadow-sm" />
-                </div>
-
-                <div className="flex-1 space-y-1 relative">
-                  <div className="flex gap-1 items-center">
-                    <h3 className="font-medium text-sm text-gray-900">
-                      AI Post Review
-                    </h3>
-                    <span className="rounded-lg bg-blue-100 px-1.5 py-0.5 text-[10px] font-medium text-blue-700">
-                      AI
-                    </span>
-                  </div>
-
-                  {postReviewData?.length !== 0 ? (
-                    <p className="text-xs md:text-sm text-slate-600">
-                      {postReviewData}
-                    </p>
-                  ) : (
-                    <div className="sm:w-sm w-50 h-3 bg-blue-200 rounded-sm animate-pulse"></div>
-                  )}
-                </div>
-
-                {postReviewData?.length !== 0 && (
-                  <button
-                    onClick={() => setIsPostReview(false)}
-                    type="button"
-                    className="absolute top-1 right-1 p-2 hover:bg-blue-200 rounded-full transition-colors cursor-pointer"
-                  >
-                    <RxCross2 />
-                  </button>
-                )}
-              </div>
-            </div>
-          )}
-
           <textarea
             placeholder="What do you want to talk about?"
             {...register("content")}
@@ -185,7 +107,7 @@ export const CreatePost = ({ setPost, userData }) => {
               <input
                 type="file"
                 {...register("postImage")}
-                accept="image/*,video/*"
+                accept=".jpg,.jpeg,.png,image/jpeg,image/png"
                 className="hidden"
               />
             </label>

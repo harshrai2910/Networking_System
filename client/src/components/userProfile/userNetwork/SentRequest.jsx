@@ -31,7 +31,7 @@ export const SentRequest = ({ sentRequest, handleWithdraw }) => {
 
                 <div className="flex flex-col gap-0.5">
                   <Link
-                    to={`/profile/search=true/${data.receiver._id}`}
+                    to={`/profile/${data.receiver._id}`}
                     className="text-base font-semibold text-gray-900 leading-snug hover:text-indigo-600 transition-colors cursor-pointer"
                   >
                     {data.receiver.firstName} {data.receiver.lastName}

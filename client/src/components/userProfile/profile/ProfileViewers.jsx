@@ -55,7 +55,7 @@ export const ProfileViewers = ({ userData }) => {
                           to={
                             userData._id === viewer._id
                               ? "/profile"
-                              : `/profile/search=true/${viewer._id}`
+                              : `/profile/${viewer._id}`
                           }
                         >
                           <img
@@ -75,7 +75,7 @@ export const ProfileViewers = ({ userData }) => {
                         to={
                           userData._id === viewer._id
                             ? "/profile"
-                            : `/profile/search=true/${viewer._id}`
+                            : `/profile/${viewer._id}`
                         }
                         className="min-w-0"
                       >
@@ -94,7 +94,7 @@ export const ProfileViewers = ({ userData }) => {
                       to={
                         userData._id === viewer._id
                           ? "/profile"
-                          : `/profile/search=true/${viewer._id}`
+                          : `/profile/${viewer._id}`
                       }
                       className="hidden sm:block border-none text-sm px-4 py-1 rounded-lg font-medium text-indigo-400 bg-slate-50/80 hover:bg-slate-100/80 shadow-sm transition-all"
                     >

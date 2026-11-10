@@ -1,6 +1,4 @@
-import { useState } from "react";
 import ProfileImg from "../../images/ProfileImg.png";
-import { getNetworkStatusFromServer } from "../../services/networkLinkServices";
 import { getSearchResultFromServer } from "../../services/searchLinkServices";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +16,7 @@ export const Search = ({
     if (userId == userData._id) {
       navigate("/profile");
     } else {
-      navigate(`/profile/search=true/${userId}`);
+      navigate(`/profile/${userId}`);
       const result = await getSearchResultFromServer(userId);
       setSearchResultData(result);
     }

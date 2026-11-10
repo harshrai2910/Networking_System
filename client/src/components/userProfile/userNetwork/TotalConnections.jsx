@@ -29,7 +29,7 @@ export const TotalConnection = ({
 
                 <div className="flex flex-col gap-0.5">
                   <Link
-                    to={`/profile/search=true/${data._id}`}
+                    to={`/profile/${data._id}`}
                     className="font-semibold text-gray-900 hover:text-indigo-600 transition-colors cursor-pointer"
                   >
                     {data.firstName} {data.lastName}

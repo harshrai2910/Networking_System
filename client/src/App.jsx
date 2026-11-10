@@ -51,7 +51,7 @@ function App() {
     }
   };
 
-  const handleLogout = async (isLogout) => {
+  const handleLogout = async () => {
     const result = await logoutFromServer();
     if (result) {
       setIsLogin(false);
@@ -71,8 +71,6 @@ function App() {
       setProfileAnalytics(data);
     });
   }, []);
-
-  console.log(posts);
 
   return (
     <>
@@ -132,13 +130,11 @@ function App() {
                 />
 
                 <Route
-                  path="/profile/search=true/:userId"
+                  path="/profile/:userId"
                   element={
                     <UserSearchProfile
                       searchResultData={searchResultData}
                       setSearchResultData={setSearchResultData}
-                      setUserData={setUserData}
-                      userData={userData}
                     />
                   }
                 />

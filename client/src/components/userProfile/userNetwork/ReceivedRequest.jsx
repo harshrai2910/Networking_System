@@ -38,7 +38,7 @@ export const ReceivedRequest = ({
 
                   <div className="flex flex-col gap-0.5">
                     <Link
-                      to={`/profile/search=true/${data.sender._id}`}
+                      to={`/profile/${data.sender._id}`}
                       className="font-semibold text-gray-900"
                     >
                       {data.sender.firstName} {data.sender.lastName}

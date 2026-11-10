@@ -1,7 +1,7 @@
 const { check, validationResult } = require("express-validator");
 const User = require("../model/user");
 const UserConnection = require("../model/userConnections.js");
-const { uploadToCloudinary } = require("../utils/cloudinaryService.js");
+const { uploadToCloudinary } = require("../service/cloudinaryService.js");
 
 exports.getUserData = async (req, res, next) => {
   if (req.session.isLoggedIn) {

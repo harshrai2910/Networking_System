@@ -61,8 +61,6 @@ exports.postLogin = async (req, res, _) => {
     user = await User.findOne({ username: identifier }); // basde on username
   }
 
-  console.log(user);
-
   if (!user) {
     return res.json({ msg: "email/username or password dosen't match!" });
   }

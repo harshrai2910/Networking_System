@@ -13,8 +13,6 @@ import { useEffect, useRef, useState } from "react";
 import { PostContent } from "./PostContent";
 
 export const PostCard = ({ post, postId, userData, setAllPosts }) => {
-  const [Loadmore, setLoadmore] = useState(false);
-
   const postRef = useRef(null);
 
   // increment/decrement like count to improve UX
@@ -84,115 +82,121 @@ export const PostCard = ({ post, postId, userData, setAllPosts }) => {
   const createdAt = date.toDateString();
 
   return (
-    <div
-      ref={postRef}
-      className="flex flex-col gap-2 sm:border border-y border-slate-300 sm:rounded-lg sm:shadow-xs bg-white mb-2"
-    >
-      <div className="flex gap-2 items-center sm:p-4 p-3 pb-2">
-        <Link
-          to={
-            userData._id === post.UserId._id
-              ? "/profile"
-              : `/profile/search=true/${post.UserId._id}`
-          }
-          className="relative shrink-0"
+    <>
+      {post?.moderationStatus === "approved" && (
+        <div
+          ref={postRef}
+          className="flex flex-col gap-2 sm:border border-y border-slate-300 sm:rounded-lg sm:shadow-xs bg-white mb-2"
         >
-          <img
-            src={post.UserId.profile ? `${post.UserId.profile}` : profileImg}
-            alt=""
-            className="h-10 w-10 sm:h-15 sm:w-15 rounded-full object-cover shadow-sm"
-          />
-        </Link>
-        <div className="w-full">
-          <div className="flex items-start justify-between">
+          <div className="flex gap-2 items-center sm:p-4 p-3 pb-2">
             <Link
-              to={`/profile/search=true/${post.UserId._id}`}
-              className="flex items-center gap-1"
+              to={
+                userData._id === post.UserId._id
+                  ? "/profile"
+                  : `/profile/${post.UserId._id}`
+              }
+              className="relative shrink-0"
             >
-              <h1 className="sm:text-lg text-sm font-medium">
-                {post.UserId.firstName} {post.UserId.lastName}
-              </h1>
-
-              <GoShieldCheck />
+              <img
+                src={
+                  post.UserId.profile ? `${post.UserId.profile}` : profileImg
+                }
+                alt=""
+                className="h-10 w-10 sm:h-15 sm:w-15 rounded-full object-cover shadow-sm"
+              />
             </Link>
-          </div>
-          <div>
-            <p className="text-xs text-gray-600 line-clamp-1">
-              {post.UserId.headline}
-            </p>
-          </div>
-          <div>
-            <p className="text-[10px] font-medium text-gray-500 line-clamp-1">
-              {createdAt}
-            </p>
-          </div>
-        </div>
-        <div>
-          {userData._id !== post.UserId._id && (
-            <button
-              onClick={() => handleFollow(post.UserId._id)}
-              className="text-blue-500 font-bold flex gap-1 items-center cursor-pointer"
-            >
-              {post.isFollowing ? "Following" : "Follow"}
-            </button>
-          )}
-        </div>
-      </div>
+            <div className="w-full">
+              <div className="flex items-start justify-between">
+                <Link
+                  to={`/profile/${post.UserId._id}`}
+                  className="flex items-center gap-1"
+                >
+                  <h1 className="sm:text-lg text-sm font-medium">
+                    {post.UserId.firstName} {post.UserId.lastName}
+                  </h1>
 
-      <div className="px-2 text-sm">
-        <PostContent content={post.content} />
-      </div>
-
-      <div>
-        <img
-          src={post.postImage}
-          alt="postImg"
-          className="w-full h-auto max-h-150 object-contain"
-        />
-      </div>
-
-      <div>
-        <div className="p-2 border-slate-300 flex gap-2 items-center">
-          <div className="border rounded-full border-blue-500 bg-blue-100 p-1">
-            <BiSolidLike className="text-blue-500 transform scale-x-[-1]" />
-          </div>
-
-          <span>{post.likes.length}</span>
-        </div>
-
-        <div className="grid grid-cols-3 p-1 border-t border-slate-300">
-          <button
-            onClick={() => handleLikeClick(post._id)}
-            title="Like"
-            className={`flex items-center justify-center gap-2 py-2 ${post.likes.includes(userData._id) ? "text-blue-500" : "text-black"} 
-            rounded-lg hover:bg-gray-100 cursor-pointer transition-all`}
-          >
-            <div
-              className={`border border-white p-1 rounded-full 
-              ${post.likes.includes(userData._id) && "border-blue-500 bg-blue-100"}`}
-            >
-              <BiSolidLike className="transform scale-x-[-1]" />
+                  <GoShieldCheck />
+                </Link>
+              </div>
+              <div>
+                <p className="text-xs text-gray-600 line-clamp-1">
+                  {post.UserId.headline}
+                </p>
+              </div>
+              <div>
+                <p className="text-[10px] font-medium text-gray-500 line-clamp-1">
+                  {createdAt}
+                </p>
+              </div>
             </div>
-            Like
-          </button>
+            <div>
+              {userData._id !== post.UserId._id && (
+                <button
+                  onClick={() => handleFollow(post.UserId._id)}
+                  className="text-blue-500 font-bold flex gap-1 items-center cursor-pointer"
+                >
+                  {post.isFollowing ? "Following" : "Follow"}
+                </button>
+              )}
+            </div>
+          </div>
 
-          <button
-            title="pending..."
-            className="flex items-center justify-center gap-2 py-2 rounded-lg hover:bg-gray-100 transition cursor-pointer"
-          >
-            <FaRegCommentDots />
-            Comment
-          </button>
+          <div className="px-2 text-sm">
+            <PostContent content={post.content} />
+          </div>
 
-          <button
-            title="pending"
-            className="flex items-center justify-center gap-2 py-2 rounded-lg hover:bg-gray-100 transition cursor-pointer"
-          >
-            <RiSendPlaneFill />
-            Send
-          </button>
+          <div>
+            <img
+              src={post.postImage}
+              alt="postImg"
+              className="w-full h-auto max-h-150 object-contain"
+            />
+          </div>
+
+          <div>
+            <div className="p-2 border-slate-300 flex gap-2 items-center">
+              <div className="border rounded-full border-blue-500 bg-blue-100 p-1">
+                <BiSolidLike className="text-blue-500 transform scale-x-[-1]" />
+              </div>
+
+              <span>{post.likes.length}</span>
+            </div>
+
+            <div className="grid grid-cols-3 p-1 border-t border-slate-300">
+              <button
+                onClick={() => handleLikeClick(post._id)}
+                title="Like"
+                className={`flex items-center justify-center gap-2 py-2 ${post.likes.includes(userData._id) ? "text-blue-500" : "text-black"} 
+            rounded-lg hover:bg-gray-100 cursor-pointer transition-all`}
+              >
+                <div
+                  className={`border border-white p-1 rounded-full 
+              ${post.likes.includes(userData._id) && "border-blue-500 bg-blue-100"}`}
+                >
+                  <BiSolidLike className="transform scale-x-[-1]" />
+                </div>
+                Like
+              </button>
+
+              <button
+                title="pending..."
+                className="flex items-center justify-center gap-2 py-2 rounded-lg hover:bg-gray-100 transition cursor-pointer"
+              >
+                <FaRegCommentDots />
+                Comment
+              </button>
+
+              <button
+                title="pending"
+                className="flex items-center justify-center gap-2 py-2 rounded-lg hover:bg-gray-100 transition cursor-pointer"
+              >
+                <RiSendPlaneFill />
+                Send
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };

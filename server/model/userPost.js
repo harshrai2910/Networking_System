@@ -8,6 +8,11 @@ const userPostSchema = new mongoose.Schema(
     postPublicId: { type: String, default: "" },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "userProfile" }],
     postImpression: { type: Number },
+    moderationStatus: {
+      type: String,
+      enum: ["pending", "approved"],
+      default: "pending",
+    },
   },
   {
     timestamps: true,

@@ -1,15 +1,11 @@
 const { check, validationResult } = require("express-validator");
 const UserConnection = require("../model/userConnections");
 const UserPost = require("../model/userPost");
-const { uploadToCloudinary } = require("../utils/cloudinaryService.js");
+const { uploadToCloudinary } = require("../service/cloudinaryService.js");
+const { moderateImage } = require("../service/moderationService.js");
 const cloudinary = require("../config/cloudinary.js");
-const { GoogleGenAI } = require("@google/genai");
-require("dotenv").config();
-
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API });
 
 exports.createPost = async (req, res, next) => {
-  let cloudinaryResult;
   try {
     if (!req.file) {
       return res.status(400).json({ error: "Post Image not provided" });
@@ -18,62 +14,15 @@ exports.createPost = async (req, res, next) => {
     const id = req.session.user.userId;
     const { content } = req.body;
 
-    const [interaction, uploadResult] = await Promise.all([
-      ai.interactions.create({
-        model: "gemini-3.5-flash-lite",
-        input: [
-          {
-            type: "text",
-            text: `Moderate this student social app post.
+    console.time("cloudinary:");
 
-            BLOCK images containing nudity, exposed intimate body parts,
-            underwear, lingerie, bikinis, swimwear, shirtless people,
-            sexual content, or highly revealing clothing.
+    const cloudinaryResult = await uploadToCloudinary(
+      req.file.buffer,
+      "user_post_img",
+    );
+    console.timeEnd("cloudinary:");
 
-            BLOCK text containing explicit sexual content, sexual harassment,
-            threats, targeted abuse, hate speech, or scams.
-
-            ALLOW normal conversations, fully clothed people, sports,
-            fitness, educational content, and professional discussions.
-
-            Evaluate image and text independently.
-            BLOCK if either violates these rules.
-            When uncertain, BLOCK.
-
-            POST TEXT: ${content}
-
-            Return ONLY valid JSON:
-            {"flag":boolean,"action":"ALLOW"|"BLOCK","reason": "6-7 words" or null}
-            `,
-          },
-          {
-            type: "image",
-            data: req.file.buffer.toString("base64"),
-            mime_type: req.file.mimetype,
-          },
-        ],
-      }),
-
-      uploadToCloudinary(req.file.buffer, "user_post_img"),
-    ]);
-
-    cloudinaryResult = uploadResult;
-
-    const cleanOutput = interaction.output_text
-      .replace(/```json\s*/i, "")
-      .replace(/```\s*$/, "")
-      .trim();
-
-    const AI_Review = JSON.parse(cleanOutput);
-
-    if (AI_Review.flag !== false || AI_Review.action !== "ALLOW") {
-      await cloudinary.uploader.destroy(cloudinaryResult.public_id);
-
-      return res.status(200).json({
-        reason: AI_Review.reason || "Content could not be approved.",
-        action: "BLOCK",
-      });
-    }
+    console.time("Database:");
 
     const userPost = new UserPost({
       UserId: id,
@@ -83,26 +32,21 @@ exports.createPost = async (req, res, next) => {
     });
 
     await userPost.save();
+    console.timeEnd("Database:");
 
-    return res.status(201).json({
-      post: userPost,
-      action: AI_Review.action,
+    moderateImage({
+      postId: userPost._id,
+      img: req.file,
+      content: content,
+      public_id: userPost.postPublicId,
     });
+
+    return await res.status(200).json({ created: true });
   } catch (error) {
-    console.error("Post Creation Error:", error);
-
-    // Cleanup uploaded image if something fails
-    if (cloudinaryResult?.public_id) {
-      try {
-        await cloudinary.uploader.destroy(cloudinaryResult.public_id);
-      } catch (cleanupError) {
-        console.error("Cloudinary cleanup failed:", cleanupError);
-      }
-    }
-
-    return res.status(500).json({
-      error: error.message || "Server Error",
-    });
+    console.error("Profile Completion Error:", error);
+    return res
+      .status(500)
+      .json({ error: error.message || "Server Error", created: false });
   }
 };
 

@@ -12,6 +12,7 @@ import {
   deletePostFromServer,
   getPostFromServer,
 } from "../../../services/userPostLinkServices";
+import { PostContent } from "../../dashboard/PostContent";
 
 export const ShowPost = ({ userData, posts, setPost }) => {
   const [activePost, setActivePost] = useState(null);
@@ -102,7 +103,9 @@ export const ShowPost = ({ userData, posts, setPost }) => {
               </div>
             </div>
 
-            <div className="px-2 text-sm">{post.content}</div>
+            <div className="px-2 text-sm">
+              <PostContent content={post.content} />
+            </div>
 
             <div>
               <img src={`${post.postImage}`} alt="" className="w-full " />

@@ -46,9 +46,8 @@ export const ShowAllPost = ({ AllPosts, userData, setAllPosts }) => {
         >
           {AllPosts?.map((post) => (
             <PostCard
-              key={post.id}
+              key={post._id}
               post={post}
-              postId={post.id}
               userData={userData}
               setAllPosts={setAllPosts}
             />

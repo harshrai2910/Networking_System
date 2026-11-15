@@ -10,16 +10,18 @@ export const PostContent = ({ content }) => {
 
   return (
     <>
-      {displayContent}
+      <div className="whitespace-pre-wrap">
+        {displayContent}
 
-      {isLong && (
-        <button
-          onClick={() => setShowMore(!ShowMore)}
-          className="text-blue-500 ml-1 font-semibold cursor-pointer hover:underline"
-        >
-          {!ShowMore ? "More" : "Less"}
-        </button>
-      )}
+        {isLong && (
+          <button
+            onClick={() => setShowMore(!ShowMore)}
+            className="text-blue-500 ml-1 font-semibold cursor-pointer hover:underline"
+          >
+            {!ShowMore ? "More" : "Less"}
+          </button>
+        )}
+      </div>
     </>
   );
 };

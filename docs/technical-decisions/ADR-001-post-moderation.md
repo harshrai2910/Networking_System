@@ -21,7 +21,7 @@ Since, this all was a synchronous process so it increased the post creation resp
 
 ## 2. Problem
 
-The whole synchronous process was taking a time of 8-10s in some test cases, while Cloudinary image uploading take approx 2-3s and database operation takes max 1s.
+The whole synchronous process was taking a time of 10-20s in some test cases, while Cloudinary image uploading take approx 2-3s and database operation takes max 1s.
 
 **This Causes:**
 

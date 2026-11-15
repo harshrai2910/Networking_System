@@ -12,7 +12,7 @@ import profileImg from "../../images/ProfileImg.png";
 import { useEffect, useRef, useState } from "react";
 import { PostContent } from "./PostContent";
 
-export const PostCard = ({ post, postId, userData, setAllPosts }) => {
+export const PostCard = ({ post, userData, setAllPosts }) => {
   const postRef = useRef(null);
 
   // increment/decrement like count to improve UX
@@ -142,7 +142,10 @@ export const PostCard = ({ post, postId, userData, setAllPosts }) => {
           </div>
 
           <div className="px-2 text-sm">
-            <PostContent content={post.content} />
+            <PostContent
+              className="whitespace-pre-wrap"
+              content={post.content}
+            />
           </div>
 
           <div>

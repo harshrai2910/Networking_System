@@ -1,9 +1,13 @@
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import login from "../../images/login.png";
+import { useState } from "react";
+import { RxEyeOpen } from "react-icons/rx";
+import { GoEyeClosed } from "react-icons/go";
 
 export const Login = ({ handleLoginData, loginErr }) => {
   const { register, handleSubmit } = useForm();
+  const [showPassword, setshowPassword] = useState(false);
 
   const onSubmit = (data) => {
     if (data.identifier == "" || data.password == "") {
@@ -47,11 +51,18 @@ export const Login = ({ handleLoginData, loginErr }) => {
                   Password
                 </label>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   {...register("password")}
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                 />
+                <button
+                  type="button"
+                  className="absolute right-4 top-10 cursor-pointer text-gray-500 hover:text-gray-800"
+                  onClick={() => setshowPassword(!showPassword)}
+                >
+                  {showPassword ? <RxEyeOpen /> : <GoEyeClosed />}
+                </button>
                 <p className="text-red-600 text-sm font-medium absolute top-19 italic">
                   {loginErr?.msg}
                 </p>

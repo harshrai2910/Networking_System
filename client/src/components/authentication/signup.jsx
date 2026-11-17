@@ -6,6 +6,8 @@ import {
 } from "../../services/authLinkServices";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import { RxEyeOpen } from "react-icons/rx";
+import { GoEyeClosed } from "react-icons/go";
 
 export const Signup = () => {
   const [typer, setTyper] = useState("");
@@ -20,6 +22,7 @@ export const Signup = () => {
   const passRefErr = useRef(null);
   const confirmPassRef = useRef(null);
   const confirmPassRefErr = useRef(null);
+  const [showPassword, setshowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -34,32 +37,38 @@ export const Signup = () => {
 
     timer.current = setTimeout(() => {
       if (typer !== "") {
-        setFetchingStatus(true);
-        usernameStatus({ username: typer })
-          .then((data) => {
-            setUserStatus(data.status);
-            if (data.status) {
-              userNameRefstatus.current.innerHTML = "Username not available";
+        if (/\s/.test(typer)) {
+          userNameRefstatus.current.innerHTML = "Spaces are not allowed.";
+          userNameRefstatus.current.style.color = "red";
+          userNameRefstatus.current.style.display = "block";
+        } else {
+          setFetchingStatus(true);
+          usernameStatus({ username: typer })
+            .then((data) => {
+              setUserStatus(data.status);
+              if (data.status) {
+                userNameRefstatus.current.innerHTML = "Username not available";
+                userNameRefstatus.current.style.color = "red";
+                userNameRefstatus.current.style.display = "block";
+              } else {
+                userNameRefstatus.current.innerText = "Username available";
+                userNameRefstatus.current.style.color = "green";
+                userNameRefstatus.current.style.display = "block";
+              }
+            })
+            .catch(() => {
+              userNameRefstatus.current.innerHTML =
+                "Something went wrong. Please try again later.";
               userNameRefstatus.current.style.color = "red";
               userNameRefstatus.current.style.display = "block";
-            } else {
-              userNameRefstatus.current.innerText = "Username available";
-              userNameRefstatus.current.style.color = "green";
-              userNameRefstatus.current.style.display = "block";
-            }
-          })
-          .catch(() => {
-            userNameRefstatus.current.innerHTML =
-              "Something went wrong. Please try again later.";
-            userNameRefstatus.current.style.color = "red";
+            })
+            .finally(() => {
+              setFetchingStatus(false);
+            });
+          if (fetchingStatus) {
+            userNameRefstatus.current.innerHTML = "Checking username...";
             userNameRefstatus.current.style.display = "block";
-          })
-          .finally(() => {
-            setFetchingStatus(false);
-          });
-        if (fetchingStatus) {
-          userNameRefstatus.current.innerHTML = "Checking username...";
-          userNameRefstatus.current.style.display = "block";
+          }
         }
       } else {
         userNameRefstatus.current.innerHTML = "";
@@ -150,31 +159,45 @@ export const Signup = () => {
               email is not valid
             </p>
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1 relative">
             <label className="text-sm font-medium text-gray-600 ml-1">
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               ref={passRef}
               placeholder="••••••••"
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition"
             />
+            <button
+              type="button"
+              className="absolute right-4 top-9 cursor-pointer text-gray-500 hover:text-gray-800"
+              onClick={() => setshowPassword(!showPassword)}
+            >
+              {showPassword ? <RxEyeOpen /> : <GoEyeClosed />}
+            </button>
             <p ref={passRefErr} className="h-4 text-xs text-red-500 hidden">
               password must contain 6 digits
             </p>
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1 relative">
             <label className="text-sm font-medium text-gray-600 ml-1">
               Confirm Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               ref={confirmPassRef}
               placeholder="••••••••"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition"
             />
+            <button
+              type="button"
+              className="absolute right-4 top-9 cursor-pointer text-gray-500 hover:text-gray-800"
+              onClick={() => setshowPassword(!showPassword)}
+            >
+              {showPassword ? <RxEyeOpen /> : <GoEyeClosed />}
+            </button>
             <p
               ref={confirmPassRefErr}
               className="h-4 text-xs text-red-500 hidden"

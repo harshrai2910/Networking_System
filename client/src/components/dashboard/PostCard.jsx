@@ -142,10 +142,7 @@ export const PostCard = ({ post, userData, setAllPosts }) => {
           </div>
 
           <div className="px-2 text-sm">
-            <PostContent
-              className="whitespace-pre-wrap"
-              content={post.content}
-            />
+            <PostContent content={post.content} />
           </div>
 
           <div>

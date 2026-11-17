@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { Navbar } from "./components/navigation/navbar";
 import { Signup } from "./components/authentication/signup";
 import { Login } from "./components/authentication/login";
@@ -20,6 +20,7 @@ import { UserSearchProfile } from "./components/navigation/showUsersProfile";
 import { LandingPage } from "./components/landing/LandingPage";
 import { ProfileViewers } from "./components/userProfile/profile/ProfileViewers";
 import { getProfileAnalytics } from "./services/userPostLinkServices";
+import { NotFound } from "./components/NotFound";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -32,6 +33,7 @@ function App() {
   const [profileAnalytics, setProfileAnalytics] = useState({});
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     authStatus()
@@ -70,7 +72,7 @@ function App() {
     getProfileAnalytics().then((data) => {
       setProfileAnalytics(data);
     });
-  }, []);
+  }, [location.pathname]);
 
   return (
     <>
@@ -158,6 +160,8 @@ function App() {
                 <Route path="/signup" element={<Signup />} />
               </>
             )}
+
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </>
       )}

@@ -136,7 +136,7 @@ export const Navbar = ({
               <div className="flex items-center gap-3 md-gap-10">
                 <Link
                   to="/login"
-                  className="text-gray-600 text-sm hover:text-blue-600 font-medium border-2 border-blue-100 hover:border-blue-300 transition px-2 sm:px-4 py-2 rounded-md"
+                  className="text-gray-600 text-sm hover:text-blue-600 font-medium border-2 border-blue-100 hover:border-blue-300 transition px-2 sm:px-4 py-1.5 rounded-md"
                 >
                   Login
                 </Link>
